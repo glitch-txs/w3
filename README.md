@@ -81,6 +81,7 @@ export default function InteractWithContracts() {
 2. Coinbase
 3. WalletConnect
 4. Trust Wallet
+5. Phantom (EVM)
 
 ### You can create your own connectors and chains!
 
