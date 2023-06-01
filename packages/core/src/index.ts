@@ -1,0 +1,6 @@
+export { web3Store } from './store/web3store'
+export * from './actions/connectors'
+export { connect, switchWallet } from './actions'
+export { w3init } from './actions/initWallet'
+export * from './types'
+export * from './chains'

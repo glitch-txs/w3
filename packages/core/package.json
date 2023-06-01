@@ -1,0 +1,20 @@
+{
+  "name": "w3",
+  "version": "0.0.0-beta",
+  "description": "EVM Wallet Connectors Library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Glitch-txs",
+  "license": "MIT",
+  "dependencies": {
+    "@coinbase/wallet-sdk": "^3.6.6",
+    "zustand": "^4.3.8"
+  },
+  "devDependencies": {
+    "@walletconnect/ethereum-provider": "^2.7.7",
+    "@web3modal/standalone": "^2.4.2",
+    "typescript": "^5.1.3"
+  }
+}
