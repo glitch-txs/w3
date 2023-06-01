@@ -2,12 +2,12 @@
 
 install
 
-```ts
+```sh
 pnpm i @glitch-txs/w3 @glitch-txs/w3-hooks
 ```
 
 install devDeps to use the WalletConnect connector
-```ts
+```sh
 pnpm i @web3modal/standalone @walletconnect/ethereum-provider
 ```
 
