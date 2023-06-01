@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-2. Import connect function and choose as arg a connector's name as string, you'll get autocomplete:
+2. Import the `connect` function and choose as arg a connector's name as string, you'll get autocomplete:
 ```tsx
 import { connect } from '@glitch-txs/w3'
 
@@ -76,7 +76,7 @@ export default function InteractWithContracts() {
 }
 ```
 
-## Currently supported connectors:
+## Current supported connectors:
 1. MetaMask
 2. Coinbase
 3. WalletConnect
