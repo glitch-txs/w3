@@ -19,6 +19,9 @@ export const w3init = async({ connectors, chains }: Init)=>{
     const connected = await WCInit(chains)
     if(connected)
     return
+  }else{
+    // injection delay - https://groups.google.com/a/chromium.org/g/chromium-extensions/c/ib-hi7hPdW8/m/34mFf8rrGQAJ?pli=1
+    await new Promise(r => setTimeout(r, 110))
   }
 
   const walletName = window.localStorage.getItem(LAST_WALLET)

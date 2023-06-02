@@ -15,7 +15,7 @@ export async function connectWallet({ getProvider, walletName, deeplink, install
   if(walletName === "WalletConnect"){
     if(getState().WCInitFailed){
       //If WCinit failed to load user will need to reload the website to connect
-      setState((state)=>({ isProvider: false, isLoading: false }))
+      setState((state)=>({ isProvider: false }))
       return
     }
     const WCProvider = getProvider()
