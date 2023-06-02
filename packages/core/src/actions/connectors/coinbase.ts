@@ -1,7 +1,6 @@
 import { web3Store } from "../../store/web3store";
 import { Connector } from "../../types";
 import { isWindow } from "../../utils/isWindow";
-import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 
 export const coinbase: Connector = {
   walletName: 'Coinbase',
@@ -21,6 +20,16 @@ export const coinbase: Connector = {
       } else if ((window.ethereum as any)?.isCoinbaseWallet){
         return window.ethereum;
       }else{
+        let CoinbaseWalletSDK = (await import('@coinbase/wallet-sdk')).default
+        if (
+          typeof CoinbaseWalletSDK !== 'function' &&
+          // @ts-expect-error This import error is not visible to TypeScript
+          typeof CoinbaseWalletSDK.default === 'function'
+        )
+        CoinbaseWalletSDK = (
+          CoinbaseWalletSDK as unknown as { default: typeof CoinbaseWalletSDK }
+        ).default
+
         const coinbaseWallet = new CoinbaseWalletSDK({
           appName: document?.title,
           appLogoUrl: `${isWindow()}favicon.ico`,
