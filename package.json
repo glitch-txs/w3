@@ -9,5 +9,9 @@
   "license": "MIT",
   "dependencies": {
     "packages": "link:C:/Users/Glitch/Desktop/w3/packages"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glitch-txs/w3"
   }
 }
