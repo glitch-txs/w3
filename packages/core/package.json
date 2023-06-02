@@ -4,8 +4,7 @@
   "description": "EVM Wallet Connectors Library",
   "main": "index.js",
   "scripts": {
-    "watch": "tsc -w",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "tsc -w"
   },
   "author": "Glitch-txs",
   "license": "MIT",
