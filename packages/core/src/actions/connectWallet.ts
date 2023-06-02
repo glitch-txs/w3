@@ -1,6 +1,6 @@
 import { web3Store } from "../store/web3store";
 import { checkAccountAndChainId } from "./helpers/checkAccountAndChain";
-import { Connector } from "../types";
+import { WalletNames } from "../types";
 import { addEvents } from "./helpers/eventListeners";
 import { isOnMobile } from "../utils/handleMobile";
 import { LAST_WALLET } from "../utils/storage";
@@ -8,14 +8,24 @@ import { LAST_WALLET } from "../utils/storage";
 //True if user is on mobile
 const mobile = isOnMobile()
 
-export async function connectWallet({ getProvider, walletName, deeplink, install }: Connector): Promise<any>{
+export async function connect(selectedWallet: WalletNames): Promise<any>{
 
   const { getState, setState } = web3Store
+
+  setState((state)=>({isLoading: true}))
+
+  const connectorArr = getState().connectors.filter(c => c.walletName === selectedWallet)
+
+  if(connectorArr.length === 0){
+    setState((state)=>({isLoading: false}))
+    throw Error(`Connector not found, add the ${selectedWallet} connector in the w3init function`)
+  }
+  const [{ getProvider, walletName, deeplink, install }] = connectorArr
   
   if(walletName === "WalletConnect"){
     if(getState().WCInitFailed){
       //If WCinit failed to load user will need to reload the website to connect
-      setState((state)=>({ isProvider: false }))
+      setState((state)=>({ isProvider: false, isLoading: false }))
       return
     }
     const WCProvider = getProvider()
@@ -24,6 +34,7 @@ export async function connectWallet({ getProvider, walletName, deeplink, install
       const connected = await checkAccountAndChainId(WCProvider, walletName)
       if(connected) setState((state)=>({childProvider: WCProvider}))
     }).catch(console.error)
+    setState((state)=>({isLoading: false}))
     return
   }
 
@@ -37,6 +48,7 @@ export async function connectWallet({ getProvider, walletName, deeplink, install
       console.warn(`${walletName} provider is not injected`)
       window.open(install, '_blank')
     }
+    setState((state)=>({isLoading: false}))
     return
   }
 
@@ -48,7 +60,10 @@ export async function connectWallet({ getProvider, walletName, deeplink, install
     addEvents(provider, walletName)
 
     const chains = getState().chains
-    if(chains.length > 1) return provider
+    if(chains.length > 1){
+      setState((state)=>({isLoading: false}))
+      return
+    }
 
     if(getState().chainId !== Number(chains[0].chainId)){
       await provider.request({
@@ -75,4 +90,5 @@ export async function connectWallet({ getProvider, walletName, deeplink, install
       console.error(`${walletName}: request connection error`,err);
     }
   });
+  setState((state)=>({isLoading: false}))
 }
