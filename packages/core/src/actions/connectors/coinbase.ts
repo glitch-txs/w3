@@ -28,8 +28,8 @@ export const coinbase: Connector = {
         })
     
         const { getState } = web3Store
-        
-        return coinbaseWallet.makeWeb3Provider?.(getState().chains[0].rpcUrls[0], Number(getState().chains[0].chainId))
+   
+        return coinbaseWallet.makeWeb3Provider?.(getState().chains[0]?.rpcUrls[0], Number(getState().chains[0]?.chainId))
       }
     }
  

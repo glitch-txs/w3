@@ -1,6 +1,6 @@
 import { web3Store } from "../store/web3store";
 import { checkAccountAndChainId } from "./helpers/checkAccountAndChain";
-import { WalletNames } from "../types";
+import { Connector, WalletNames } from "../types";
 import { addEvents } from "./helpers/eventListeners";
 import { isOnMobile } from "../utils/handleMobile";
 import { DEBUG, LAST_WALLET } from "../utils/constants";
@@ -20,7 +20,7 @@ export async function connect(selectedWallet: WalletNames): Promise<any>{
     setState((state)=>({isLoading: false}))
     throw Error(`Connector not found, add the ${selectedWallet} connector in the w3init function`)
   }
-  const [{ getProvider, walletName, deeplink, install }] = connectorArr
+  const [{ getProvider, walletName, deeplink, install }] = connectorArr as [Connector]
   
   if(walletName === "WalletConnect"){
     if(getState().WCInitFailed){
@@ -65,10 +65,10 @@ export async function connect(selectedWallet: WalletNames): Promise<any>{
       return
     }
 
-    if(getState().chainId !== Number(chains[0].chainId)){
+    if(getState().chainId !== Number(chains[0]?.chainId)){
       await provider.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: chains[0].chainId }],
+        params: [{ chainId: chains[0]?.chainId }],
       }).catch(async (er: any)=>{
         if(er.code === 4902 || er?.data?.originalError?.code == 4902){
             await provider.request({
