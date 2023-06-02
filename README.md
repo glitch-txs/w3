@@ -1,4 +1,4 @@
-# EVM Wallet Connectors Library (BETA)
+# EVM Wallet Connectors Library (ALPHA)
 
 install
 
