@@ -3,7 +3,7 @@ import { addEvents } from "./helpers/eventListeners";
 import { Init } from "../types";
 import { fitler_eth_accounts } from "../utils/eth_accounts";
 import { checkAccountAndChainId } from "./helpers/checkAccountAndChain";
-import { LAST_WALLET } from "../utils/storage";
+import { DEBUG, LAST_WALLET } from "../utils/constants";
 import { WCInit } from "./connectors/walletconnect";
 
 
@@ -46,7 +46,7 @@ export const w3init = async({ connectors, chains }: Init)=>{
     if(connector.walletName === 'WalletConnect') continue
     const provider = await connector.getProvider()
     if(!provider){
-      console.warn(`${connector.walletName} provider is not injected`)
+      DEBUG && console.warn(`${connector.walletName} provider is not injected`)
       continue
     }
     if(fitler_eth_accounts(provider)) continue /**Some wallets trigger a connection request on eth_accounts method */

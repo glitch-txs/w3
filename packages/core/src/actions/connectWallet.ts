@@ -3,7 +3,7 @@ import { checkAccountAndChainId } from "./helpers/checkAccountAndChain";
 import { WalletNames } from "../types";
 import { addEvents } from "./helpers/eventListeners";
 import { isOnMobile } from "../utils/handleMobile";
-import { LAST_WALLET } from "../utils/storage";
+import { DEBUG, LAST_WALLET } from "../utils/constants";
 
 //True if user is on mobile
 const mobile = isOnMobile()
@@ -45,7 +45,7 @@ export async function connect(selectedWallet: WalletNames): Promise<any>{
       window.open(deeplink)
     }else{
       //If the wallet is not installed then it will open this link to install the extention.
-      console.warn(`${walletName} provider is not injected`)
+      DEBUG && console.warn(`${walletName} provider is not injected`)
       window.open(install, '_blank')
     }
     setState((state)=>({isLoading: false}))

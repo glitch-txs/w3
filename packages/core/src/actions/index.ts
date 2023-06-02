@@ -1,6 +1,6 @@
 import { web3Store } from "../store/web3store"
 import { WalletNames } from "../types"
-import { LAST_WALLET } from "../utils/storage"
+import { LAST_WALLET } from "../utils/constants"
 import { removeEvents } from "./helpers/eventListeners"
 
 export { connect } from "./connectWallet"

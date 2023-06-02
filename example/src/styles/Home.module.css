@@ -1,0 +1,44 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 6rem;
+  min-height: 100vh;
+}
+
+.wallet{
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  height: fit-content;
+  background-color: transparent;
+  color:#fff;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.wallet span{
+  border: 1px solid rgba(195, 195, 195, 0.14);
+  border-radius: 15px;
+  height: 60px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wallet:hover{
+  filter: brightness(0.8);
+}
+
+.loading{
+  filter: brightness(0.8);
+  cursor:auto;
+}

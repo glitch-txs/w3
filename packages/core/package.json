@@ -1,9 +1,10 @@
 {
-  "name": "w3",
+  "name": "@glitch-txs/w3",
   "version": "0.0.0-beta",
   "description": "EVM Wallet Connectors Library",
   "main": "index.js",
   "scripts": {
+    "watch": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Glitch-txs",

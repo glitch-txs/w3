@@ -1,1 +1,0 @@
-export const LAST_WALLET="last_wallet"

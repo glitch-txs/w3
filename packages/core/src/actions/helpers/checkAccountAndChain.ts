@@ -1,5 +1,6 @@
 import { web3Store } from '../../store/web3store'
 import { WalletNames } from '../../types'
+import { DEBUG } from '../../utils/constants'
 
 //Check account and chain id and save them in the Zustand store:
 export const checkAccountAndChainId = async(provider: any, wallet: WalletNames)=>{
@@ -13,11 +14,11 @@ export const checkAccountAndChainId = async(provider: any, wallet: WalletNames)=
     if(accounts?.length > 0){
 
       setState((state)=>({ userAccount: accounts[0]}))
-      console.log(`${wallet}: user is connected as: ${accounts[0]}`)
+      DEBUG && console.log(`${wallet}: user is connected as: ${accounts[0]}`)
 
       await provider.request({ method: 'eth_chainId' }).then((chainId: any)=> {
         setState((state)=>({ chainId: Number(chainId) }))
-        console.log(`${wallet}: chain id - ${chainId}`)
+        DEBUG && console.log(`${wallet}: chain id - ${chainId}`)
       }).catch(console.error)
   
       connected = true
@@ -25,7 +26,7 @@ export const checkAccountAndChainId = async(provider: any, wallet: WalletNames)=
     }else{
       //is clearing needed here?
       setState((state)=>({ userAccount: ''}))
-      console.log(`${wallet}: user is not connected`)
+      DEBUG && console.log(`${wallet}: user is not connected`)
     }
 
   }).catch(console.error)

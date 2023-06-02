@@ -2,7 +2,7 @@ import { checkAccountAndChainId } from "./checkAccountAndChain"
 import { web3Store } from '../../store/web3store'
 import { WalletNames } from "../../types"
 import { filter_disconnect } from "../../utils/disconnect"
-import { LAST_WALLET } from "../../utils/storage"
+import { DEBUG, LAST_WALLET } from "../../utils/constants"
 
 type ConnectInfo = {
   chainId: string
@@ -12,7 +12,7 @@ const handleAccount = (accounts: `0x${string}`[], walletName: WalletNames, provi
 
   if(typeof accounts[0] !== 'undefined'){
     web3Store.setState((state)=>({ userAccount: accounts[0]}))
-    console.log(`${walletName}: user changed address to: `, accounts[0])
+    DEBUG && console.log(`${walletName}: user changed address to: `, accounts[0])
   }else{
     if(filter_disconnect(provider)){
       /* EVM Phantom wallet breaks when running restartWeb3 - infinite loop
@@ -26,24 +26,24 @@ const handleAccount = (accounts: `0x${string}`[], walletName: WalletNames, provi
     //we set the WC provider as childProvider when restarting, so user can reconnect on WC
     web3Store.getState().restartWeb3()
 
-    console.log(`${walletName}: user has disconnect`)
+    DEBUG && console.log(`${walletName}: user has disconnect`)
   }
 }
 
 const handleChain = (chainId: string, walletName: WalletNames) => {
   web3Store.setState((state)=>({ chainId: Number(chainId) }))
-  console.log(`${walletName}: chain id - `, chainId)
+  DEBUG && console.log(`${walletName}: chain id - `, chainId)
 }
 
 const handleConnect = (connectInfo: ConnectInfo, provider: any, walletName: WalletNames)=>{
   checkAccountAndChainId(provider, walletName)
   web3Store.setState((state)=>({ isProvider: true }))
-  console.log(`${walletName}: provider is connected in:`, connectInfo.chainId)
+  DEBUG && console.log(`${walletName}: provider is connected in:`, connectInfo.chainId)
 }
 
 const handleDisconnect = (err: any, walletName: WalletNames)=>{
   web3Store.setState((state)=>({ isProvider: false }))
-  console.log(`${walletName}: the provider is desconnected from blockchain, refresh the dapp and check your internet connection`)
+  DEBUG && console.log(`${walletName}: the provider is desconnected from blockchain, refresh the dapp and check your internet connection`)
   console.error(err)
 }
 
