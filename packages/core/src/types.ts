@@ -16,10 +16,10 @@ export type Chain = {
   iconUrls?:string[]
 }
 
-export type WalletNames = 'Coinbase' | 'MetaMask' | 'Phantom' | 'Trust Wallet' | 'WalletConnect'
+export type WalletNames = 'Coinbase' | 'MetaMask' | 'Phantom' | 'Trust Wallet' | 'WalletConnect' | 'Injected'
 
-export type Connector = {
-  walletName: WalletNames
+export type Connector<custom = 'Injected'> = {
+  walletName: WalletNames | custom
   deeplink?:`https://${string}`
   install?:`https://${string}`
   getProvider:()=> Promise<any> | any
