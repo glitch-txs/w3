@@ -19,5 +19,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/glitch-txs/w3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
