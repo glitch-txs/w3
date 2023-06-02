@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import { WalletNames, connect } from '@glitch-txs/w3/dist'
+import { WalletNames, connect } from '@glitch-txs/w3'
 import trust from 'public/trust_white.svg'
 import coinbaseLogo from 'public/coinbase.svg'
 import walletconnect from 'public/walletconnect.svg'
