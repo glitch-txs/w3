@@ -11,7 +11,7 @@ type ConnectInfo = {
 const handleAccount = (accounts: `0x${string}`[], walletName: WalletNames, provider: any) => {
 
   if(typeof accounts[0] !== 'undefined'){
-    web3Store.setState((state)=>({ userAccount: accounts[0]}))
+    web3Store.setState((state)=>({ userAccount: accounts[0] as `0x${string}`}))
     DEBUG && console.log(`${walletName}: user changed address to: `, accounts[0])
   }else{
     if(filter_disconnect(provider)){

@@ -13,7 +13,7 @@ export const checkAccountAndChainId = async(provider: any, wallet: WalletNames)=
   .then(async (accounts: `0x${string}`[])=>{
     if(accounts?.length > 0){
 
-      setState((state)=>({ userAccount: accounts[0]}))
+      setState((state)=>({ userAccount: accounts[0] as `0x${string}`}))
       DEBUG && console.log(`${wallet}: user is connected as: ${accounts[0]}`)
 
       await provider.request({ method: 'eth_chainId' }).then((chainId: any)=> {

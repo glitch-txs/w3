@@ -1,6 +1,7 @@
 import { web3Store } from "../../store/web3store";
 import { Connector } from "../../types";
 import { isWindow } from "../../utils/isWindow";
+import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 
 export const coinbase: Connector = {
   walletName: 'Coinbase',
@@ -20,7 +21,6 @@ export const coinbase: Connector = {
       } else if ((window.ethereum as any)?.isCoinbaseWallet){
         return window.ethereum;
       }else{
-        const CoinbaseWalletSDK = (await import('@coinbase/wallet-sdk')).default
         const coinbaseWallet = new CoinbaseWalletSDK({
           appName: document?.title,
           appLogoUrl: `${isWindow()}favicon.ico`,
