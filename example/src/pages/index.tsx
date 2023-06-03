@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import { WalletNames, connect } from '@glitch-txs/w3'
+import { useAccount } from '@glitch-txs/w3-hooks'
 import trust from 'public/trust_white.svg'
 import coinbaseLogo from 'public/coinbase.svg'
 import walletconnect from 'public/walletconnect.svg'
@@ -38,6 +39,7 @@ const wallets: Wallets[] = [
 ] 
 
 export default function Home() {
+  const { account, isLoading } = useAccount()
   return (
     <>
       <Head>
@@ -47,12 +49,19 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        {wallets.map(v=><button key={v.name} className={[styles.wallet, false && styles.loading].join(' ')} onClick={()=>connect(v.name)}>
-          <span>
-            <Image width={44} src={v.image} alt='' />
-          </span>
-          {v.name}
-        </button>)}
+        <div>
+          {wallets.map(v=><button key={v.name} disabled={isLoading} className={[styles.wallet, false && styles.loading].join(' ')} onClick={()=>connect(v.name)}>
+            <span>
+              <Image width={44} src={v.image} alt='' />
+            </span>
+            {v.name}
+          </button>)}
+        </div>
+
+        { isLoading ? "Connecting..." : (account ? "Connected" : "Connect Your Wallet") }
+        <br/>
+        <br/>
+        User: { account }
       </main>
     </>
   )

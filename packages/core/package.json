@@ -1,21 +1,16 @@
 {
   "name": "@glitch-txs/w3",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "EVM Wallet Connectors Library",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
-  "typings": "./dist/types/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "watch": "tsc -w",
     "publish": "publish --public",
-    "build": "npm run build:cjs && npm run build:esm && npm run build:types",
-    "build:cjs": "tsc --project tsconfig.build.json --module commonjs --outDir ./dist/cjs --removeComments --verbatimModuleSyntax false && echo > ./dist/cjs/package.json {\"type\":\"commonjs\"}",
-    "build:esm": "tsc --project tsconfig.build.json --module es2015 --outDir ./dist/esm --removeComments && echo > ./dist/esm/package.json {\"type\":\"module\"}",
-    "build:types": "tsc --project tsconfig.build.json --module esnext --declarationDir ./dist/types --emitDeclarationOnly --declaration --declarationMap"
+    "build": "tsup"
   },
   "type": "module",
   "author": "Glitch-txs",
@@ -47,5 +42,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "tsup": "^6.7.0"
   }
 }
