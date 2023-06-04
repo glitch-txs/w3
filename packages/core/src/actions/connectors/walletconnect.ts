@@ -1,6 +1,6 @@
 import { web3Store } from "../../store/web3store"
 import { URL, WalletNames } from "../../types"
-import { DEBUG, LAST_WALLET } from "../../utils/constants"
+import { DEBUG, KEY_WALLET } from "../../utils/constants"
 import { isWindow } from "../../utils/isWindow"
 import { Connector } from "./base"
 
@@ -60,13 +60,13 @@ export class WalletConnect extends Connector {
     
     provider?.on("disconnect", () => {
       DEBUG && console.log(`${this.name}: session ended`)
-      if(window?.localStorage.getItem(LAST_WALLET) === this.name) window?.localStorage.removeItem(LAST_WALLET)
+      if(window?.localStorage.getItem(KEY_WALLET) === this.name) window?.localStorage.removeItem(KEY_WALLET)
       setState((state)=>({ userAccount: '', chainId: null, childProvider: null }))
     });
     
     console.log('Walletconnect has initialized')
     
-    if(provider?.session && window.localStorage.getItem(LAST_WALLET) === this.name){
+    if(provider?.session && window.localStorage.getItem(KEY_WALLET) === this.name){
       const connected = await this.setAccountAndChainId(provider)
       if(connected) setState({childProvider: provider})
       this.ready = true
@@ -88,7 +88,7 @@ export class WalletConnect extends Connector {
 
     await this.provider.connect().then(async(provider: any)=> {
       const connected = await this.setAccountAndChainId(provider)
-      window?.localStorage.setItem(LAST_WALLET,this.name)
+      window?.localStorage.setItem(KEY_WALLET,this.name)
       if(connected) setState((state)=>({childProvider: provider}))
 
     }).catch(console.error)
@@ -99,7 +99,7 @@ export class WalletConnect extends Connector {
   async disconnect() {
     web3Store.setState((state)=>({isLoading: true}))
     await this.provider.disconnect()
-    window?.localStorage.removeItem(LAST_WALLET)
+    window?.localStorage.removeItem(KEY_WALLET)
     web3Store.setState((state)=>({ userAccount: '', chainId: null, childProvider: null, isLoading: false }))
   }
 }

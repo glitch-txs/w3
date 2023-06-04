@@ -1,6 +1,6 @@
 import { web3Store } from "../../store/web3store"
 import { Address, EIP1193Provider, URL, WalletNames } from "../../types"
-import { DEBUG, LAST_WALLET } from "../../utils/constants"
+import { DEBUG, KEY_WALLET } from "../../utils/constants"
 import { isOnMobile } from "../../utils/handleMobile"
 import { addEvents, removeEvents } from "./helpers/eventListeners"
 import { setAccountAndChainId } from "./helpers/setAccountAndChainId"
@@ -28,7 +28,7 @@ export abstract class Connector{
     // injection delay - https://groups.google.com/a/chromium.org/g/chromium-extensions/c/ib-hi7hPdW8/m/34mFf8rrGQAJ?pli=1
     await new Promise(r => setTimeout(r, 200))
 
-    if(window?.localStorage.getItem(LAST_WALLET) === this.name){
+    if(window?.localStorage.getItem(KEY_WALLET) === this.name){
       const { setState } = web3Store
       setState((state)=> ({isLoading: true}))
       const provider = await this.getProvider()
@@ -37,7 +37,7 @@ export abstract class Connector{
         addEvents(provider, this.name)
         setState((state)=>({childProvider: provider}))
       }else{
-        window?.localStorage.removeItem(LAST_WALLET)
+        window?.localStorage.removeItem(KEY_WALLET)
       }
       setState((state)=> ({isLoading: false}))
     }
@@ -51,21 +51,23 @@ export abstract class Connector{
     const provider = await this.getProvider()
     
     if(!provider){
+      setState((state)=>({isLoading: false}))
       if(mobile && this.deeplink){
         //If user is on mobile and provider is not injected it will open the wallets browser.
         window.open(this.deeplink)
+        return
       }else{
         //If the wallet is not installed then it will open this link to install the extention.
         DEBUG && console.warn(`${this.name} provider is not injected`)
-        window.open(this.install, '_blank')
+        setState((state)=>({ errorMessage: `${this.name} wallet is not installed!` }))
+        getState().onboard && window.open(this.install, '_blank')
+        return ()=>window.open(this.install, '_blank')
       }
-      setState((state)=>({isLoading: false}))
-      return
     }
 
     await provider.request({ method: 'eth_requestAccounts' })
     .then(async(accounts: Address[])=> {
-      window?.localStorage.setItem(LAST_WALLET, this.name)
+      window?.localStorage.setItem(KEY_WALLET, this.name)
 
       setState((state)=>({userAccount: accounts[0], childProvider: provider}))
       await this.setChainId(provider)
@@ -99,17 +101,18 @@ export abstract class Connector{
     .catch((err: any) => {
       if (err.code === 4001) {
         // EIP-1193 userRejectedRequest error
-        console.error(`${this.name}: user rejected the connection request`);
+        console.error(`${this.name}: user rejected the connection request`)
       } else {
-        console.error(`${this.name}: request connection error`,err);
+        console.error(`${this.name}: request connection error`,err)
       }
-    });
+    })
+    setState((state)=>({isLoading: false}))
   }
 
   async disconnect(){
     const { getState, setState }  = web3Store
     this.removeEvents(getState().childProvider)
-    window?.localStorage.removeItem(LAST_WALLET)
+    window?.localStorage.removeItem(KEY_WALLET)
     setState({ userAccount: '', chainId: null, childProvider: null })
   }
 

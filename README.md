@@ -1,7 +1,5 @@
 # W3 - an EVM Wallet Connectors Library
 
-V0 has been Depricated, v1 is comming soon...
-
 **Compatible with Ethers.js, Viem and Web3.js**
 
 install:
@@ -21,7 +19,10 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { connectors, mainnet, w3init } from '@glitch-txs/w3'
 
-w3init({connectors, chains:[mainnet]})
+w3init({
+  connectors: connectors(),
+  chains:[mainnet]
+})
 
 export default function App({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />
@@ -30,13 +31,13 @@ export default function App({ Component, pageProps }: AppProps) {
 
 2. Import the `connect` function and choose a connector's name as arg, you'll get autocomplete:
 ```tsx
-import { connect } from '@glitch-txs/w3'
+import { connectW3 } from '@glitch-txs/w3'
 
 export default function Connect() {
   
   return (
     <div>
-      <button onClick={()=>connect('MetaMask')} >MetaMask</button>
+      <button onClick={()=>connectW3('MetaMask')} >MetaMask</button>
     </div>
   )
 }
@@ -45,7 +46,7 @@ For disconnecting you can use the `switchWallet` function.
 
 3. Add hooks!
 ```tsx
-import { connect } from '@glitch-txs/w3'
+import { connectW3, disconnectW3 } from '@glitch-txs/w3'
 import { useAccount, useChain } from '@glitch-txs/w3-hooks'
 
 export default function Connect() {
@@ -54,9 +55,17 @@ export default function Connect() {
   
   return (
     <div>
-      <button disable={isLoading} onClick={()=>connect('MetaMask')} >MetaMask</button>
-      user Account: {account}
-      ChainId: {chain}
+      {account ?
+      <button onClick={()=>disconnectW3()} >Disconnect</button> :
+      <button disable={isLoading} onClick={()=>connectW3('MetaMask')} >MetaMask</button>
+      }
+      {
+        account && 
+        <span>
+          user Account: {account}
+          ChainId: {chain}
+        </span>
+      }
     </div>
   )
 }
@@ -67,7 +76,7 @@ export default function Connect() {
 import { ethers } from 'ethers'
 import { useProvider } from '@glitch-txs/w3-hooks'
 
-export default function InteractWithContracts() {
+export default function useEthersProvider() {
   const { childProvider } = useProvider()
 
   const provider = useMemo(()=>{
@@ -75,11 +84,7 @@ export default function InteractWithContracts() {
     return new ethers.providers.Web3Provider(childProvider)
   },[childProvider])
   
-  return (
-    <div>
-      You can also wrap the childProvider to create your own hook!
-    </div>
-  )
+  return { provider }
 }
 ```
 
@@ -93,13 +98,6 @@ export default function InteractWithContracts() {
 ### You can create your own connectors and chains!
 
 ```ts
-type Connector = {
-  walletName: string
-  deeplink?:`https://${string}`
-  install?:`https://${string}`
-  getProvider:()=> Promise<EIP1193Provider> | EIP1193Provider
-}
-
 type Chain = {
   chainId:`0x${string}`
   chainName:string

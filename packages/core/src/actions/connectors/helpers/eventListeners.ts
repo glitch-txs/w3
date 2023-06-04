@@ -2,7 +2,7 @@ import { setAccountAndChainId } from "./setAccountAndChainId"
 import { web3Store } from '../../../store/web3store'
 import { WalletNames } from "../../../types"
 import { filter_disconnect } from "../../../utils/disconnect"
-import { DEBUG, LAST_WALLET } from "../../../utils/constants"
+import { DEBUG, KEY_WALLET } from "../../../utils/constants"
 
 type ConnectInfo = {
   chainId: string
@@ -14,7 +14,7 @@ const onAccountChange = (accounts: `0x${string}`[], name: WalletNames, provider:
     web3Store.setState((state)=>({ userAccount: accounts[0] as `0x${string}`}))
     DEBUG && console.log(`${name}: user changed address to: `, accounts[0])
   }else{
-    window?.localStorage.removeItem(LAST_WALLET)
+    window?.localStorage.removeItem(KEY_WALLET)
     if(filter_disconnect(provider)){
       /* EVM Phantom wallet breaks when running restartWeb3 - infinite loop
       reason: eth_account method triggers accountChange listener */

@@ -1,6 +1,6 @@
 import { web3Store } from "../../store/web3store"
 import { URL, WalletNames } from "../../types"
-import { LAST_WALLET } from "../../utils/constants"
+import { KEY_WALLET } from "../../utils/constants"
 import { isWindow } from "../../utils/isWindow"
 import { Connector } from "./base"
 
@@ -45,7 +45,7 @@ export class Coinbase extends Connector {
     web3Store.setState((state)=>({isLoading: true}))
     const provider = await this.getProvider()
     await provider.disconnect()
-    window?.localStorage.removeItem(LAST_WALLET)
+    window?.localStorage.removeItem(KEY_WALLET)
     web3Store.setState((state)=>({ userAccount: '', chainId: null, childProvider: null, isLoading:false }))
   }
 }
