@@ -37,58 +37,6 @@ export async function connect(selectedWallet: WalletNames): Promise<any>{
     setState((state)=>({isLoading: false}))
     return
   }
-
-  const provider = await getProvider()
-  if(!provider){
-    if(mobile && deeplink){
-      //If user is on mobile and provider is not injected it will open the wallets browser.
-      window.open(deeplink)
-    }else{
-      //If the wallet is not installed then it will open this link to install the extention.
-      DEBUG && console.warn(`${walletName} provider is not injected`)
-      window.open(install, '_blank')
-    }
-    setState((state)=>({isLoading: false}))
-    return
-  }
-
-  await provider.request({ method: 'eth_requestAccounts' })
-  .then(async()=> {
-    window?.localStorage.setItem(LAST_WALLET, walletName)
-    await checkAccountAndChainId(provider, walletName)
-    setState((state)=>({childProvider: provider}))
-    addEvents(provider, walletName)
-
-    const chains = getState().chains
-    if(chains.length > 1){
-      setState((state)=>({isLoading: false}))
-      return
-    }
-
-    if(getState().chainId !== Number(chains[0]?.chainId)){
-      await provider.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: chains[0]?.chainId }],
-      }).catch(async (er: any)=>{
-        if(er.code === 4902 || er?.data?.originalError?.code == 4902){
-            await provider.request({
-              method: 'wallet_addEthereumChain',
-              params: [chains[0]],
-            })
-            .catch((er: any)=>{
-              console.error(`${walletName}: user rejected the add new chain request`, er)
-            })
-        }
-      })
-    } 
-  })
-  .catch((err: any) => {
-    if (err.code === 4001) {
-      // EIP-1193 userRejectedRequest error
-      console.error(`${walletName}: user rejected the connection request`);
-    } else {
-      console.error(`${walletName}: request connection error`,err);
-    }
-  });
+ //deleted code...
   setState((state)=>({isLoading: false}))
 }

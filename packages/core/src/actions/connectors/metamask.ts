@@ -8,16 +8,7 @@ export const metamask: Connector = {
   getProvider: ()=>{
     if(window?.ethereum){
   
-      //Check it's not coinbase wallet provider:
-      let provider = window.ethereum;
-      // edge case if MM and CBW are both installed
-      if ((window.ethereum as any).providers?.length) {
-        (window.ethereum as any).providers.forEach(async (p: any) => {
-          if (p.isMetaMask) provider = p;
-        });
-      }
-      
-      return provider
+
     }
   }
 }

@@ -1,3 +1,7 @@
+export type URL = `https://${string}`
+
+export type Address = `0x${string}`
+
 export type Init = {
   connectors: Connector[]
   chains: Chain[]
@@ -20,7 +24,9 @@ export type WalletNames = 'Coinbase' | 'MetaMask' | 'Phantom' | 'Trust Wallet' |
 
 export type Connector<custom = 'Injected'> = {
   walletName: WalletNames | custom
-  deeplink?:`https://${string}`
-  install?:`https://${string}`
+  deeplink?:URL
+  install?:URL
   getProvider:()=> Promise<any> | any
 }
+
+export type EIP1193Provider = any

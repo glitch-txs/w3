@@ -1,4 +1,4 @@
-import { checkAccountAndChainId } from "./checkAccountAndChain"
+import { setAccountAndChainId } from "./setAccountAndChainId"
 import { web3Store } from '../../store/web3store'
 import { WalletNames } from "../../types"
 import { filter_disconnect } from "../../utils/disconnect"
@@ -36,7 +36,7 @@ const onChainChange = (chainId: string, walletName: WalletNames) => {
 }
 
 const onConnect = (connectInfo: ConnectInfo, provider: any, walletName: WalletNames)=>{
-  checkAccountAndChainId(provider, walletName)
+  setAccountAndChainId(provider, walletName)
   web3Store.setState((state)=>({ isProvider: true }))
   DEBUG && console.log(`${walletName}: provider is connected in:`, connectInfo.chainId)
 }
