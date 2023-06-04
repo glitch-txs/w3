@@ -1,9 +1,8 @@
 import { web3Store } from "../../store/web3store"
 import { Address, EIP1193Provider, URL, WalletNames } from "../../types"
 import { DEBUG, KEY_WALLET } from "../../utils/constants"
+import { filter_disconnect } from "../../utils/disconnect"
 import { isOnMobile } from "../../utils/handleMobile"
-import { addEvents, removeEvents } from "./helpers/eventListeners"
-import { setAccountAndChainId } from "./helpers/setAccountAndChainId"
 
 const mobile = isOnMobile()
 
@@ -32,9 +31,9 @@ export abstract class Connector{
       const { setState } = web3Store
       setState((state)=> ({isLoading: true}))
       const provider = await this.getProvider()
-      const connected = await setAccountAndChainId(provider, this.name)
+      const connected = await this.setAccountAndChainId(provider)
       if(connected){
-        addEvents(provider, this.name)
+        this.addEvents(provider)
         setState((state)=>({childProvider: provider}))
       }else{
         window?.localStorage.removeItem(KEY_WALLET)
@@ -44,7 +43,7 @@ export abstract class Connector{
     this.ready = true
   }
 
-  async connect(){
+  async connect(): Promise<any>{
     const { setState, getState } = web3Store
 
     setState((state)=>({isLoading: true}))
@@ -61,7 +60,7 @@ export abstract class Connector{
         DEBUG && console.warn(`${this.name} provider is not injected`)
         setState((state)=>({ errorMessage: `${this.name} wallet is not installed!` }))
         getState().onboard && window.open(this.install, '_blank')
-        return ()=>window.open(this.install, '_blank')
+        return ()=> window.open(this.install, '_blank')
       }
     }
 
@@ -110,14 +109,40 @@ export abstract class Connector{
   }
 
   async disconnect(){
-    const { getState, setState }  = web3Store
-    this.removeEvents(getState().childProvider)
+    const { setState }  = web3Store
+    this.removeEvents(web3Store.getState().childProvider)
     window?.localStorage.removeItem(KEY_WALLET)
     setState({ userAccount: '', chainId: null, childProvider: null })
   }
 
   protected async setAccountAndChainId(provider: EIP1193Provider){
-    return await setAccountAndChainId(provider, this.name)
+    const { setState } = web3Store
+
+    let connected: boolean = false
+  
+    await provider.request({ method: 'eth_accounts' })
+    .then(async (accounts: `0x${string}`[])=>{
+      if(accounts?.length > 0){
+  
+        setState((state)=>({ userAccount: accounts[0] as `0x${string}`}))
+        DEBUG && console.log(`${this.name}: user is connected as: ${accounts[0]}`)
+  
+        await provider.request({ method: 'eth_chainId' }).then((chainId: any)=> {
+          setState((state)=>({ chainId: Number(chainId) }))
+          DEBUG && console.log(`${this.name}: chain id - ${chainId}`)
+        }).catch(console.error)
+    
+        connected = true
+  
+      }else{
+        //is clearing needed here?
+        setState((state)=>({ userAccount: ''}))
+        DEBUG && console.log(`${this.name}: user is not connected`)
+      }
+  
+    }).catch(console.error)
+  
+    return connected
   }
 
   protected async setChainId(provider: EIP1193Provider){
@@ -130,10 +155,72 @@ export abstract class Connector{
   }
 
   protected addEvents(provider: EIP1193Provider){
-    addEvents(provider, this.name)
+    if(provider.on){
+      provider.on("accountsChanged", this.onAccountChange)
+      provider.on("chainChanged",this.onChainChange)
+      provider.on('connect',this.onConncent)
+      provider.on('disconnect',this.onDisconnect)
+    }else if (provider.addListener){
+      //suggested by Trust Wallet
+      provider.on("accountsChanged", this.onAccountChange)
+      provider.on("chainChanged",this.onChainChange)
+      provider.on('connect',this.onConncent)
+      provider.on('disconnect',this.onDisconnect)
+    } else {
+      console.error("Event Listeners couldn't initialize.")
+    }
   }
 
   protected removeEvents(provider: EIP1193Provider){
-    removeEvents(provider, this.name)
+    provider.removeAllListeners?.()
+  
+    if(provider.removeListener){
+      provider.removeListener("accountsChanged", this.onAccountChange)
+      provider.removeListener("chainChanged",this.onChainChange)
+      provider.removeListener('connect',this.onConncent)
+      provider.removeListener('disconnect',this.onDisconnect)
+    }
+    if(provider.off){
+      provider.off("accountsChanged", this.onAccountChange)
+      provider.off("chainChanged",this.onChainChange)
+      provider.off('connect',this.onConncent)
+      provider.off('disconnect',this.onDisconnect)
+    }
+  }
+
+  onAccountChange(accounts: string[]){
+    if(typeof accounts[0] !== 'undefined'){
+      web3Store.setState((state)=>({ userAccount: accounts[0] as `0x${string}`}))
+      DEBUG && console.log(`${this.name}: user changed address to: `, accounts[0])
+    }else{
+      window?.localStorage.removeItem(KEY_WALLET)
+      if(filter_disconnect(web3Store.getState().childProvider)){
+        /* EVM Phantom wallet breaks when running restartWeb3 - infinite loop
+        reason: eth_account method triggers accountChange listener */
+        window?.location.reload()
+      }
+      this.removeEvents(web3Store.getState().childProvider)
+      web3Store.setState((state)=>({ userAccount: '', chainId: 0, childProvider: null }))
+  
+      DEBUG && console.log(`${this.name}: user has disconnect`)
+    }
+  }
+
+  onChainChange(chainId: string | number){
+    web3Store.setState((state)=>({ chainId: Number(chainId) }))
+    DEBUG && console.log(`${this.name}: chain id - `, chainId)
+  }
+
+  onDisconnect(err:any){
+    web3Store.setState((state)=>({ isProvider: false }))
+    DEBUG && console.error(`${this.name} provider lost the blockchain connection`)
+    console.error(err)
+  }
+
+  async onConncent(){
+    const provider = await this.getProvider()
+    await this.setAccountAndChainId(provider)
+    web3Store.setState((state)=>({ isProvider: true }))
+    DEBUG && console.log(`${this.name} provider is connected`)
   }
 }

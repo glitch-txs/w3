@@ -26,6 +26,10 @@ export class WalletConnect extends Connector {
       throw new Error('You need to provide NEXT_PUBLIC_PROJECT_ID env variable')
     }
     const { getState, setState } = web3Store
+
+    /**If last connection was WalletConnect let's wait to init and catch the user session */
+    if(window?.localStorage.getItem(KEY_WALLET) === this.name)
+    setState((state)=>({ isLoading:true }))
   
     const { EthereumProvider, OPTIONAL_METHODS, OPTIONAL_EVENTS } = await import("@walletconnect/ethereum-provider")
   
@@ -53,8 +57,10 @@ export class WalletConnect extends Connector {
       setState({WCInitFailed: true})
     });
   
-    if(getState().WCInitFailed)
-    return
+    if(getState().WCInitFailed){
+      setState((state)=>({ isLoading: false }))
+      return
+    }
     
     this.provider = provider
     
@@ -68,29 +74,33 @@ export class WalletConnect extends Connector {
     
     if(provider?.session && window.localStorage.getItem(KEY_WALLET) === this.name){
       const connected = await this.setAccountAndChainId(provider)
-      if(connected) setState({childProvider: provider})
-      this.ready = true
-      return
+      if(connected) {
+        setState({childProvider: provider, isLoading: false})
+        this.ready = true
+        return
+      }
     }
     this.ready = true
+    setState((state)=>({ isLoading: false }))
     const eventReady = new Event('WalletConnect#ready', {bubbles: true})
     window?.dispatchEvent(eventReady)
   }
 
   async connect() {
-    const { setState } = web3Store
-    setState((state)=>({isLoading: true}))
-    
     if(!this.ready){
-      window?.addEventListener('WalletConnect#ready', ()=>this.connect())
+      window?.addEventListener('WalletConnect#ready', this.connect)
       return
     }
+    const { setState } = web3Store
+    setState((state)=>({isLoading: true}))
+    window.removeEventListener('WalletConnect#ready', this.connect)
 
     await this.provider.connect().then(async(provider: any)=> {
       const connected = await this.setAccountAndChainId(provider)
-      window?.localStorage.setItem(KEY_WALLET,this.name)
-      if(connected) setState((state)=>({childProvider: provider}))
-
+      if(connected) {
+        setState((state)=>({childProvider: provider}))
+        window?.localStorage.setItem(KEY_WALLET,this.name)
+      }
     }).catch(console.error)
 
     setState((state)=>({isLoading: false}))
