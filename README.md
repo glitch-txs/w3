@@ -1,4 +1,4 @@
-# W3 - an EVM Wallet Connectors Library
+# W3 - an EVM Wallet Connectors Library (v1 soon)
 
 **Compatible with Ethers.js, Viem and Web3.js**
 
