@@ -1,17 +1,19 @@
-# EVM Wallet Connectors Library
+# W3 - an EVM Wallet Connectors Library
 
-install
+## Compatible with Ethers.js, Viem and Web3.js
+
+install:
 
 ```sh
-pnpm i @glitch-txs/w3 @glitch-txs/w3-hooks
+npm i @glitch-txs/w3 @glitch-txs/w3-hooks
 ```
 
-install devDeps to use the WalletConnect connector
+install devDeps to use the WalletConnect connector:
 ```sh
-pnpm i @web3modal/standalone @walletconnect/ethereum-provider
+npm i @web3modal/standalone @walletconnect/ethereum-provider
 ```
 
-1. Init w3 setting the connectors and supported chains
+1. Init w3 with the connectors and supported chains
 ```tsx
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
@@ -24,7 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-2. Import the `connect` function and choose as arg a connector's name as string, you'll get autocomplete:
+2. Import the `connect` function and choose a connector's name as arg, you'll get autocomplete:
 ```tsx
 import { connect } from '@glitch-txs/w3'
 
@@ -66,7 +68,10 @@ import { useProvider } from '@glitch-txs/w3-hooks'
 export default function InteractWithContracts() {
   const { childProvider } = useProvider()
 
-  const provider = useMemo(()=> new ethers.providers.Web3Provider(childProvider),[childProvider])
+  const provider = useMemo(()=>{
+    if(childProvider)
+    return new ethers.providers.Web3Provider(childProvider)
+  },[childProvider])
   
   return (
     <div>
