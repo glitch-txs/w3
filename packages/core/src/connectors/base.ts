@@ -6,7 +6,7 @@ import { addEvents, removeEvents } from "./helpers/eventListeners"
 import { setAccountAndChainId } from "./helpers/setAccountAndChainId"
 
 const mobile = isOnMobile()
-  
+
 export abstract class Connector{
   /** Connector name */
   abstract readonly name: WalletNames
@@ -65,7 +65,7 @@ export abstract class Connector{
       window?.localStorage.setItem(LAST_WALLET, this.name)
 
       setState((state)=>({userAccount: accounts[0], childProvider: provider}))
-      this.setChainId(provider)
+      await this.setChainId(provider)
       this.addEvents(provider)
   
       /** If the dapp supports more than one chain we won't ask the user to switch to a default one */
@@ -111,11 +111,10 @@ export abstract class Connector{
   }
 
   protected async setAccountAndChainId(provider: EIP1193Provider){
-    await setAccountAndChainId(provider, this.name)
+    return await setAccountAndChainId(provider, this.name)
   }
 
   protected async setChainId(provider: EIP1193Provider){
-    
     const { setState } = web3Store
 
     await provider.request({ method: 'eth_chainId' }).then((chainId: any)=> {
