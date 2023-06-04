@@ -1,13 +1,11 @@
 import { web3Store } from "../store/web3store"
-import { Address, URL, WalletNames } from "../types"
+import { Address, EIP1193Provider, URL, WalletNames } from "../types"
 import { DEBUG, LAST_WALLET } from "../utils/constants"
 import { isOnMobile } from "../utils/handleMobile"
 import { addEvents, removeEvents } from "./helpers/eventListeners"
 import { setAccountAndChainId } from "./helpers/setAccountAndChainId"
 
 const mobile = isOnMobile()
-
-type EIP1193Provider = any
   
 export abstract class Connector{
   /** Connector name */
@@ -31,7 +29,13 @@ export abstract class Connector{
       const { setState } = web3Store
       setState((state)=> ({isLoading: true}))
       const provider = await this.getProvider()
-      await setAccountAndChainId(provider, this.name)
+      const connected = await setAccountAndChainId(provider, this.name)
+      if(connected){
+        addEvents(provider, this.name)
+        setState((state)=>({childProvider: provider}))
+      }else{
+        window?.localStorage.removeItem(LAST_WALLET)
+      }
       setState((state)=> ({isLoading: false}))
     }
     this.ready = true
@@ -123,6 +127,7 @@ export abstract class Connector{
   protected addEvents(provider: EIP1193Provider){
     addEvents(provider, this.name)
   }
+
   protected removeEvents(provider: EIP1193Provider){
     removeEvents(provider, this.name)
   }
