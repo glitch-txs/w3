@@ -1,6 +1,8 @@
 # W3 - an EVM Wallet Connectors Library
 
-## Compatible with Ethers.js, Viem and Web3.js
+V0 has been Depricated, v1 is comming soon...
+
+**Compatible with Ethers.js, Viem and Web3.js**
 
 install:
 
