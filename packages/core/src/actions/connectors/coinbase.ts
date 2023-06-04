@@ -1,46 +1,51 @@
-import { web3Store } from "../../store/web3store";
-import { Connector } from "../../types";
-import { isWindow } from "../../utils/isWindow";
+import { web3Store } from "../../store/web3store"
+import { URL, WalletNames } from "../../types"
+import { LAST_WALLET } from "../../utils/constants"
+import { isWindow } from "../../utils/isWindow"
+import { Connector } from "./base"
 
-export const coinbase: Connector = {
-  walletName: 'Coinbase',
-  deeplink:`https://go.cb-w.com/dapp?cb_url=${isWindow()}`,
-  install:'https://www.coinbase.com/wallet/downloads',
-  getProvider: async()=>{
+export class Coinbase extends Connector {
+  readonly name: WalletNames
+  readonly install: URL
+  readonly deeplink: URL
 
-    if(typeof window != 'undefined'){
-      if (window.coinbaseWalletExtension){
-        return window.coinbaseWalletExtension
-      } else if ((window.ethereum as any)?.providers?.length) {
-        // edge case if MM and CBW are both installed
-        (window.ethereum as any).providers.forEach(async (p: any) => {
-          if (p.isCoinbaseWallet) 
-          return p;
-        });
-      } else if ((window.ethereum as any)?.isCoinbaseWallet){
-        return window.ethereum;
-      }else{
-        let CoinbaseWalletSDK = (await import('@coinbase/wallet-sdk')).default
-        if (
-          typeof CoinbaseWalletSDK !== 'function' &&
-          // @ts-expect-error This import error is not visible to TypeScript
-          typeof CoinbaseWalletSDK.default === 'function'
-        )
-        CoinbaseWalletSDK = (
-          CoinbaseWalletSDK as unknown as { default: typeof CoinbaseWalletSDK }
-        ).default
+  constructor(){
+    const getProvider = async()=>{
+      if (typeof window === 'undefined') return
 
-        const coinbaseWallet = new CoinbaseWalletSDK({
-          appName: document?.title,
-          appLogoUrl: `${isWindow()}favicon.ico`,
-          darkMode: false
-        })
-    
-        const { getState } = web3Store
-   
-        return coinbaseWallet.makeWeb3Provider?.(getState().chains[0]?.rpcUrls[0], Number(getState().chains[0]?.chainId))
-      }
-    }
+      let CoinbaseWalletSDK = (await import('@coinbase/wallet-sdk')).default
+      if (
+        typeof CoinbaseWalletSDK !== 'function' &&
+        // @ts-expect-error This import error is not visible to TypeScript
+        typeof CoinbaseWalletSDK.default === 'function'
+      )
+      CoinbaseWalletSDK = (
+        CoinbaseWalletSDK as unknown as { default: typeof CoinbaseWalletSDK }
+      ).default
+
+      const coinbaseWallet = new CoinbaseWalletSDK({
+        appName: document?.title,
+        appLogoUrl: `${isWindow()}favicon.ico`,
+        darkMode: false
+      })
+      const { getState } = web3Store
  
+      return coinbaseWallet.makeWeb3Provider?.(getState().chains[0]?.rpcUrls[0], Number(getState().chains[0]?.chainId))
+    }
+
+    super(getProvider)
+
+    this.name = 'Coinbase'
+    this.install = 'https://www.coinbase.com/wallet/downloads'
+    this.deeplink = `https://go.cb-w.com/dapp?cb_url=${isWindow()}`
+    this.init()
+  }
+
+  async disconnect(): Promise<void> {
+    web3Store.setState((state)=>({isLoading: true}))
+    const provider = await this.getProvider()
+    await provider.disconnect()
+    window?.localStorage.removeItem(LAST_WALLET)
+    web3Store.setState((state)=>({ userAccount: '', chainId: null, childProvider: null, isLoading:false }))
   }
 }

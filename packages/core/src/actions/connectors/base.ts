@@ -1,7 +1,7 @@
-import { web3Store } from "../store/web3store"
-import { Address, EIP1193Provider, URL, WalletNames } from "../types"
-import { DEBUG, LAST_WALLET } from "../utils/constants"
-import { isOnMobile } from "../utils/handleMobile"
+import { web3Store } from "../../store/web3store"
+import { Address, EIP1193Provider, URL, WalletNames } from "../../types"
+import { DEBUG, LAST_WALLET } from "../../utils/constants"
+import { isOnMobile } from "../../utils/handleMobile"
 import { addEvents, removeEvents } from "./helpers/eventListeners"
 import { setAccountAndChainId } from "./helpers/setAccountAndChainId"
 
@@ -25,6 +25,9 @@ export abstract class Connector{
   }
 
   async init(){
+    // injection delay - https://groups.google.com/a/chromium.org/g/chromium-extensions/c/ib-hi7hPdW8/m/34mFf8rrGQAJ?pli=1
+    await new Promise(r => setTimeout(r, 200))
+
     if(window?.localStorage.getItem(LAST_WALLET) === this.name){
       const { setState } = web3Store
       setState((state)=> ({isLoading: true}))
@@ -103,11 +106,11 @@ export abstract class Connector{
     });
   }
 
-  disconnect(){
+  async disconnect(){
     const { getState, setState }  = web3Store
     this.removeEvents(getState().childProvider)
     window?.localStorage.removeItem(LAST_WALLET)
-    setState({ userAccount: '', chainId: 0, childProvider: null })
+    setState({ userAccount: '', chainId: null, childProvider: null })
   }
 
   protected async setAccountAndChainId(provider: EIP1193Provider){

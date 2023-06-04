@@ -1,8 +1,8 @@
 import { setAccountAndChainId } from "./setAccountAndChainId"
-import { web3Store } from '../../store/web3store'
-import { WalletNames } from "../../types"
-import { filter_disconnect } from "../../utils/disconnect"
-import { DEBUG, LAST_WALLET } from "../../utils/constants"
+import { web3Store } from '../../../store/web3store'
+import { WalletNames } from "../../../types"
+import { filter_disconnect } from "../../../utils/disconnect"
+import { DEBUG, LAST_WALLET } from "../../../utils/constants"
 
 type ConnectInfo = {
   chainId: string

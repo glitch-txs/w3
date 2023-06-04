@@ -1,60 +1,105 @@
-import { web3Store } from "../../store/web3store";
-import { Chain, Connector } from "../../types";
-import { isWindow } from "../../utils/isWindow";
-import { checkAccountAndChainId } from "../helpers/checkAccountAndChain";
+import { web3Store } from "../../store/web3store"
+import { URL, WalletNames } from "../../types"
+import { DEBUG, LAST_WALLET } from "../../utils/constants"
+import { isWindow } from "../../utils/isWindow"
+import { Connector } from "./base"
 
-export const walletconnect:Connector = {
-  walletName: 'WalletConnect',
-  getProvider:()=>web3Store.getState().WCProvider
-}
+export class WalletConnect extends Connector {
+  readonly name: WalletNames
+  readonly install?: URL
+  readonly deeplink?: URL
+  private provider: any
 
-export async function WCInit(chains: Chain[]){
-  if (!process.env.NEXT_PUBLIC_PROJECT_ID) {
-    throw new Error('You need to provide NEXT_PUBLIC_PROJECT_ID env variable')
+  constructor(){
+    const getProvider = ()=>{
+      return this.provider
+    }
+
+    super(getProvider)
+
+    this.name = 'WalletConnect'
+    this.init()
   }
-  const { getState, setState } = web3Store
 
-  const { EthereumProvider, OPTIONAL_METHODS, OPTIONAL_EVENTS } = await import("@walletconnect/ethereum-provider")
+  async init(){
+    if (!process.env.NEXT_PUBLIC_PROJECT_ID) {
+      throw new Error('You need to provide NEXT_PUBLIC_PROJECT_ID env variable')
+    }
+    const { getState, setState } = web3Store
+  
+    const { EthereumProvider, OPTIONAL_METHODS, OPTIONAL_EVENTS } = await import("@walletconnect/ethereum-provider")
+  
+    const provider = await EthereumProvider.init({
+      projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+      chains: web3Store.getState().chains.map(chain => Number(chain.chainId)),
+      showQrModal:true,
+      optionalMethods:OPTIONAL_METHODS,
+      optionalEvents:OPTIONAL_EVENTS,
+      qrModalOptions:{
+        themeMode: "light",
+        themeVariables:{
+          '--w3m-background-color': '#202020',
+          '--w3m-accent-color': '#202020',
+        }
+      },
+      metadata: {
+        name: document?.title,
+        description: document?.querySelector('meta[name="description"]')?.textContent ?? "",
+        url: `${isWindow()}`,
+        icons: [`${isWindow()}favicon.ico`],
+      },
+    }).catch(e=> {
+      console.error("WC Init error: ", e)
+      setState({WCInitFailed: true})
+    });
+  
+    if(getState().WCInitFailed)
+    return
+    
+    this.provider = provider
+    
+    provider?.on("disconnect", () => {
+      DEBUG && console.log(`${this.name}: session ended`)
+      if(window?.localStorage.getItem(LAST_WALLET) === this.name) window?.localStorage.removeItem(LAST_WALLET)
+      setState((state)=>({ userAccount: '', chainId: null, childProvider: null }))
+    });
+    
+    console.log('Walletconnect has initialized')
+    
+    if(provider?.session && window.localStorage.getItem(LAST_WALLET) === this.name){
+      const connected = await this.setAccountAndChainId(provider)
+      if(connected) setState({childProvider: provider})
+      this.ready = true
+      return
+    }
+    this.ready = true
+    const eventReady = new Event('WalletConnect#ready', {bubbles: true})
+    window?.dispatchEvent(eventReady)
+  }
 
-  const provider = await EthereumProvider.init({
-    projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-    chains: chains.map(chain => Number(chain.chainId)),
-    showQrModal:true,
-    optionalMethods:OPTIONAL_METHODS,
-    optionalEvents:OPTIONAL_EVENTS,
-    qrModalOptions:{
-      themeMode: "light",
-      themeVariables:{
-        '--w3m-background-color': '#202020',
-        '--w3m-accent-color': '#202020',
-      }
-    },
-    metadata: {
-      name: document?.title,
-      description: document?.querySelector('meta[name="description"]')?.textContent ?? "",
-      url: `${isWindow()}`,
-      icons: [`${isWindow()}favicon.ico`],
-    },
-  }).catch(e=> {
-    console.error("WC Init error: ", e)
-    setState({WCInitFailed: true})
-  });
+  async connect() {
+    const { setState } = web3Store
+    setState((state)=>({isLoading: true}))
+    
+    if(!this.ready){
+      window?.addEventListener('WalletConnect#ready', ()=>this.connect())
+      return
+    }
 
-  if(getState().WCInitFailed)
-  return
-  
-  setState({WCProvider: provider})
-  
-  provider?.on("disconnect", () => {
-    console.log("WC: session ended");
-    getState().restartWeb3()
-  });
-  
-  console.log('Walletconnect has initialized')
-  
-  if(provider?.session){
-    const connected = await checkAccountAndChainId(provider, 'WalletConnect')
-    if(connected) setState({childProvider: provider})
-    return true
+    await this.provider.connect().then(async(provider: any)=> {
+      const connected = await this.setAccountAndChainId(provider)
+      window?.localStorage.setItem(LAST_WALLET,this.name)
+      if(connected) setState((state)=>({childProvider: provider}))
+
+    }).catch(console.error)
+
+    setState((state)=>({isLoading: false}))
+  }
+
+  async disconnect() {
+    web3Store.setState((state)=>({isLoading: true}))
+    await this.provider.disconnect()
+    window?.localStorage.removeItem(LAST_WALLET)
+    web3Store.setState((state)=>({ userAccount: '', chainId: null, childProvider: null, isLoading: false }))
   }
 }

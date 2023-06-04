@@ -14,13 +14,10 @@ interface Web3Store {
   isProvider: boolean
   WCInitFailed: boolean
   userAccount: string
-  chainId: number
+  chainId: number | null
   chains: Chain[]
   connectors: Connector[]
   childProvider: any
-  WCProvider: any
-
-  restartWeb3: ()=> void
 }
 
 export const web3Store = createStore(subscribeWithSelector<Web3Store>((set, get) => ({
@@ -28,18 +25,8 @@ export const web3Store = createStore(subscribeWithSelector<Web3Store>((set, get)
   isProvider: true,
   WCInitFailed: false,
   userAccount: '',
-  chainId:0,
+  chainId:null,
   chains: [],
   connectors: [],
   childProvider: null,
-  WCProvider: null,
-
-  restartWeb3:async()=>{
-    set((state)=>({isLoading: true, userAccount: '', childProvider: null}))
-    console.log("web3 state restarted")
-    if(get().WCProvider?.session) await get().WCProvider.disconnect()
-    w3init({ connectors: get().connectors, chains: get().chains })
-
-    set((state)=>({isLoading: false}))
-  }
 })))

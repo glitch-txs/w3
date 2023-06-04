@@ -1,24 +1,24 @@
-import { coinbase } from './coinbase'
-import { metamask } from './metamask'
-import { phantom } from './phantom'
-import { trustwallet } from './trustwallet'
-import { walletconnect } from './walletconnect'
+import { Coinbase } from "./coinbase"
+import { MetaMask } from "./metamask"
+import { Phantom } from "./phantom"
+import { TrustWallet } from "./trustwallet"
+import { WalletConnect } from "./walletconnect"
 
-const connectors = [
-  coinbase,
-  metamask,
-  phantom,
-  trustwallet,
-  walletconnect
+const allConnectors=()=>[
+  new MetaMask(), 
+  new Coinbase(), 
+  new TrustWallet(), 
+  new WalletConnect(), 
+  new Phantom()
 ]
 
 export {
-  coinbase,
-  metamask,
-  phantom,
-  trustwallet,
-  connectors,
-  walletconnect
+  Coinbase,
+  MetaMask,
+  Phantom,
+  TrustWallet,
+  WalletConnect,
+  allConnectors
 }
 
 declare global{

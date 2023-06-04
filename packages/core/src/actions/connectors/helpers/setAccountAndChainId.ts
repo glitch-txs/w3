@@ -1,12 +1,11 @@
-import { web3Store } from '../../store/web3store'
-import { WalletNames } from '../../types'
-import { DEBUG } from '../../utils/constants'
+import { EIP1193Provider, WalletNames } from "../../../types";
+import { web3Store } from "../../../store/web3store";
+import { DEBUG } from "../../../utils/constants";
 
-//Check account and chain id and save them in the Zustand store:
-export const checkAccountAndChainId = async(provider: any, wallet: WalletNames)=>{
+export async function setAccountAndChainId(provider: EIP1193Provider, name: WalletNames){
 
   const { setState } = web3Store
-  
+
   let connected: boolean = false
 
   await provider.request({ method: 'eth_accounts' })
@@ -14,11 +13,11 @@ export const checkAccountAndChainId = async(provider: any, wallet: WalletNames)=
     if(accounts?.length > 0){
 
       setState((state)=>({ userAccount: accounts[0] as `0x${string}`}))
-      DEBUG && console.log(`${wallet}: user is connected as: ${accounts[0]}`)
+      DEBUG && console.log(`${name}: user is connected as: ${accounts[0]}`)
 
       await provider.request({ method: 'eth_chainId' }).then((chainId: any)=> {
         setState((state)=>({ chainId: Number(chainId) }))
-        DEBUG && console.log(`${wallet}: chain id - ${chainId}`)
+        DEBUG && console.log(`${name}: chain id - ${chainId}`)
       }).catch(console.error)
   
       connected = true
@@ -26,7 +25,7 @@ export const checkAccountAndChainId = async(provider: any, wallet: WalletNames)=
     }else{
       //is clearing needed here?
       setState((state)=>({ userAccount: ''}))
-      DEBUG && console.log(`${wallet}: user is not connected`)
+      DEBUG && console.log(`${name}: user is not connected`)
     }
 
   }).catch(console.error)
