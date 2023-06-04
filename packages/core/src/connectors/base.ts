@@ -61,10 +61,10 @@ export abstract class Connector{
     }
 
     await provider.request({ method: 'eth_requestAccounts' })
-    .then(async(account: Address[])=> {
+    .then(async(accounts: Address[])=> {
       window?.localStorage.setItem(LAST_WALLET, this.name)
 
-      setState((state)=>({userAccount: account[0], childProvider: provider}))
+      setState((state)=>({userAccount: accounts[0], childProvider: provider}))
       this.setChainId(provider)
       this.addEvents(provider)
   
