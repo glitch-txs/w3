@@ -1,4 +1,4 @@
-# W3 - an EVM Wallet Connectors Library (v1 soon)
+# W3 - an EVM Wallet Connectors Library
 
 **Compatible with Ethers.js, Viem and Web3.js**
 
@@ -8,7 +8,7 @@ install:
 npm i @glitch-txs/w3 @glitch-txs/w3-hooks
 ```
 
-install devDeps to use the WalletConnect connector:
+install deps to use the WalletConnect connector:
 ```sh
 npm i @web3modal/standalone @walletconnect/ethereum-provider
 ```
@@ -29,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-2. Import the `connect` function and choose a connector's name as arg, you'll get autocomplete:
+2. Import the `connectW3` function and choose a connector's name as arg, you'll get autocomplete:
 ```tsx
 import { connectW3 } from '@glitch-txs/w3'
 
@@ -42,7 +42,7 @@ export default function Connect() {
   )
 }
 ```
-For disconnecting you can use the `switchWallet` function.
+For disconnecting you can use the `disconnectW3` function.
 
 3. Add hooks!
 ```tsx
@@ -52,6 +52,7 @@ import { useAccount, useChain } from '@glitch-txs/w3-hooks'
 export default function Connect() {
   
   const { account, isLoading } = useAccount()
+  const { chain } = useChain()
   
   return (
     <div>
@@ -59,6 +60,7 @@ export default function Connect() {
       <button onClick={()=>disconnectW3()} >Disconnect</button> :
       <button disable={isLoading} onClick={()=>connectW3('MetaMask')} >MetaMask</button>
       }
+      Chain ID: {chain}
     </div>
   )
 }

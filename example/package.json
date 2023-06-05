@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.6.6",
-    "@glitch-txs/w3": "^0.0.6",
+    "@glitch-txs/w3": "^1.0.1",
     "@glitch-txs/w3-hooks": "^0.0.1",
     "@types/node": "20.2.5",
     "@types/react": "18.2.8",
