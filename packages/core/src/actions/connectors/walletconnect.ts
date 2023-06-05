@@ -72,13 +72,15 @@ export class WalletConnect extends Connector {
     
     console.log('Walletconnect has initialized')
     
-    if(provider?.session && window.localStorage.getItem(KEY_WALLET) === this.name){
+    if(provider?.session && window?.localStorage.getItem(KEY_WALLET) === this.name){
       const connected = await this.setAccountAndChainId(provider)
       if(connected) {
+        window.removeEventListener('WalletConnect#ready', this.connect)
         setState({childProvider: provider, isLoading: false})
         this.ready = true
         return
       }
+      window?.localStorage.removeItem(KEY_WALLET)
     }
     this.ready = true
     setState((state)=>({ isLoading: false }))
