@@ -164,10 +164,10 @@ export abstract class Connector{
       provider.on('disconnect',this.onDisconnect)
     }else if (provider.addListener){
       //suggested by Trust Wallet
-      provider.on("accountsChanged", this.onAccountChange)
-      provider.on("chainChanged",this.onChainChange)
-      provider.on('connect',this.onConncent)
-      provider.on('disconnect',this.onDisconnect)
+      provider.addListener("accountsChanged", this.onAccountChange)
+      provider.addListener("chainChanged",this.onChainChange)
+      provider.addListener('connect',this.onConncent)
+      provider.addListener('disconnect',this.onDisconnect)
     } else {
       console.error("Event Listeners couldn't initialize.")
     }
