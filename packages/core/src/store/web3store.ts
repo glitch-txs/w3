@@ -9,7 +9,7 @@ interface Web3Store {
   */
   isLoading: boolean
   /**
-   * True if WalletConnect init failed or if the wallet provider lost the connection with the blockchain node
+   * False if WalletConnect init failed or if the wallet provider lost the connection with the blockchain node
    */
   isProvider: boolean
   /**Open installation website if wallet provider is not found */
