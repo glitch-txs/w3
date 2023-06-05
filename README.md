@@ -50,21 +50,14 @@ import { connectW3, disconnectW3 } from '@glitch-txs/w3'
 import { useAccount, useChain } from '@glitch-txs/w3-hooks'
 
 export default function Connect() {
+  
   const { account, isLoading } = useAccount()
-  const { chain } = useChain()
   
   return (
     <div>
       {account ?
       <button onClick={()=>disconnectW3()} >Disconnect</button> :
       <button disable={isLoading} onClick={()=>connectW3('MetaMask')} >MetaMask</button>
-      }
-      {
-        account && 
-        <span>
-          user Account: {account}
-          ChainId: {chain}
-        </span>
       }
     </div>
   )
