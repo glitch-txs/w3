@@ -9,6 +9,7 @@ export class WalletConnect extends Connector {
   readonly install?: URL
   readonly deeplink?: URL
   private provider: any
+  private initFailed: boolean
 
   constructor(){
     const getProvider = ()=>{
@@ -18,6 +19,7 @@ export class WalletConnect extends Connector {
     super(getProvider)
 
     this.name = 'WalletConnect'
+    this.initFailed = false
     this.init()
   }
 
@@ -25,7 +27,7 @@ export class WalletConnect extends Connector {
     if (!process.env.NEXT_PUBLIC_PROJECT_ID) {
       throw new Error('You need to provide NEXT_PUBLIC_PROJECT_ID env variable')
     }
-    const { getState, setState } = web3Store
+    const { setState } = web3Store
 
     /**If last connection was WalletConnect let's wait to init and catch the user session */
     if(window?.localStorage.getItem(KEY_WALLET) === this.name)
@@ -54,11 +56,11 @@ export class WalletConnect extends Connector {
       },
     }).catch(e=> {
       console.error("WC Init error: ", e)
-      setState({WCInitFailed: true})
+      this.initFailed = true
     });
   
-    if(getState().WCInitFailed){
-      setState((state)=>({ isLoading: false }))
+    if(this.initFailed){
+      if(window?.localStorage.getItem(KEY_WALLET) === this.name) setState((state)=>({ isLoading: false }))
       return
     }
     
@@ -70,7 +72,7 @@ export class WalletConnect extends Connector {
       setState((state)=>({ userAccount: '', chainId: null, childProvider: null }))
     });
     
-    console.log('Walletconnect has initialized')
+    DEBUG && console.log('Walletconnect has initialized')
     
     if(provider?.session && window?.localStorage.getItem(KEY_WALLET) === this.name){
       const connected = await this.setAccountAndChainId(provider)
@@ -82,18 +84,25 @@ export class WalletConnect extends Connector {
       }
       window?.localStorage.removeItem(KEY_WALLET)
     }
+
     this.ready = true
-    setState((state)=>({ isLoading: false }))
+    if(window?.localStorage.getItem(KEY_WALLET) === this.name) setState((state)=>({ isLoading: false }))
+    
     const eventReady = new Event('WalletConnect#ready', {bubbles: true})
     window?.dispatchEvent(eventReady)
   }
 
   async connect() {
+    const { setState } = web3Store
+
+    if(this.initFailed){
+      setState((state)=>({ errorMessage: 'WalletConnect failed to initialize' }))
+      return
+    }
     if(!this.ready){
       window?.addEventListener('WalletConnect#ready', this.connect)
       return
     }
-    const { setState } = web3Store
     setState((state)=>({isLoading: true}))
     window.removeEventListener('WalletConnect#ready', this.connect)
 

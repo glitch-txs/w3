@@ -6,6 +6,9 @@ import { isOnMobile } from "../../utils/handleMobile"
 
 const mobile = isOnMobile()
 
+/*Important: Only use isLoading in Init function if the current wallet is on localStorage,
+it only needs to be triggered once */
+
 export abstract class Connector{
   /** Connector name */
   abstract readonly name: WalletNames
@@ -23,7 +26,7 @@ export abstract class Connector{
     this.getProvider = getProvider
   }
 
-  protected async init(){
+  async init(){
     // injection delay - https://groups.google.com/a/chromium.org/g/chromium-extensions/c/ib-hi7hPdW8/m/34mFf8rrGQAJ?pli=1
     await new Promise(r => setTimeout(r, 200))
 

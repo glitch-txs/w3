@@ -1,5 +1,5 @@
 import { web3Store } from "../store/web3store"
-import { WalletNames } from "../types"
+import { Init, WalletNames } from "../types"
 import { KEY_WALLET } from "../utils/constants"
 import { Connector } from "./connectors/base"
 
@@ -26,4 +26,10 @@ export function disconnectW3(){
     for(let c of web3Store.getState().connectors)
     c.disconnect()
   }
+}
+
+export function w3init({connectors, chains}: Init){
+  web3Store.setState((state)=>({chains}))
+  for(let c of connectors)
+  c.init()
 }

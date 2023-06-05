@@ -14,7 +14,6 @@ interface Web3Store {
   isProvider: boolean
   /**Open installation website if wallet provider is not found */
   onboard: boolean
-  WCInitFailed: boolean
   userAccount: string
   chainId: number | null
   chains: Chain[]
@@ -27,7 +26,6 @@ export const web3Store = createStore(subscribeWithSelector<Web3Store>((set, get)
   isLoading: true,
   isProvider: true,
   onboard: true,
-  WCInitFailed: false,
   userAccount: '',
   chainId:null,
   errorMessage: '',
