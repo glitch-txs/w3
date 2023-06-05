@@ -16,14 +16,14 @@ export abstract class Connector{
   /**Deeplink to open explorer on mobile */
   abstract readonly deeplink?: URL
   
-  getProvider: Promise<EIP1193Provider> | EIP1193Provider
+  protected getProvider: Promise<EIP1193Provider> | EIP1193Provider
   
   constructor(getProvider: ()=> Promise<EIP1193Provider> | EIP1193Provider) {
     this.ready = false
     this.getProvider = getProvider
   }
 
-  async init(){
+  protected async init(){
     // injection delay - https://groups.google.com/a/chromium.org/g/chromium-extensions/c/ib-hi7hPdW8/m/34mFf8rrGQAJ?pli=1
     await new Promise(r => setTimeout(r, 200))
 
@@ -188,7 +188,7 @@ export abstract class Connector{
     }
   }
 
-  onAccountChange(accounts: string[]){
+  protected onAccountChange(accounts: string[]){
     if(typeof accounts[0] !== 'undefined'){
       web3Store.setState((state)=>({ userAccount: accounts[0] as `0x${string}`}))
       DEBUG && console.log(`${this.name}: user changed address to: `, accounts[0])
@@ -206,18 +206,18 @@ export abstract class Connector{
     }
   }
 
-  onChainChange(chainId: string | number){
+  protected onChainChange(chainId: string | number){
     web3Store.setState((state)=>({ chainId: Number(chainId) }))
     DEBUG && console.log(`${this.name}: chain id - `, chainId)
   }
 
-  onDisconnect(err:any){
+  protected onDisconnect(err:any){
     web3Store.setState((state)=>({ isProvider: false }))
     DEBUG && console.error(`${this.name} provider lost the blockchain connection`)
     console.error(err)
   }
 
-  async onConncent(){
+  protected async onConncent(){
     const provider = await this.getProvider()
     await this.setAccountAndChainId(provider)
     web3Store.setState((state)=>({ isProvider: true }))
