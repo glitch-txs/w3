@@ -38,7 +38,6 @@ export class Coinbase extends Connector {
     this.name = 'Coinbase'
     this.install = 'https://www.coinbase.com/wallet/downloads'
     this.deeplink = `https://go.cb-w.com/dapp?cb_url=${isWindow()}`
-    this.init()
   }
 
   async disconnect(): Promise<void> {

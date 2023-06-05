@@ -25,6 +25,5 @@ export class Phantom extends Connector {
     this.name = 'Phantom'
     this.install = 'https://phantom.app/'
     this.deeplink = `https://phantom.app/ul/browse/${isWindow()}`
-    this.init()
   }
 }

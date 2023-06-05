@@ -20,7 +20,6 @@ export class WalletConnect extends Connector {
 
     this.name = 'WalletConnect'
     this.initFailed = false
-    this.init()
   }
 
   async init(){
@@ -30,7 +29,7 @@ export class WalletConnect extends Connector {
     const { setState } = web3Store
 
     /**If last connection was WalletConnect let's wait to init and catch the user session */
-    if(window?.localStorage.getItem(KEY_WALLET) === this.name)
+    if(window.localStorage.getItem(KEY_WALLET) === this.name)
     setState((state)=>({ isLoading:true }))
   
     const { EthereumProvider, OPTIONAL_METHODS, OPTIONAL_EVENTS } = await import("@walletconnect/ethereum-provider")

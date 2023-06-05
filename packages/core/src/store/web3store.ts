@@ -23,7 +23,7 @@ interface Web3Store {
 }
 
 export const web3Store = createStore(subscribeWithSelector<Web3Store>((set, get) => ({
-  isLoading: true,
+  isLoading: false,
   isProvider: true,
   onboard: true,
   userAccount: '',

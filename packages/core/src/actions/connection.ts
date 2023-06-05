@@ -28,8 +28,9 @@ export function disconnectW3(){
   }
 }
 
-export function w3init({connectors, chains}: Init){
-  web3Store.setState((state)=>({chains}))
+export async function w3init({connectors, chains}: Init){
+  if(typeof window === 'undefined') return
+  web3Store.setState((state)=>({chains, connectors}))
   for(let c of connectors)
   c.init()
 }

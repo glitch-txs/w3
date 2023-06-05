@@ -28,9 +28,8 @@ export abstract class Connector{
 
   async init(){
     // injection delay - https://groups.google.com/a/chromium.org/g/chromium-extensions/c/ib-hi7hPdW8/m/34mFf8rrGQAJ?pli=1
-    await new Promise(r => setTimeout(r, 200))
-
-    if(window?.localStorage.getItem(KEY_WALLET) === this.name){
+    await new Promise(r => setTimeout(r, 100))
+    if(window.localStorage.getItem(KEY_WALLET) === this.name){
       const { setState } = web3Store
       setState((state)=> ({isLoading: true}))
       const provider = await this.getProvider()

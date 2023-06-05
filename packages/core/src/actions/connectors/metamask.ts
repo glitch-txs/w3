@@ -26,6 +26,5 @@ export class MetaMask extends Connector {
     this.name = 'MetaMask'
     this.install = 'https://metamask.io/download/'
     this.deeplink =`https://metamask.app.link/dapp/${isWindow()}`
-    this.init()
   }
 }

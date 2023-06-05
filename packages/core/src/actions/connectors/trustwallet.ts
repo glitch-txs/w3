@@ -27,6 +27,5 @@ export class TrustWallet extends Connector {
     this.name = 'Trust Wallet'
     this.install = 'https://trustwallet.com/browser-extension/'
     this.deeplink = `https://link.trustwallet.com/open_url?coin_id=60&url=${isWindow()}`
-    this.init()
   }
 }

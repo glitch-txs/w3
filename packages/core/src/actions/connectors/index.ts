@@ -4,7 +4,7 @@ import { Phantom } from "./phantom"
 import { TrustWallet } from "./trustwallet"
 import { WalletConnect } from "./walletconnect"
 
-const allConnectors=()=>[
+const connectors=()=>[
   new MetaMask(), 
   new Coinbase(), 
   new TrustWallet(), 
@@ -18,7 +18,7 @@ export {
   Phantom,
   TrustWallet,
   WalletConnect,
-  allConnectors
+  connectors
 }
 
 declare global{
