@@ -13,19 +13,23 @@ install deps to use the WalletConnect connector:
 npm i @web3modal/standalone @walletconnect/ethereum-provider
 ```
 
-1. Init w3 with the connectors and supported chains
+1. Init W3 with the connectors and supported chains
 ```tsx
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { connectors, mainnet, w3init } from '@glitch-txs/w3'
+import { connectors, mainnet } from '@glitch-txs/w3'
+import { W3 } from '@glitch-txs/w3-hooks'
 
-w3init({
+const w3props = {
   connectors: connectors(),
   chains:[mainnet]
-})
+}
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <>
+      <W3 {...w3props} />
+      <Component {...pageProps} />
+    </>
+  )
 }
 ```
 
