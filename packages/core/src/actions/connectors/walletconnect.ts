@@ -105,13 +105,13 @@ export class WalletConnect extends Connector {
     setState((state)=>({isLoading: true}))
     window.removeEventListener('WalletConnect#ready', this.connect)
 
-    await this.provider.connect().then(async(provider: any)=> {
-      const connected = await this.setAccountAndChainId(provider)
-      if(connected) {
-        setState((state)=>({childProvider: provider}))
-        window?.localStorage.setItem(KEY_WALLET,this.name)
-      }
-    }).catch(console.error)
+    await this.provider.connect().catch(console.error)
+
+    const connected = await this.setAccountAndChainId(this.provider)
+    if(connected) {
+      setState((state)=>({childProvider: this.provider}))
+      window?.localStorage.setItem(KEY_WALLET,this.name)
+    }
 
     setState((state)=>({isLoading: false}))
   }
