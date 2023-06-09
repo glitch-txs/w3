@@ -7,7 +7,6 @@ export class MetaMask extends Connector {
   readonly install: URL
   readonly deeplink: URL
   readonly icon?: any
-  protected getProvider: any
 
   constructor(){
     //@ts-ignore coinbase SDK overrides window.ethereum type to unknown
@@ -24,11 +23,10 @@ export class MetaMask extends Connector {
       return provider
     }
 
-    super()
+    super(getProvider)
 
     this.name = 'MetaMask'
     this.install = 'https://metamask.io/download/'
     this.deeplink =`https://metamask.app.link/dapp/${isWindow()}`
-    this.getProvider = getProvider
   }
 }

@@ -7,30 +7,27 @@ export class EIP6963 extends Connector {
   readonly name: string
   readonly install?: URL
   readonly deeplink?: URL
-  private provider: EIP1193Provider
   icon: any
-  protected getProvider: any
 
   constructor({ info, provider }: EIP6963ProviderDetail){
 
-    super()
-    
-    this.provider = provider
-    this.getProvider = ()=>this.provider
+    const _provider = provider
+
+    const getProvider = ()=> _provider
+
+    super(getProvider)
     this.name = info.name
     this.icon = info.icon
-
-    this.init()
   }
 
   async init(){
     if(window.localStorage.getItem(KEY_WALLET) === this.name){
       const { setState } = web3Store
       setState((state)=> ({isLoading: true}))
-      const connected = await this.setAccountAndChainId(this.provider)
+      const connected = await this.setAccountAndChainId(this.getProvider() as EIP1193Provider)
       if(connected){
-        this.addEvents(this.provider)
-        setState((state)=>({childProvider: this.provider}))
+        this.addEvents(this.getProvider() as EIP1193Provider)
+        setState((state)=>({childProvider: this.getProvider()}))
       }else{
         window?.localStorage.removeItem(KEY_WALLET)
       }

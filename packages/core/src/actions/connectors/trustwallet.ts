@@ -7,7 +7,6 @@ export class TrustWallet extends Connector {
   readonly install: URL
   readonly deeplink: URL
   readonly icon?: any
-  protected getProvider: any
 
   constructor(){
     const getProvider = ()=>{
@@ -24,11 +23,10 @@ export class TrustWallet extends Connector {
       return window["trustwallet"] ?? null
     }
 
-    super()
+    super(getProvider)
 
     this.name = 'Trust Wallet'
     this.install = 'https://trustwallet.com/browser-extension/'
     this.deeplink = `https://link.trustwallet.com/open_url?coin_id=60&url=${isWindow()}`
-    this.getProvider = getProvider
   }
 }

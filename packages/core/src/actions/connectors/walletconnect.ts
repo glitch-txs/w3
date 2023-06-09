@@ -11,18 +11,16 @@ export class WalletConnect extends Connector {
   readonly icon?: any
   private provider: any
   private initFailed: boolean
-  protected getProvider: any
 
   constructor(){
     const getProvider = ()=>{
       return this.provider
     }
 
-    super()
+    super(getProvider)
 
     this.name = 'WalletConnect'
     this.initFailed = false
-    this.getProvider = getProvider
   }
 
   async init(){

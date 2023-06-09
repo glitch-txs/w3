@@ -9,7 +9,6 @@ export class Coinbase extends Connector {
   readonly install: URL
   readonly deeplink: URL
   readonly icon?: any
-  protected getProvider: any
 
   constructor(){
     const getProvider = async()=>{
@@ -34,12 +33,12 @@ export class Coinbase extends Connector {
  
       return coinbaseWallet.makeWeb3Provider?.(getState().chains[0]?.rpcUrls[0], Number(getState().chains[0]?.chainId))
     }
-    super()
+    //@ts-ignore coinbase provider follows EIP1193
+    super(getProvider)
 
     this.name = 'Coinbase'
     this.install = 'https://www.coinbase.com/wallet/downloads'
     this.deeplink = `https://go.cb-w.com/dapp?cb_url=${isWindow()}`
-    this.getProvider = getProvider
   }
 
   async disconnect(): Promise<void> {

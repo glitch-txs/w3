@@ -7,7 +7,6 @@ export class Phantom extends Connector {
   readonly install: URL
   readonly deeplink: URL
   readonly icon?: any
-  protected getProvider: any
 
   constructor(){
     const getProvider = ()=>{
@@ -22,11 +21,10 @@ export class Phantom extends Connector {
       return getReady(ethereum)
     }
 
-    super()
+    super(getProvider)
 
     this.name = 'Phantom'
     this.install = 'https://phantom.app/'
     this.deeplink = `https://phantom.app/ul/browse/${isWindow()}`
-    this.getProvider = getProvider
   }
 }
