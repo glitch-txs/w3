@@ -11,28 +11,31 @@ it only needs to be triggered once */
 
 export abstract class Connector{
   /** Connector name */
-  abstract readonly name: WalletNames
+  abstract readonly name: WalletNames | Omit<string,WalletNames>
   /** Whether connector is usable */
   protected ready: boolean
   /**Installation website */
   abstract readonly install?: URL
   /**Deeplink to open explorer on mobile */
   abstract readonly deeplink?: URL
+  /**Wallet icon */
+  abstract readonly icon?: any
   
-  protected getProvider: Promise<EIP1193Provider> | EIP1193Provider
+  protected getProvider: ()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
   
-  constructor(getProvider: ()=> Promise<EIP1193Provider> | EIP1193Provider) {
+  constructor(getProvider: ()=> Promise<EIP1193Provider> | EIP1193Provider | undefined) {
     this.ready = false
     this.getProvider = getProvider
   }
 
   async init(){
     // injection delay - https://groups.google.com/a/chromium.org/g/chromium-extensions/c/ib-hi7hPdW8/m/34mFf8rrGQAJ?pli=1
-    await new Promise(r => setTimeout(r, 100))
+    // await new Promise(r => setTimeout(r, 100))
     if(window.localStorage.getItem(KEY_WALLET) === this.name){
       const { setState } = web3Store
       setState((state)=> ({isLoading: true}))
       const provider = await this.getProvider()
+      if(!provider) return
       const connected = await this.setAccountAndChainId(provider)
       if(connected){
         this.addEvents(provider)
@@ -68,7 +71,7 @@ export abstract class Connector{
 
     await provider.request({ method: 'eth_requestAccounts' })
     .then(async(accounts: Address[])=> {
-      window?.localStorage.setItem(KEY_WALLET, this.name)
+      window?.localStorage.setItem(KEY_WALLET, this.name as string)
 
       setState((state)=>({userAccount: accounts[0], childProvider: provider}))
       await this.setChainId(provider)
@@ -117,7 +120,10 @@ export abstract class Connector{
     setState({ userAccount: '', chainId: null, childProvider: null })
   }
 
-  protected async setAccountAndChainId(provider: EIP1193Provider){
+  protected async setAccountAndChainId(provider: EIP1193Provider | undefined){
+
+    if(!provider) return
+
     const { setState } = web3Store
 
     let connected: boolean = false

@@ -32,7 +32,7 @@ export class Coinbase extends Connector {
  
       return coinbaseWallet.makeWeb3Provider?.(getState().chains[0]?.rpcUrls[0], Number(getState().chains[0]?.chainId))
     }
-
+    //@ts-ignore coinbase provider follows EIP1193
     super(getProvider)
 
     this.name = 'Coinbase'
@@ -43,7 +43,8 @@ export class Coinbase extends Connector {
   async disconnect(): Promise<void> {
     web3Store.setState((state)=>({isLoading: true}))
     const provider = await this.getProvider()
-    await provider.disconnect()
+    //@ts-ignore coinbase provider adds disconnect function
+    await provider?.disconnect()
     window?.localStorage.removeItem(KEY_WALLET)
     web3Store.setState((state)=>({ userAccount: '', chainId: null, childProvider: null, isLoading:false }))
   }

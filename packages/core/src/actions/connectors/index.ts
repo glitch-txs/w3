@@ -26,4 +26,7 @@ declare global{
     trustwallet?: any
     phantom?: any
   }
+  interface WindowEventMap {
+    "eip6963:announceProvider": CustomEvent
+  }
 }

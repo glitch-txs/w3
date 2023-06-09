@@ -1,5 +1,5 @@
 import { web3Store } from "../../store/web3store"
-import { URL, WalletNames } from "../../types"
+import { EIP1193Provider, URL, WalletNames } from "../../types"
 import { DEBUG, KEY_WALLET } from "../../utils/constants"
 import { isWindow } from "../../utils/isWindow"
 import { Connector } from "./base"
@@ -74,6 +74,7 @@ export class WalletConnect extends Connector {
     DEBUG && console.log('Walletconnect has initialized')
     
     if(provider?.session && window?.localStorage.getItem(KEY_WALLET) === this.name){
+      //@ts-ignore EthereumProvider satisfies EIP1193
       const connected = await this.setAccountAndChainId(provider)
       if(connected) {
         window.removeEventListener('WalletConnect#ready', this.connect)

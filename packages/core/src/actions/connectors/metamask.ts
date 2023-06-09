@@ -1,4 +1,4 @@
-import { URL, WalletNames } from "../../types"
+import { EIP1193Provider, URL, WalletNames } from "../../types"
 import { isWindow } from "../../utils/isWindow"
 import { Connector } from "./base"
 
@@ -8,7 +8,8 @@ export class MetaMask extends Connector {
   readonly deeplink: URL
 
   constructor(){
-    const getProvider = ()=>{
+    //@ts-ignore coinbase SDK overrides window.ethereum type to unknown
+    const getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider | undefined = ()=>{
       if (typeof window === 'undefined') return
       //Check it's not coinbase wallet provider:
       let provider = window.ethereum;
