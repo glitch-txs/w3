@@ -12,7 +12,7 @@ export class EIP6963 extends Connector {
 
   constructor({ info, provider }: EIP6963ProviderDetail){
 
-    const getProvider = ()=>this.provider
+    const getProvider = ()=> provider
 
     super(getProvider)
     
