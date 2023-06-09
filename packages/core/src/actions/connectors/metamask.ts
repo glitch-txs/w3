@@ -6,6 +6,7 @@ export class MetaMask extends Connector {
   readonly name: WalletNames
   readonly install: URL
   readonly deeplink: URL
+  readonly icon?: any
 
   constructor(){
     //@ts-ignore coinbase SDK overrides window.ethereum type to unknown

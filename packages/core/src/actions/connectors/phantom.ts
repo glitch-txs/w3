@@ -6,6 +6,7 @@ export class Phantom extends Connector {
   readonly name: WalletNames
   readonly install: URL
   readonly deeplink: URL
+  readonly icon?: any
 
   constructor(){
     const getProvider = ()=>{

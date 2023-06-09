@@ -2,6 +2,7 @@ import { web3Store } from "../../store/web3store"
 import { Address, EIP1193Provider, URL, WalletNames } from "../../types"
 import { DEBUG, KEY_WALLET } from "../../utils/constants"
 import { filter_disconnect } from "../../utils/disconnect"
+import { fitler_eth_accounts } from "../../utils/eth_accounts"
 import { isOnMobile } from "../../utils/handleMobile"
 
 const mobile = isOnMobile()
@@ -35,7 +36,7 @@ export abstract class Connector{
       const { setState } = web3Store
       setState((state)=> ({isLoading: true}))
       const provider = await this.getProvider()
-      if(!provider) return
+      if(!provider || fitler_eth_accounts(provider)) return
       const connected = await this.setAccountAndChainId(provider)
       if(connected){
         this.addEvents(provider)

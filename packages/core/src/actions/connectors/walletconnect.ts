@@ -8,6 +8,7 @@ export class WalletConnect extends Connector {
   readonly name: WalletNames
   readonly install?: URL
   readonly deeplink?: URL
+  readonly icon?: any
   private provider: any
   private initFailed: boolean
 
