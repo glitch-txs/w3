@@ -32,7 +32,7 @@ export function disconnectW3(){
 export async function w3init({connectors, chains, onboard = true, EIP6963 = true }: Init){
   if(typeof window === 'undefined') return
   if(EIP6963) initEIP6963()
-  web3Store.setState((state)=>({ onboard ,chains, connectors: { ...state.connectors, ...connectors }}))
+  web3Store.setState((state)=>({ onboard ,chains, connectors: [...state.connectors, ...connectors ]}))
   //EIP6963 is initialized inside the constructor
   for(let c of connectors)
   c.init()
