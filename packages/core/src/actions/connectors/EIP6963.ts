@@ -8,16 +8,15 @@ export class EIP6963 extends Connector {
   readonly install?: URL
   readonly deeplink?: URL
   icon: any
+  provider: any
 
   constructor({ info, provider }: EIP6963ProviderDetail){
 
-    const _provider = provider
-
-    const getProvider = ()=> _provider
-
-    super(getProvider)
+    super()
+    this.provider = provider
     this.name = info.name
     this.icon = info.icon
+    this.getProvider = ()=>this.provider
   }
 
   async init(){

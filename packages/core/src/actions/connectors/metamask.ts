@@ -10,7 +10,7 @@ export class MetaMask extends Connector {
 
   constructor(){
     //@ts-ignore coinbase SDK overrides window.ethereum type to unknown
-    const getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider | undefined = ()=>{
+    const getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider = ()=>{
       if (typeof window === 'undefined') return
       //Check it's not coinbase wallet provider:
       let provider = window.ethereum;
@@ -23,10 +23,11 @@ export class MetaMask extends Connector {
       return provider
     }
 
-    super(getProvider)
+    super()
 
     this.name = 'MetaMask'
     this.install = 'https://metamask.io/download/'
     this.deeplink =`https://metamask.app.link/dapp/${isWindow()}`
+    this.getProvider = getProvider
   }
 }

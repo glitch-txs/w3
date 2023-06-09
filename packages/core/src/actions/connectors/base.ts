@@ -22,11 +22,10 @@ export abstract class Connector{
   /**Wallet icon */
   abstract readonly icon?: any
   
-  protected getProvider: ()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
+  protected getProvider:Promise<EIP1193Provider> | EIP1193Provider
   
-  constructor(getProvider: ()=> Promise<EIP1193Provider> | EIP1193Provider | undefined) {
+  constructor() {
     this.ready = false
-    this.getProvider = getProvider
   }
 
   async init(){
@@ -51,9 +50,10 @@ export abstract class Connector{
 
   async connect(): Promise<any>{
     const { setState, getState } = web3Store
-
     setState((state)=>({isLoading: true}))
+    console.log("hello", this)
     const provider = await this.getProvider()
+    console.log(provider, "goodbyt")
     
     if(!provider){
       setState((state)=>({isLoading: false}))

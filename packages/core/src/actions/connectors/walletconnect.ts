@@ -17,10 +17,11 @@ export class WalletConnect extends Connector {
       return this.provider
     }
 
-    super(getProvider)
+    super()
 
     this.name = 'WalletConnect'
     this.initFailed = false
+    this.getProvider = getProvider
   }
 
   async init(){

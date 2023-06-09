@@ -1,5 +1,5 @@
 import { web3Store } from "../store/web3store"
-import { EIP6963AnnounceProviderEvent, EIP6963ProviderDetail, Init, WalletNames } from "../types"
+import { EIP6963AnnounceProviderEvent, Init, WalletNames } from "../types"
 import { KEY_WALLET } from "../utils/constants"
 import { EIP6963 } from "./connectors/EIP6963"
 import { Connector } from "./connectors/base"
@@ -32,7 +32,7 @@ export function disconnectW3(){
 export async function w3init({connectors, chains, onboard = true, EIP6963 = true }: Init){
   if(typeof window === 'undefined') return
   if(EIP6963) initEIP6963()
-  web3Store.setState((state)=>({ onboard ,chains, connectors: [...state.connectors, ...connectors ]}))
+  web3Store.setState((state)=>({ onboard, chains, connectors: [...state.connectors, ...connectors ] }))
   //EIP6963 is initialized inside the constructor
   for(let c of connectors)
   c.init()
