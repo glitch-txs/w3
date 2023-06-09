@@ -22,12 +22,11 @@ export abstract class Connector{
   /**Wallet icon */
   abstract readonly icon?: any
   
-  protected getProvider: ()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
-  
-  constructor(getProvider: ()=> Promise<EIP1193Provider> | EIP1193Provider | undefined) {
+  constructor() {
     this.ready = false
-    this.getProvider = getProvider
   }
+
+  protected abstract getProvider: ()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
 
   async init(){
     // injection delay - https://groups.google.com/a/chromium.org/g/chromium-extensions/c/ib-hi7hPdW8/m/34mFf8rrGQAJ?pli=1
