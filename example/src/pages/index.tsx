@@ -1,45 +1,15 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import { WalletNames, connectW3, disconnectW3 } from '@glitch-txs/w3'
-import { useAccount } from '@glitch-txs/w3-hooks'
-import trust from 'public/trust_white.svg'
-import coinbaseLogo from 'public/coinbase.svg'
-import walletconnect from 'public/walletconnect.svg'
-import metamask from 'public/metamask.svg'
-import phantom from 'public/phantom.svg'
+import { connectW3, disconnectW3 } from '@glitch-txs/w3'
+import { useAccount, useConnectors } from '@glitch-txs/w3-hooks'
 import Image from 'next/image'
+import { Key } from 'react'
+import { walletIcons } from '../../utils/icons'
 
-type Wallets = {
-  name:WalletNames
-  image:any
-}
-
-
-const wallets: Wallets[] = [
-  {
-    name: 'MetaMask',
-    image: metamask
-  },
-  {
-    name:'Coinbase',
-    image: coinbaseLogo
-  },
-  {
-    name:'Phantom',
-    image:phantom
-  },
-  {
-    name:'Trust Wallet',
-    image:trust
-  },
-  {
-    name:'WalletConnect',
-    image:walletconnect
-  }
-] 
 
 export default function Home() {
   const { account, isLoading } = useAccount()
+  const { connectors } = useConnectors()
 
   return (
     <>
@@ -53,13 +23,18 @@ export default function Home() {
         <div>
           { account ? 
           <button className={styles.button} onClick={disconnectW3} >Disconnect</button> :
-          wallets.map(v=><button key={v.name} disabled={isLoading} className={[styles.wallet, isLoading && styles.loading].join(' ')} onClick={()=>connectW3(v.name)}>
+          connectors.map(c =>
+          <button
+          key={c.name as Key} 
+          disabled={isLoading} 
+          className={[styles.wallet, isLoading && styles.loading].join(' ')} 
+          onClick={()=>connectW3(c)}>
             <span>
-              <Image width={44} src={v.image} alt='' />
+              <Image width={44} height={44} src={c.icon ?? walletIcons[c.name as string]} alt='' />
             </span>
-            {v.name}
-          </button>)
-          }
+            {c.name}
+          </button>
+          )}
         </div>
 
         { isLoading ? "Connecting..." : (account ? "Connected" : "Connect Your Wallet") }
