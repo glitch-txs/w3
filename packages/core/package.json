@@ -1,6 +1,6 @@
 {
   "name": "@glitch-txs/w3",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "EVM Wallet Connectors Library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
