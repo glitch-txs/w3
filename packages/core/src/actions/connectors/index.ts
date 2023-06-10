@@ -4,12 +4,13 @@ import { Phantom } from "./phantom"
 import { TrustWallet } from "./trustwallet"
 import { WalletConnect } from "./walletconnect"
 
-const connectors=()=>[
-  new MetaMask(), 
-  new Coinbase(), 
-  new TrustWallet(), 
-  new WalletConnect(), 
-  new Phantom()
+const connectors=({ metamask, coinbase, trustwallet, walletconnect, phantom }:
+  { metamask?: any, coinbase?: any, trustwallet?: any, walletconnect?: any, phantom?: any } = { })=>[
+  new MetaMask({ icon: metamask }), 
+  new Coinbase({ icon: coinbase }), 
+  new TrustWallet({ icon: trustwallet }), 
+  new WalletConnect({ icon: walletconnect }), 
+  new Phantom({ icon: phantom })
 ]
 
 export {

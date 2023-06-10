@@ -1,5 +1,5 @@
 import { web3Store } from "../store/web3store"
-import { EIP6963AnnounceProviderEvent, Init, WalletNames } from "../types"
+import { EIP6963AnnounceProviderEvent, W3Props, WalletNames } from "../types"
 import { KEY_WALLET } from "../utils/constants"
 import { EIP6963 } from "./connectors/EIP6963"
 import { Connector } from "./connectors/base"
@@ -11,7 +11,7 @@ export async function connectW3(selectedWallet: WalletNames | Connector): Promis
   const [connector] = web3Store.getState().connectors.filter(c => c.name === selectedWallet)
 
   if(!connector){
-    web3Store.setState((state)=>({errorMessage: `${selectedWallet} connector not found!`}))
+    web3Store.setState((state)=>({error: { message: `${selectedWallet} connector not found!`}}))
     throw Error(`Connector not found, add the ${selectedWallet} connector in the w3init function`)
   }
 
@@ -29,7 +29,7 @@ export function disconnectW3(){
   }
 }
 
-export async function w3init({connectors, chains, onboard = true, EIP6963 = true }: Init){
+export async function w3init({connectors, chains, onboard = true, EIP6963 = true }: W3Props){
   if(typeof window === 'undefined') return
   if(EIP6963) initEIP6963()
   web3Store.setState((state)=>({ onboard, chains, connectors: [...state.connectors, ...connectors ] }))

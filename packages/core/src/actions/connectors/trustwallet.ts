@@ -3,12 +3,13 @@ import { isWindow } from "../../utils/isWindow"
 import { Connector } from "./base"
 
 export class TrustWallet extends Connector {
+  readonly id: string
   readonly name: WalletNames
   readonly install: URL
   readonly deeplink: URL
   readonly icon?: any
 
-  constructor(){
+  constructor({icon}:{icon?: any} = {}){
     const getProvider = ()=>{
       if (typeof window === 'undefined') return
 
@@ -25,7 +26,9 @@ export class TrustWallet extends Connector {
 
     super()
 
+    this.id = "trustwallet"
     this.name = 'Trust Wallet'
+    this.icon = icon
     this.install = 'https://trustwallet.com/browser-extension/'
     this.deeplink = `https://link.trustwallet.com/open_url?coin_id=60&url=${isWindow()}`
     this.getProvider = getProvider

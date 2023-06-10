@@ -3,12 +3,13 @@ import { isWindow } from "../../utils/isWindow"
 import { Connector } from "./base"
 
 export class MetaMask extends Connector {
+  readonly id: string
   readonly name: WalletNames
   readonly install: URL
   readonly deeplink: URL
   readonly icon?: any
 
-  constructor(){
+  constructor({icon}:{icon?: any} = {}){
     //@ts-ignore coinbase SDK overrides window.ethereum type to unknown
     const getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider = ()=>{
       if (typeof window === 'undefined') return
@@ -25,7 +26,9 @@ export class MetaMask extends Connector {
 
     super()
 
+    this.id = "metamask"
     this.name = 'MetaMask'
+    this.icon = icon
     this.install = 'https://metamask.io/download/'
     this.deeplink =`https://metamask.app.link/dapp/${isWindow()}`
     this.getProvider = getProvider

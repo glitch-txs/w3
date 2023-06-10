@@ -11,8 +11,10 @@ const mobile = isOnMobile()
 it only needs to be triggered once */
 
 export abstract class Connector{
+  /** Connector id */
+  abstract readonly id: string
   /** Connector name */
-  abstract readonly name: WalletNames | Omit<string,WalletNames>
+  abstract readonly name:  WalletNames | Omit<string,WalletNames>
   /** Whether connector is usable */
   protected ready: boolean
   /**Installation website */
@@ -51,9 +53,7 @@ export abstract class Connector{
   async connect(): Promise<any>{
     const { setState, getState } = web3Store
     setState((state)=>({isLoading: true}))
-    console.log("hello", this)
     const provider = await this.getProvider()
-    console.log(provider, "goodbyt")
     
     if(!provider){
       setState((state)=>({isLoading: false}))
@@ -64,7 +64,7 @@ export abstract class Connector{
       }else{
         //If the wallet is not installed then it will open this link to install the extention.
         DEBUG && console.warn(`${this.name} provider is not injected`)
-        setState((state)=>({ errorMessage: `${this.name} wallet is not installed!` }))
+        setState((state)=>({ error: { message: `${this.name} wallet is not installed!`} }))
         getState().onboard && window.open(this.install, '_blank')
         return ()=> window.open(this.install, '_blank')
       }

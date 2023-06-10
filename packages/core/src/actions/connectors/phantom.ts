@@ -3,12 +3,13 @@ import { isWindow } from "../../utils/isWindow"
 import { Connector } from "./base"
 
 export class Phantom extends Connector {
+  readonly id: string
   readonly name: WalletNames
   readonly install: URL
   readonly deeplink: URL
   readonly icon?: any
 
-  constructor(){
+  constructor({icon}:{icon?: any} = {}){
     const getProvider = ()=>{
       function getReady(ethereum?: any) {
         const isPhantom = !!ethereum?.isPhantom
@@ -23,7 +24,9 @@ export class Phantom extends Connector {
 
     super()
 
+    this.id = "phantom"
     this.name = 'Phantom'
+    this.icon = icon
     this.install = 'https://phantom.app/'
     this.deeplink = `https://phantom.app/ul/browse/${isWindow()}`
     this.getProvider = getProvider

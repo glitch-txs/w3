@@ -1,3 +1,4 @@
+import { QrModalOptions } from "@walletconnect/ethereum-provider/dist/types/EthereumProvider"
 import { web3Store } from "../../store/web3store"
 import { EIP1193Provider, URL, WalletNames } from "../../types"
 import { DEBUG, KEY_WALLET } from "../../utils/constants"
@@ -5,28 +6,33 @@ import { isWindow } from "../../utils/isWindow"
 import { Connector } from "./base"
 
 export class WalletConnect extends Connector {
+  readonly id: string
   readonly name: WalletNames
   readonly install?: URL
   readonly deeplink?: URL
   readonly icon?: any
-  private provider: any
+  private provider: EIP1193Provider
   private initFailed: boolean
+  private options: { showQrModal?: boolean, qrModalOptions?: QrModalOptions, projectID?: string, icon?: any }
 
-  constructor(){
+  constructor(options?: any){
     const getProvider = ()=>{
       return this.provider
     }
 
     super()
 
+    this.id = "walletconnect"
     this.name = 'WalletConnect'
+    this.icon = options.icon
+    this.options = options ?? {}
     this.initFailed = false
     this.getProvider = getProvider
   }
 
   async init(){
-    if (!process.env.NEXT_PUBLIC_PROJECT_ID) {
-      throw new Error('You need to provide NEXT_PUBLIC_PROJECT_ID env variable')
+    if (!process.env.NEXT_PUBLIC_WALLETCONNECT_ID) {
+      throw new Error('You need to provide NEXT_PUBLIC_WALLETCONNECT_ID env variable')
     }
     const { setState } = web3Store
 
@@ -35,15 +41,19 @@ export class WalletConnect extends Connector {
     setState((state)=>({ isLoading:true }))
   
     const { EthereumProvider, OPTIONAL_METHODS, OPTIONAL_EVENTS } = await import("@walletconnect/ethereum-provider")
+
+    const { showQrModal, qrModalOptions, projectID } = this.options
   
     const provider = await EthereumProvider.init({
-      projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-      chains: web3Store.getState().chains.map(chain => Number(chain.chainId)),
-      showQrModal:true,
+      projectId: projectID ?? process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
+      chains: [Number(web3Store.getState().chains[0])],
+      optionalChains: web3Store.getState().chains.map(chain => Number(chain.chainId)),
+      showQrModal:showQrModal ?? true,
       optionalMethods:OPTIONAL_METHODS,
       optionalEvents:OPTIONAL_EVENTS,
-      qrModalOptions:{
+      qrModalOptions: qrModalOptions ?? {
         themeMode: "light",
+        chainImages: [],
         themeVariables:{
           '--w3m-background-color': '#202020',
           '--w3m-accent-color': '#202020',
@@ -98,7 +108,7 @@ export class WalletConnect extends Connector {
     const { setState } = web3Store
 
     if(this.initFailed){
-      setState((state)=>({ errorMessage: 'WalletConnect failed to initialize' }))
+      setState((state)=>({ error: { message: 'WalletConnect failed to initialize'} }))
       return
     }
     if(!this.ready){

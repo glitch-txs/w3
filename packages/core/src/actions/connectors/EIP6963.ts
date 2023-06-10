@@ -4,6 +4,7 @@ import { KEY_WALLET } from "../../utils/constants";
 import { Connector } from "./base";
 
 export class EIP6963 extends Connector {
+  readonly id: string
   readonly name: string
   readonly install?: URL
   readonly deeplink?: URL
@@ -14,6 +15,7 @@ export class EIP6963 extends Connector {
 
     super()
     this.provider = provider
+    this.id = info.uuid
     this.name = info.name
     this.icon = info.icon
     this.getProvider = ()=>this.provider

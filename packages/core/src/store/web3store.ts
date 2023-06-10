@@ -17,7 +17,7 @@ interface Web3Store {
   userAccount: string
   chainId: number | null
   chains: Chain[]
-  errorMessage: string
+  error?: { code?: number, message: string }
   connectors: Connector[]
   childProvider: any
 }
@@ -27,8 +27,8 @@ export const web3Store = createStore(subscribeWithSelector<Web3Store>((set, get)
   isProvider: true,
   onboard: true,
   userAccount: '',
-  chainId:null,
-  errorMessage: '',
+  chainId: null,
+  error: undefined,
   chains: [],
   connectors: [],
   childProvider: null,

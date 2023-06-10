@@ -5,12 +5,13 @@ import { isWindow } from "../../utils/isWindow"
 import { Connector } from "./base"
 
 export class Coinbase extends Connector {
+  readonly id: string
   readonly name: WalletNames
   readonly install: URL
   readonly deeplink: URL
   readonly icon?: any
 
-  constructor(){
+  constructor({icon}:{icon?: any} = {}){
     const getProvider = async()=>{
       if (typeof window === 'undefined') return
 
@@ -36,7 +37,9 @@ export class Coinbase extends Connector {
     
     super()
 
+    this.id = "coinbase"
     this.name = 'Coinbase'
+    this.icon = icon
     this.install = 'https://www.coinbase.com/wallet/downloads'
     this.deeplink = `https://go.cb-w.com/dapp?cb_url=${isWindow()}`
     this.getProvider = getProvider

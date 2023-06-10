@@ -4,7 +4,7 @@ export type URL = `https://${string}`
 
 export type Address = `0x${string}`
 
-export type Init = {
+export type W3Props = {
   connectors: Connector[]
   chains: Chain[]
   EIP6963?: boolean
@@ -34,7 +34,6 @@ export interface EIP6963ProviderDetail {
 }
 
 interface EIP6963ProviderInfo {
-  walletId: string;
   uuid: string;
   name: string;
   icon: string;
