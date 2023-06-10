@@ -17,7 +17,7 @@ npm i @glitch-txs/w3-react
 
 ### Init the W3 Component
 
-Select the connectors and chains you want to support. Calling `connectors` function will invoke all supported connectors.
+Select the connectors and chains you want to support. Calling `connectors` function will invoke all connectors.
 
 > **Warning**
 > Make sure props are set outside the App component.
@@ -68,11 +68,8 @@ export default function Connect() {
 
 You can also set a connection to a single wallet by using the wallet's name as argument of the `connectW3` function:
 
-:::tip NOTE
-
-You can also import `connectW3` and `disconnectW3` functions directly from the library
-
-:::
+> **Note**
+> You can also import `connectW3` and `disconnectW3` functions directly from the library
 
 ```tsx
 import { connectW3 } from '@glitch-txs/w3-react'
@@ -113,14 +110,14 @@ export default function Connect() {
 }
 ```
 
-### Use with with ether.js, viem or web3.js!
+### Use with with ether.js, viem or web3.js
 ```tsx
 import { BrowserProvider } from 'ethers'
 import { getW3Provider } from '@glitch-txs/w3-react'
 
 export default function useEthersProvider() {
 
-  const w3Povider = getW3Provider()
+  const w3Provider = getW3Provider()
 
   const provider = useMemo(()=>{
     if(w3Provider)
