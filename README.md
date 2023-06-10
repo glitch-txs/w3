@@ -1,6 +1,6 @@
 # W3 - an evm Wallet Connectors Library
 
-Docs: [w3-docs](https://w3-docs.vercel.app/)
+Docs: [FULL DOCUMENTATION](https://w3-docs.vercel.app/)
 
 # Getting Started
 
@@ -11,27 +11,17 @@ It sets up for you a wallet connection infrastructure with a built-in store and 
 
 ### Install
 
-npm
 ```bash
 npm i @glitch-txs/w3-react
-```
-yarn
-```bash
-yarn add @glitch-txs/w3-react
-```
-pnpm
-```bash
-pnpm i @glitch-txs/w3-react
 ```
 
 ### Init the W3 Component
 
 Select the connectors and chains you want to support. Calling `connectors` function will invoke all supported connectors.
-:::danger Take care
 
-Make sure props are set outside the App component.
+> **Warning**
+> Make sure props are set outside the App component.
 
-:::
 ```tsx
 import { W3, connectors, mainnet, W3Props } from '@glitch-txs/w3-react'
 
@@ -50,11 +40,9 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-:::tip NOTE
-
-With this type of config you need to set an enviroment variable for WalletConnect's project ID: `NEXT_PUBLIC_WALLETCONNECT_ID="yourProjectID"`. For others ways of configuration see *add link*
-
-:::
+> **Note**
+> With this type of config you need to set an enviroment variable for WalletConnect's project ID:
+> `NEXT_PUBLIC_WALLETCONNECT_ID="yourProjectID"`. For others ways of configuration see *add link*
 
 ### Connect to a Wallet
 
