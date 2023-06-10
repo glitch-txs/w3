@@ -1,13 +1,13 @@
 # W3 - an evm Wallet Connectors Library
 
-Docs: [FULL DOCUMENTATION](https://w3-docs.vercel.app/)
+[Read the Full Documentation](https://w3-docs.vercel.app/)
 
 # Getting Started
 
 W3 is an evm wallet connectors library for vanilla JS and React.js. <br/>
 It sets up for you a wallet connection infrastructure with a built-in store and React hooks to handle the wallet state and user's sessions.
 
-- Compatible with ethers.js, viem and web3.js
+**Compatible with ethers.js, viem and web3.js**
 
 ### Install
 
