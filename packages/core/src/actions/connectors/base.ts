@@ -203,7 +203,7 @@ export abstract class Connector{
     }
   }
 
-  protected onAccountChange(accounts: string[]){
+  protected onAccountChange = (accounts: string[])=>{
     if(typeof accounts[0] !== 'undefined'){
       web3Store.setState((state)=>({ userAccount: accounts[0] as `0x${string}`}))
       DEBUG && console.log(`${this.name}: user changed address to: `, accounts[0])
@@ -221,18 +221,18 @@ export abstract class Connector{
     }
   }
 
-  protected onChainChange(chainId: string | number){
+  protected onChainChange = (chainId: string | number)=>{
     web3Store.setState((state)=>({ chainId: Number(chainId) }))
     DEBUG && console.log(`${this.name}: chain id - `, chainId)
   }
 
-  protected onDisconnect(err:any){
+  protected onDisconnect = (err:any)=>{
     web3Store.setState((state)=>({ isProvider: false }))
     DEBUG && console.error(`${this.name} provider lost the blockchain connection`)
     console.error(err)
   }
 
-  protected async onConncent(){
+  protected onConncent = async()=>{
     const provider = await this.getProvider()
     await this.setAccountAndChainId(provider)
     web3Store.setState((state)=>({ isProvider: true }))
