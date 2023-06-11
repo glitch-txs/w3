@@ -6,7 +6,7 @@
 
 # Getting Started
 
-W3 React is an evm wallet connectors library for vanilla JS and React. It's inspired in <a href="https://github.com/wagmi-dev/references" target="_blank">Wagmi's references</a> with the difference that it's eth-lib agnostic. <br/>
+W3 React is an evm wallet connectors library for React.js and its frameworks. It's inspired in <a href="https://github.com/wagmi-dev/references" target="_blank">Wagmi's references</a> with the difference that it's eth-lib agnostic. <br/>
 It sets up for you a wallet connection infrastructure with a built-in store and React hooks to handle the wallet state and user's sessions.
 
 **Compatible with <a href="https://docs.ethers.org/v6/" target="_blank">ethers.js</a>, <a href="https://viem.sh/" target="_blank">viem</a> and <a href="https://docs.web3js.org/" target="_blank">Web3.js</a>**
@@ -53,7 +53,7 @@ Create your WalletConnect Project ID at <a href='https://cloud.walletconnect.com
 
 ### Connect to a Wallet
 
-Import the `useConnect` hook and loop through the connectors:
+Import the `useConnect` hook and map through the connectors:
 ```tsx
 import { useConnect } from '@glitch-txs/w3-react'
 
@@ -104,7 +104,7 @@ export default function Connect() {
   
   const address = getW3Address()
   const chain = getW3Chain()
-  const error = getW3Error()
+  const errorMessage = getW3Error()
   
   return (
     <div>
@@ -114,7 +114,7 @@ export default function Connect() {
       }
       Chain ID: {chain}
       <br/>
-      {error.message}
+      {errorMessage}
     </div>
   )
 }
