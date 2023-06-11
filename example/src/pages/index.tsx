@@ -1,15 +1,12 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import { connectW3, disconnectW3 } from '@glitch-txs/w3'
-import { useAccount, useConnectors } from '@glitch-txs/w3-hooks'
+import { getW3Address, useConnect } from '@glitch-txs/w3-react'
 import Image from 'next/image'
-import { Key } from 'react'
-import { walletIcons } from '../../utils/icons'
 
 
 export default function Home() {
-  const { account, isLoading } = useAccount()
-  const { connectors } = useConnectors()
+  const { connectors, isLoading, connectW3, disconnectW3 } = useConnect()
+  const address = getW3Address()
 
   return (
     <>
@@ -21,26 +18,26 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div>
-          { account ? 
+          { address ? 
           <button className={styles.button} onClick={disconnectW3} >Disconnect</button> :
-          connectors.map(c =>
+          connectors.map((wallet) =>
           <button
-          key={c.name as Key} 
+          key={wallet.id} 
           disabled={isLoading} 
           className={[styles.wallet, isLoading && styles.loading].join(' ')} 
-          onClick={()=>connectW3(c)}>
+          onClick={()=>connectW3(wallet)}>
             <span>
-              <Image width={44} height={44} src={c.icon ?? walletIcons[c.name as string]} alt='' />
+              <Image width={44} height={44} src={wallet.icon} alt='' />
             </span>
-            {c.name}
+            {wallet.name}
           </button>
           )}
         </div>
 
-        { isLoading ? "Connecting..." : (account ? "Connected" : "Connect Your Wallet") }
+        { isLoading ? "Connecting..." : (address ? "Connected" : "Connect Your Wallet") }
         <br/>
         <br/>
-        User: { account }
+        User: { address }
       </main>
     </>
   )
