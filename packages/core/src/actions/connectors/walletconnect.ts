@@ -46,7 +46,7 @@ export class WalletConnect extends Connector {
   
     const provider = await EthereumProvider.init({
       projectId: projectID ?? process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
-      chains: [Number(web3Store.getState().chains[0])],
+      chains: [Number(web3Store.getState().chains[0]?.chainId)],
       optionalChains: web3Store.getState().chains.map(chain => Number(chain.chainId)),
       showQrModal:showQrModal ?? true,
       optionalMethods:OPTIONAL_METHODS,
