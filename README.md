@@ -13,18 +13,16 @@ It sets up for you a wallet connection infrastructure with a built-in store and 
 
 ### Install
 
-```bash npm2yarn
+```bash
 npm i @glitch-txs/w3-react
 ```
 
 ### Init the W3 Component
 
 Select the connectors and chains you want to support. Calling `connectors` function will invoke all connectors.
-:::danger Take care
 
-Make sure props are set outside the App component.
+> Make sure props are set outside the App component.
 
-:::
 ```tsx
 import { W3, connectors, mainnet, W3Props } from '@glitch-txs/w3-react'
 
@@ -43,11 +41,7 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-:::tip NOTE
-
-With this type of config you need to set an enviroment variable for WalletConnect's project ID: `NEXT_PUBLIC_WALLETCONNECT_ID="yourProjectID"`. For others ways of configuration see [Initialize the W3 Component](./init.md)
-
-:::
+> With this type of config you need to set an enviroment variable for WalletConnect's project ID: `NEXT_PUBLIC_WALLETCONNECT_ID="yourProjectID"`. For others ways of configuration see [Initialize the W3 Component](./init.md)
 
 Create your WalletConnect Project ID at <a href='https://cloud.walletconnect.com/sign-in' target='_blank' >WalletConnect Cloud</a>
 
@@ -75,11 +69,7 @@ export default function Connect() {
 
 You can also set a connection to a single wallet by using the wallet's name as argument of the `connectW3` function:
 
-:::tip NOTE
-
-You can also import `connectW3` and `disconnectW3` functions directly from the library
-
-:::
+> You can also import `connectW3` and `disconnectW3` functions directly from the library
 
 ```tsx
 import { connectW3 } from '@glitch-txs/w3-react'
