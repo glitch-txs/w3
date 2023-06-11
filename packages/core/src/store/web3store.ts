@@ -17,7 +17,7 @@ interface Web3Store {
   userAccount: string
   chainId: number | null
   chains: Chain[]
-  error?: { code?: number, message: string }
+  error?: string
   connectors: Connector[]
   childProvider: any
 }

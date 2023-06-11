@@ -11,7 +11,7 @@ export async function connectW3(selectedWallet: WalletNames | Connector): Promis
   const [connector] = web3Store.getState().connectors.filter(c => c.name === selectedWallet)
 
   if(!connector){
-    web3Store.setState((state)=>({error: { message: `${selectedWallet} connector not found!`}}))
+    web3Store.setState((state)=>({error:`${selectedWallet}'s connector not found!`}))
     throw Error(`Connector not found, add the ${selectedWallet} connector in the w3init function`)
   }
 

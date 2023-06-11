@@ -82,6 +82,11 @@ export class WalletConnect extends Connector {
       if(window?.localStorage.getItem(KEY_WALLET) === this.name) window?.localStorage.removeItem(KEY_WALLET)
       setState((state)=>({ userAccount: '', chainId: null, childProvider: null }))
     });
+
+    provider?.on('display_uri', (uri)=>{
+      const eventUri = new CustomEvent("walletconnect#uri",{ detail: { uri } })
+      window.dispatchEvent(eventUri)
+    })
     
     DEBUG && console.log('Walletconnect has initialized')
     
@@ -100,15 +105,14 @@ export class WalletConnect extends Connector {
     this.ready = true
     if(window?.localStorage.getItem(KEY_WALLET) === this.name) setState((state)=>({ isLoading: false }))
     
-    const eventReady = new Event('WalletConnect#ready', {bubbles: true})
-    window?.dispatchEvent(eventReady)
+    window?.dispatchEvent(new Event('WalletConnect#ready', {bubbles: true}))
   }
 
   async connect() {
     const { setState } = web3Store
 
     if(this.initFailed){
-      setState((state)=>({ error: { message: 'WalletConnect failed to initialize'} }))
+      setState((state)=>({ error: 'WalletConnect failed to initialize' }))
       return
     }
     if(!this.ready){

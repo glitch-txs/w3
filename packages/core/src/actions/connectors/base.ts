@@ -19,6 +19,8 @@ export abstract class Connector{
   protected ready: boolean
   /**Installation website */
   abstract readonly install?: URL
+  /**Wallet is installed */
+  installed?: boolean
   /**Deeplink to open explorer on mobile */
   abstract readonly deeplink?: URL
   /**Wallet icon */
@@ -28,6 +30,7 @@ export abstract class Connector{
   
   constructor() {
     this.ready = false
+    this.installed = true
   }
 
   async init(){
@@ -37,6 +40,9 @@ export abstract class Connector{
       const { setState } = web3Store
       setState((state)=> ({isLoading: true}))
       const provider = await this.getProvider()
+      if(!provider){
+        this.installed = false
+      }
       if(!provider || fitler_eth_accounts(provider)) return
       const connected = await this.setAccountAndChainId(provider)
       if(connected){
@@ -64,9 +70,9 @@ export abstract class Connector{
       }else{
         //If the wallet is not installed then it will open this link to install the extention.
         DEBUG && console.warn(`${this.name} provider is not injected`)
-        setState((state)=>({ error: { message: `${this.name} wallet is not installed!`} }))
+        setState((state)=>({ error: `${this.name} wallet is not installed!` }))
+        this.installed = false
         getState().onboard && window.open(this.install, '_blank')
-        return ()=> window.open(this.install, '_blank')
       }
     }
 
