@@ -1,8 +1,8 @@
 import { URL, WalletNames } from "../../types"
 import { isWindow } from "../../utils/isWindow"
-import { Connector } from "./base"
+import { BaseWallet } from "./base"
 
-export class TrustWallet extends Connector {
+export class TrustWallet extends BaseWallet {
   readonly id: string
   readonly name: WalletNames
   readonly install: URL

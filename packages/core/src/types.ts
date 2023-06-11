@@ -1,11 +1,11 @@
-import { Connector } from "./actions/connectors/base"
+import { BaseWallet } from "./actions/classes/base"
 
 export type URL = `https://${string}`
 
 export type Address = `0x${string}`
 
 export type W3Props = {
-  connectors: Connector[]
+  wallets: BaseWallet[]
   chains: Chain[]
   EIP6963?: boolean
   onboard?: boolean

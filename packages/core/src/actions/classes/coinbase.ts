@@ -2,9 +2,9 @@ import { web3Store } from "../../store/web3store"
 import { URL, WalletNames } from "../../types"
 import { KEY_WALLET } from "../../utils/constants"
 import { isWindow } from "../../utils/isWindow"
-import { Connector } from "./base"
+import { BaseWallet } from "./base"
 
-export class Coinbase extends Connector {
+export class Coinbase extends BaseWallet {
   readonly id: string
   readonly name: WalletNames
   readonly install: URL
@@ -46,11 +46,11 @@ export class Coinbase extends Connector {
   }
 
   async disconnect(): Promise<void> {
-    web3Store.setState((state)=>({isLoading: true}))
+    web3Store.setState((state)=>({ wait: { state: true, reason: 'Disconnecting' } }))
     const provider = await this.getProvider()
     //@ts-ignore coinbase provider adds disconnect function
     await provider?.disconnect()
     window?.localStorage.removeItem(KEY_WALLET)
-    web3Store.setState((state)=>({ userAccount: '', chainId: null, childProvider: null, isLoading:false }))
+    web3Store.setState((state)=>({ userAccount: '', chainId: null, childProvider: null, wait:{ state: false, reason: '' } }))
   }
 }

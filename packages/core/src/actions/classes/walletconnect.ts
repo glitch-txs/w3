@@ -3,9 +3,9 @@ import { web3Store } from "../../store/web3store"
 import { EIP1193Provider, URL, WalletNames } from "../../types"
 import { DEBUG, KEY_WALLET } from "../../utils/constants"
 import { isWindow } from "../../utils/isWindow"
-import { Connector } from "./base"
+import { BaseWallet } from "./base"
 
-export class WalletConnect extends Connector {
+export class WalletConnect extends BaseWallet {
   readonly id: string
   readonly name: WalletNames
   readonly install?: URL
@@ -38,7 +38,7 @@ export class WalletConnect extends Connector {
 
     /**If last connection was WalletConnect let's wait to init and catch the user session */
     if(window.localStorage.getItem(KEY_WALLET) === this.name)
-    setState((state)=>({ isLoading:true }))
+    setState((state)=>({ wait:{state: true, reason:'Initializing'} }))
   
     const { EthereumProvider, OPTIONAL_METHODS, OPTIONAL_EVENTS } = await import("@walletconnect/ethereum-provider")
 
@@ -71,7 +71,7 @@ export class WalletConnect extends Connector {
     });
   
     if(this.initFailed){
-      if(window?.localStorage.getItem(KEY_WALLET) === this.name) setState((state)=>({ isLoading: false }))
+      if(window?.localStorage.getItem(KEY_WALLET) === this.name) setState((state)=>({ wait: {state: false, reason: ''} }))
       return
     }
     
@@ -80,7 +80,7 @@ export class WalletConnect extends Connector {
     provider?.on("disconnect", () => {
       DEBUG && console.log(`${this.name}: session ended`)
       if(window?.localStorage.getItem(KEY_WALLET) === this.name) window?.localStorage.removeItem(KEY_WALLET)
-      setState((state)=>({ userAccount: '', chainId: null, childProvider: null }))
+      setState((state)=>({ address: '', chainId: null, w3provider: null }))
     });
 
     provider?.on('display_uri', (uri)=>{
@@ -95,7 +95,7 @@ export class WalletConnect extends Connector {
       const connected = await this.setAccountAndChainId(provider)
       if(connected) {
         window.removeEventListener('WalletConnect#ready', this.connect)
-        setState({childProvider: provider, isLoading: false})
+        setState({w3provider: provider, wait: {state: false, reason: ''}})
         this.ready = true
         return
       }
@@ -103,7 +103,7 @@ export class WalletConnect extends Connector {
     }
 
     this.ready = true
-    if(window?.localStorage.getItem(KEY_WALLET) === this.name) setState((state)=>({ isLoading: false }))
+    if(window?.localStorage.getItem(KEY_WALLET) === this.name) setState((state)=>({ wait: {state: false, reason: ''} }))
     
     window?.dispatchEvent(new Event('WalletConnect#ready', {bubbles: true}))
   }
@@ -119,24 +119,24 @@ export class WalletConnect extends Connector {
       window?.addEventListener('WalletConnect#ready', this.connect)
       return
     }
-    setState((state)=>({isLoading: true}))
+    setState((state)=>({wait: {state: true, reason: 'Connecting'}}))
     window.removeEventListener('WalletConnect#ready', this.connect)
 
     await this.provider.connect().catch(console.error)
 
     const connected = await this.setAccountAndChainId(this.provider)
     if(connected) {
-      setState((state)=>({childProvider: this.provider}))
+      setState((state)=>({w3provider: this.provider}))
       window?.localStorage.setItem(KEY_WALLET,this.name)
     }
 
-    setState((state)=>({isLoading: false}))
+    setState((state)=>({wait: {state: false, reason: ''}}))
   }
 
   async disconnect() {
-    web3Store.setState((state)=>({isLoading: true}))
+    web3Store.setState((state)=>({wait: {state: true, reason: 'Disconnecting'}}))
     await this.provider.disconnect()
     window?.localStorage.removeItem(KEY_WALLET)
-    web3Store.setState((state)=>({ userAccount: '', chainId: null, childProvider: null, isLoading: false }))
+    web3Store.setState((state)=>({ address: '', chainId: null, w3provider: null, wait: {state: false, reason: ''} }))
   }
 }
