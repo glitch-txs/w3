@@ -29,11 +29,7 @@ pnpm i @glitch-txs/w3-react
 ### Init the W3 Component
 
 Select the connectors and chains you want to support. Calling `connectors` function will invoke all connectors.
-:::danger Take care
 
-Make sure props are set outside the App component.
-
-:::
 ```tsx
 import { W3, connectors, mainnet, W3Props } from '@glitch-txs/w3-react'
 
