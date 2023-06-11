@@ -1,6 +1,6 @@
 {
   "name": "@glitch-txs/w3-react",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "React Hooks for @glitch-txs/w3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
