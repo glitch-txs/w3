@@ -28,7 +28,7 @@ export class EIP6963 extends BaseWallet {
       const connected = await this.setAccountAndChainId(this.getProvider() as EIP1193Provider)
       if(connected){
         this.addEvents(this.getProvider() as EIP1193Provider)
-        setState((state)=>({w3provider: this.getProvider()}))
+        setState((state)=>({w3Provider: this.getProvider()}))
       }else{
         window?.localStorage.removeItem(KEY_WALLET)
       }

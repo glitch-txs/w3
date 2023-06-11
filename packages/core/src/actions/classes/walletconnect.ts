@@ -80,7 +80,7 @@ export class WalletConnect extends BaseWallet {
     provider?.on("disconnect", () => {
       DEBUG && console.log(`${this.name}: session ended`)
       if(window?.localStorage.getItem(KEY_WALLET) === this.name) window?.localStorage.removeItem(KEY_WALLET)
-      setState((state)=>({ address: '', chainId: null, w3provider: null }))
+      setState((state)=>({ address: '', chainId: null, w3Provider: null }))
     });
 
     provider?.on('display_uri', (uri)=>{
@@ -95,7 +95,7 @@ export class WalletConnect extends BaseWallet {
       const connected = await this.setAccountAndChainId(provider)
       if(connected) {
         window.removeEventListener('WalletConnect#ready', this.connect)
-        setState({w3provider: provider, wait: {state: false, reason: ''}})
+        setState({w3Provider: provider, wait: {state: false, reason: ''}})
         this.ready = true
         return
       }
@@ -126,7 +126,7 @@ export class WalletConnect extends BaseWallet {
 
     const connected = await this.setAccountAndChainId(this.provider)
     if(connected) {
-      setState((state)=>({w3provider: this.provider}))
+      setState((state)=>({w3Provider: this.provider}))
       window?.localStorage.setItem(KEY_WALLET,this.name)
     }
 
@@ -137,6 +137,6 @@ export class WalletConnect extends BaseWallet {
     web3Store.setState((state)=>({wait: {state: true, reason: 'Disconnecting'}}))
     await this.provider.disconnect()
     window?.localStorage.removeItem(KEY_WALLET)
-    web3Store.setState((state)=>({ address: '', chainId: null, w3provider: null, wait: {state: false, reason: ''} }))
+    web3Store.setState((state)=>({ address: '', chainId: null, w3Provider: null, wait: {state: false, reason: ''} }))
   }
 }

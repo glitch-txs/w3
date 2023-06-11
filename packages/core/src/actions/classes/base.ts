@@ -48,7 +48,7 @@ export abstract class BaseWallet{
       const connected = await this.setAccountAndChainId(provider)
       if(connected){
         this.addEvents(provider)
-        setState((state)=>({w3provider: provider}))
+        setState((state)=>({w3Provider: provider}))
       }else{
         window?.localStorage.removeItem(KEY_WALLET)
       }
@@ -81,7 +81,7 @@ export abstract class BaseWallet{
     .then(async(accounts: Address[])=> {
       window?.localStorage.setItem(KEY_WALLET, this.name as string)
 
-      setState((state)=>({address: accounts[0], w3provider: provider}))
+      setState((state)=>({address: accounts[0], w3Provider: provider}))
       await this.setChainId(provider)
       this.addEvents(provider)
   
@@ -123,9 +123,9 @@ export abstract class BaseWallet{
 
   async disconnect(){
     const { setState }  = web3Store
-    this.removeEvents(web3Store.getState().w3provider)
+    this.removeEvents(web3Store.getState().w3Provider)
     window?.localStorage.removeItem(KEY_WALLET)
-    setState({ address: '', chainId: null, w3provider: null })
+    setState({ address: '', chainId: null, w3Provider: null })
   }
 
   protected async setAccountAndChainId(provider: EIP1193Provider | undefined){
@@ -210,13 +210,13 @@ export abstract class BaseWallet{
       DEBUG && console.log(`${this.name}: user changed address to: `, accounts[0])
     }else{
       window?.localStorage.removeItem(KEY_WALLET)
-      if(filter_disconnect(web3Store.getState().w3provider)){
+      if(filter_disconnect(web3Store.getState().w3Provider)){
         /* EVM Phantom wallet breaks when running restartWeb3 - infinite loop
         reason: eth_account method triggers accountChange listener */
         window?.location.reload()
       }
-      this.removeEvents(web3Store.getState().w3provider)
-      web3Store.setState((state)=>({ address: '', chainId: 0, w3provider: null }))
+      this.removeEvents(web3Store.getState().w3Provider)
+      web3Store.setState((state)=>({ address: '', chainId: 0, w3Provider: null }))
   
       DEBUG && console.log(`${this.name}: user has disconnect`)
     }

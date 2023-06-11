@@ -22,7 +22,7 @@ interface Web3Store {
   chains: Chain[]
   error?: string
   wallets: BaseWallet[]
-  w3provider: any
+  w3Provider: any
 }
 
 export const web3Store = createStore(subscribeWithSelector<Web3Store>((set, get) => ({
@@ -37,5 +37,5 @@ export const web3Store = createStore(subscribeWithSelector<Web3Store>((set, get)
   error: undefined,
   chains: [],
   wallets: [],
-  w3provider: null,
+  w3Provider: null,
 })))
