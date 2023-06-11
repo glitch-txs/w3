@@ -1,4 +1,4 @@
-# W3 - an evm Wallet Connectors Library
+# W3 - EVM Wallet Connectors Library
 
 [Read the Full Documentation](https://w3-docs.vercel.app/)
 
