@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { Chain, Connector, w3init } from '@glitch-txs/w3'
+import { Chain, BaseWallet, w3init } from '@glitch-txs/w3'
 
 let init = 0
 
-export function W3(props: { connectors: Connector[], chains: Chain[]}){
+export function W3(props: { wallets: BaseWallet[], chains: Chain[]}){
 
   useEffect(()=>{
     if(init === 0) w3init(props)
