@@ -1,7 +1,7 @@
 {
   "name": "w3",
   "version": "0.0.0",
-  "description": "EVM Wallet Connectors Library",
+  "description": "EVM Wallets Library For Descentralized Applications",
   "main": "index.js",
   "scripts": {
   },
