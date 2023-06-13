@@ -1,6 +1,6 @@
 # W3 - EVM Wallet Connectors Library
 
-<a href="https://w3-docs.vercel.app/" target="_blank">Read the Full Documentation</a>
+<a href="https://w3.glitch-txs.dev/" target="_blank">Read the Full Documentation</a>
 
 <a href="https://glitch-txs-w3.vercel.app/" target="_blank">Example</a>
 
