@@ -1,6 +1,6 @@
 {
   "name": "@glitch-txs/w3-react",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "React Hooks for @glitch-txs/w3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,7 @@
   "author": "glitch-txs",
   "license": "MIT",
   "dependencies": {
-    "@glitch-txs/w3": "^1.2.2"
+    "@glitch-txs/w3": "^1.2.4"
   },
   "peerDependencies": {
     "@types/react": ">=18.2.8",
