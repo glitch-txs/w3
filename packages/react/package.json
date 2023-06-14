@@ -1,7 +1,7 @@
 {
-  "name": "w3evm-react",
-  "version": "0.0.3",
-  "description": "React Hooks for W3evm",
+  "name": "w3-evm-react",
+  "version": "0.0.0",
+  "description": "React Hooks for W3-evm",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -9,15 +9,12 @@
   ],
   "scripts": {
     "build": "tsup",
-    "up": "npm i w3evm@latest",
-    "publish":"npm run build && npm publish --public"
+    "up": "npm i w3-evm@latest",
+    "upload": "npm run build && npm publish --public"
   },
   "type": "module",
   "author": "glitch-txs",
   "license": "MIT",
-  "dependencies": {
-    "w3evm": "^0.0.0"
-  },
   "peerDependencies": {
     "@types/react": ">=18.2.8",
     "react": ">=18.2.0",
@@ -48,5 +45,8 @@
   },
   "devDependencies": {
     "tsup": "^6.7.0"
+  },
+  "dependencies": {
+    "w3-evm": "^0.0.0"
   }
 }
