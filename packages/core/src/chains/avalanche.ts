@@ -9,6 +9,6 @@ export const avalanche: Chain = {
     decimals: 18,
   },
   rpcUrls:['https://api.avax.network/ext/bc/C/rpc'],
-  blockExplorerUrls:['https://snowtrace.io/ '],
+  blockExplorerUrls:['https://snowtrace.io/'],
   iconUrls:['']
 }

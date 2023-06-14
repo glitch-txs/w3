@@ -22,6 +22,8 @@ export {
   initWallets
 }
 
+export { Injected, InjectedOpts } from './injected'
+
 declare global{
   interface Window {
     trustwallet?: any

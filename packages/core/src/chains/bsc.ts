@@ -1,6 +1,6 @@
 import { Chain } from "../types";
 
-export const smartChain: Chain = {
+export const bsc: Chain = {
   chainId:'0x38',
   chainName: 'Smart Chain',
   nativeCurrency:{
