@@ -1,8 +1,8 @@
 # W3 - EVM Wallet Connectors Library
 
-<a href="https://w3-evm.dev/" target="_blank">Read the Full Documentation</a>
+<a href="https://w3evm.dev/" target="_blank">Read the Full Documentation</a>
 
-<a href="https://test.w3-evm.dev/" target="_blank">Example</a>
+<a href="https://test.w3evm.dev/" target="_blank">Example</a>
 
 # Getting Started
 
