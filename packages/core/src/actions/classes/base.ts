@@ -26,7 +26,7 @@ export abstract class BaseWallet{
   /**Wallet icon */
   abstract readonly icon?: any
   
-  protected getProvider:Promise<EIP1193Provider> | EIP1193Provider
+  protected abstract getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
   
   constructor() {
     this.ready = false
@@ -74,6 +74,7 @@ export abstract class BaseWallet{
         setState((state)=>({ error: `${this.name} wallet is not installed!` }))
         this.installed = false
         getState().onboard && window.open(this.install, '_blank')
+        return
       }
     }
 

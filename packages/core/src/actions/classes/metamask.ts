@@ -8,6 +8,7 @@ export class MetaMask extends BaseWallet {
   readonly install: URL
   readonly deeplink: URL
   readonly icon?: any
+  getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
 
   constructor({icon}:{icon?: any} = {}){
     //@ts-ignore coinbase SDK overrides window.ethereum type to unknown

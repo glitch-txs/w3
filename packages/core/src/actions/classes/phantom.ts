@@ -1,4 +1,4 @@
-import { URL, WalletNames } from "../../types"
+import { EIP1193Provider, URL, WalletNames } from "../../types"
 import { isWindow } from "../../utils/isWindow"
 import { BaseWallet } from "./base"
 
@@ -8,6 +8,7 @@ export class Phantom extends BaseWallet {
   readonly install: URL
   readonly deeplink: URL
   readonly icon?: any
+  getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
 
   constructor({icon}:{icon?: any} = {}){
     const getProvider = ()=>{

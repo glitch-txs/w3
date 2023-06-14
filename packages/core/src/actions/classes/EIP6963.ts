@@ -10,6 +10,7 @@ export class EIP6963 extends BaseWallet {
   readonly deeplink?: URL
   icon: any
   provider: any
+  getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
 
   constructor({ info, provider }: EIP6963ProviderDetail){
 

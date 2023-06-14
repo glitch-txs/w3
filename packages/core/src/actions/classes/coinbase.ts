@@ -1,5 +1,5 @@
 import { web3Store } from "../../store/web3store"
-import { URL, WalletNames } from "../../types"
+import { EIP1193Provider, URL, WalletNames } from "../../types"
 import { KEY_WALLET } from "../../utils/constants"
 import { isWindow } from "../../utils/isWindow"
 import { BaseWallet } from "./base"
@@ -10,6 +10,7 @@ export class Coinbase extends BaseWallet {
   readonly install: URL
   readonly deeplink: URL
   readonly icon?: any
+  getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
 
   constructor({icon}:{icon?: any} = {}){
     const getProvider = async()=>{
@@ -42,6 +43,7 @@ export class Coinbase extends BaseWallet {
     this.icon = icon
     this.install = 'https://www.coinbase.com/wallet/downloads'
     this.deeplink = `https://go.cb-w.com/dapp?cb_url=${isWindow()}`
+    // @ts-ignore Coinbase Provider follows EIP1193
     this.getProvider = getProvider
   }
 

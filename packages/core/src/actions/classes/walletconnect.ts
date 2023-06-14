@@ -11,9 +11,10 @@ export class WalletConnect extends BaseWallet {
   readonly install?: URL
   readonly deeplink?: URL
   readonly icon?: any
-  private provider: EIP1193Provider
+  private provider: EIP1193Provider | undefined
   private initFailed: boolean
   private options: { showQrModal?: boolean, qrModalOptions?: QrModalOptions, projectID?: string, icon?: any }
+  getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
 
   constructor(options?: any){
     const getProvider = ()=>{
@@ -28,6 +29,7 @@ export class WalletConnect extends BaseWallet {
     this.options = options ?? {}
     this.initFailed = false
     this.getProvider = getProvider
+    this.provider = undefined
   }
 
   async init(){
@@ -70,11 +72,12 @@ export class WalletConnect extends BaseWallet {
       this.initFailed = true
     });
   
-    if(this.initFailed){
+    if(this.initFailed || !provider){
       if(window?.localStorage.getItem(KEY_WALLET) === this.name) setState((state)=>({ wait: {state: false, reason: ''} }))
       return
     }
     
+    //@ts-ignore EthereumProvider follows EIP-1193
     this.provider = provider
     
     provider?.on("disconnect", () => {
@@ -115,7 +118,7 @@ export class WalletConnect extends BaseWallet {
       setState((state)=>({ error: 'WalletConnect failed to initialize' }))
       return
     }
-    if(!this.ready){
+    if(!this.ready || !this.provider){
       window?.addEventListener('WalletConnect#ready', this.connect)
       return
     }
@@ -135,7 +138,7 @@ export class WalletConnect extends BaseWallet {
 
   async disconnect() {
     web3Store.setState((state)=>({wait: {state: true, reason: 'Disconnecting'}}))
-    await this.provider.disconnect()
+    await this.provider?.disconnect()
     window?.localStorage.removeItem(KEY_WALLET)
     web3Store.setState((state)=>({ address: '', chainId: null, w3Provider: null, wait: {state: false, reason: ''} }))
   }

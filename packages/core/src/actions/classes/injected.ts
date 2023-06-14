@@ -1,4 +1,4 @@
-import { URL } from "../../types";
+import { EIP1193Provider, URL } from "../../types";
 import { BaseWallet } from "./base";
 
 export type InjectedOpts = {
@@ -15,6 +15,7 @@ export class Injected extends BaseWallet {
   readonly name: string
   readonly install?: URL
   readonly deeplink?: URL
+  getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
   icon: any
 
   constructor({ id, name, icon, getProvider, install, deeplink }: InjectedOpts){
