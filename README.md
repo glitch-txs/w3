@@ -1,12 +1,12 @@
-# W3evm - EVM Wallet Connectors Library
+# W3 - EVM Wallet Connectors Library
 
-<a href="https://w3evm.dev/" target="_blank">Read the Full Documentation</a>
+<a href="https://w3-evm.dev/" target="_blank">Read the Full Documentation</a>
 
-<a href="https://test.w3evm.dev/" target="_blank">Example</a>
+<a href="https://test.w3-evm.dev/" target="_blank">Example</a>
 
 # Getting Started
 
-W3evm is an evm wallet connectors library for decentralized applications. It's inspired by <a href="https://github.com/wagmi-dev/references" target="_blank">Wagmi's references</a> with the difference that it's eth-lib agnostic. (Eth-lib for ethereum libraries such as ethers.js, viem or web3.js).<br/>
+W3 is an evm wallet connectors library for decentralized applications. It's inspired by <a href="https://github.com/wagmi-dev/references" target="_blank">Wagmi's references</a> with the difference that it's eth-lib agnostic. (Eth-lib for ethereum libraries such as ethers.js, viem or web3.js).<br/>
 It sets up for you a wallet connection infrastructure with a built-in store and React hooks to handle the wallet state and user's sessions.
 
 **Compatible with <a href="https://docs.ethers.org/v6/" target="_blank">ethers.js</a>, <a href="https://viem.sh/" target="_blank">viem</a> and <a href="https://docs.web3js.org/" target="_blank">Web3.js</a>**
@@ -23,19 +23,19 @@ It sets up for you a wallet connection infrastructure with a built-in store and 
 ### Install
 
 ```bash
-npm i w3evm-react
+npm i w3-evm-react
 ```
 ```bash
-yarn add w3evm-react
+yarn add w3-evm-react
 ```
 ```bash
-pnpm add w3evm-react
+pnpm add w3-evm-react
 ```
 
 ### Init the W3 Component
 
 ```tsx
-import { W3, initWallets, mainnet, W3Props } from 'w3evm-react'
+import { W3, initWallets, mainnet, W3Props } from 'w3-evm-react'
 
 const w3props: W3Props = {
   wallets: initWallets(),
@@ -60,7 +60,7 @@ Create your WalletConnect Project ID at <a href='https://cloud.walletconnect.com
 
 Import the `useConnect` hook and map through the `wallets` array:
 ```tsx
-import { useConnect } from 'w3evm-react'
+import { useConnect } from 'w3-evm-react'
 
 export default function Connect() {
 
@@ -81,7 +81,7 @@ export default function Connect() {
 ### Reactive Getters
 
 ```tsx
-import { getW3Chain, getW3Address, connectW3, disconnectW3 } from 'w3evm-react'
+import { getW3Chain, getW3Address, connectW3, disconnectW3 } from 'w3-evm-react'
 
 export default function Connect() {
   
@@ -106,7 +106,7 @@ export default function Connect() {
 ### Use with <a href="https://docs.ethers.org/v6/" target="_blank">ethers.js</a>
 ```tsx
 import { BrowserProvider } from 'ethers'
-import { getW3Provider } from 'w3evm-react'
+import { getW3Provider } from 'w3-evm-react'
 
 export default function useEthersProvider() {
 
@@ -124,7 +124,7 @@ export default function useEthersProvider() {
 ### Use with <a href="https://docs.web3js.org/" target="_blank">Web3.js</a>
 ```tsx
 import Web3 from 'web3'
-import { getW3Provider } from 'w3evm-react'
+import { getW3Provider } from 'w3-evm-react'
 
 export default function useWeb3Provider() {
 
@@ -141,7 +141,7 @@ export default function useWeb3Provider() {
 
 ### Use with <a href="https://viem.sh/" target="_blank">viem</a>
 ```tsx
-import { getW3Provider } from 'w3evm-react'
+import { getW3Provider } from 'w3-evm-react'
 import { createWalletClient, custom } from 'viem'
 import { mainnet } from 'viem/chains'
 
