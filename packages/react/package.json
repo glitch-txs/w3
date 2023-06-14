@@ -1,6 +1,6 @@
 {
   "name": "w3evm-react",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "React Hooks for W3evm",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "build": "tsup",
-    "up": "npm i w3evm@latest"
+    "up": "npm i w3evm@latest",
+    "publish":"npm run build && npm publish --public"
   },
   "type": "module",
   "author": "glitch-txs",
