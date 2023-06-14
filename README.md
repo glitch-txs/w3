@@ -78,23 +78,6 @@ export default function Connect() {
 }
 ```
 
-You can also set a connection to a single wallet by using the wallet's name as argument of the `connectW3` function:
-
-```tsx
-import { connectW3 } from '@glitch-txs/w3-react'
-
-export default function Connect() {
-  return (
-    <div>
-      <button onClick={()=>connectW3('MetaMask')} >Connect to MetaMask</button>
-    </div>
-  )
-}
-```
-> `connectW3` and `disconnectW3` functions can also be imported directly from the library
-
-To disconnect you can use the `disconnectW3` function.
-
 ### Reactive Getters
 
 ```tsx
