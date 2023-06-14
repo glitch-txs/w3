@@ -2,7 +2,7 @@
 
 <a href="https://w3evm.dev/" target="_blank">Read the Full Documentation</a>
 
-<a href="https://glitch-txs-w3.vercel.app/" target="_blank">Example</a>
+<a href="https://test.w3evm.dev/" target="_blank">Example</a>
 
 # Getting Started
 
