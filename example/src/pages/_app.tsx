@@ -1,6 +1,6 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { W3, W3Props, initWallets, mainnet } from '@glitch-txs/w3-react'
+import { W3, W3Props, initWallets, mainnet } from 'w3evm-react'
 import { walletIcons } from '../../utils/icons'
 
 const w3props: W3Props = {

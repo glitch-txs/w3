@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import { getW3Address, getW3Chain, useConnect } from '@glitch-txs/w3-react'
+import { getW3Address, getW3Chain, useConnect } from 'w3evm-react'
 import Image from 'next/image'
 
 
