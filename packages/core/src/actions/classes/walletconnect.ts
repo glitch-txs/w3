@@ -86,7 +86,7 @@ export class WalletConnect extends BaseWallet {
       setState((state)=>({ address: '', chainId: null, w3Provider: null }))
     });
 
-    provider?.on('display_uri', (uri)=>{
+    !this.options.showQrModal && provider?.on('display_uri', (uri)=>{
       const eventUri = new CustomEvent("walletconnect#uri",{ detail: { uri } })
       window.dispatchEvent(eventUri)
     })
