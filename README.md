@@ -17,8 +17,8 @@ It sets up for you a wallet connection infrastructure with a built-in store and 
 - WalletConnect
 - Trust Wallet
 - Phantom (EVM)
-- EIP-6963 compatible wallets
 - Injected - Custom Wallet
+- EIP-6963 compatible wallets
 
 ### Install
 
