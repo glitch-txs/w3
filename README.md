@@ -81,9 +81,9 @@ export default function Connect() {
 ### Reactive Getters
 
 ```tsx
-import { getW3Chain, getW3Address, connectW3, disconnectW3 } from 'w3-evm-react'
+import { getW3Chain, getW3Address } from 'w3-evm-react'
 
-export default function Connect() {
+export default function UserInfo() {
   
   const address = getW3Address()
   const chain = getW3Chain()
@@ -91,10 +91,8 @@ export default function Connect() {
   
   return (
     <div>
-      {address ?
-      <button onClick={disconnectW3} >Disconnect</button> :
-      <button onClick={()=>connectW3('MetaMask')} >Connect to MetaMask</button>
-      }
+      address: {address}
+      <br/>
       Chain ID: {chain}
       <br/>
       {errorMessage}
