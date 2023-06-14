@@ -1,7 +1,7 @@
 {
-  "name": "w3evm",
+  "name": "w3-evm",
   "version": "0.0.0",
-  "description": "EVM Wallets Library For Descentralized Applications",
+  "description": "EVM Wallets Library For Decentralized Applications",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "watch": "tsc -w",
-    "build": "tsup"
+    "build": "tsup",
+    "upload":"npm run build && npm publish --public"
   },
   "type": "module",
   "author": "Glitch-txs",
