@@ -52,7 +52,7 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-> With this type of config you need to set an enviroment variable for WalletConnect's project ID: `NEXT_PUBLIC_WALLETCONNECT_ID="yourProjectID"`. For others ways of configuration see [Initialize the W3 Component](./init.md)
+> With this type of config you need to set an enviroment variable for WalletConnect's project ID: `NEXT_PUBLIC_WALLETCONNECT_ID="yourProjectID"`. For others ways of configuration see [Initialize the W3 Component](https://w3evm.dev/docs/w3-react/init)
 
 Create your WalletConnect Project ID at <a href='https://cloud.walletconnect.com/sign-in' target='_blank' >WalletConnect Cloud</a>
 
@@ -87,15 +87,12 @@ export default function UserInfo() {
   
   const address = getW3Address()
   const chain = getW3Chain()
-  const errorMessage = getW3Error()
   
   return (
     <div>
       address: {address}
       <br/>
       Chain ID: {chain}
-      <br/>
-      {errorMessage}
     </div>
   )
 }
