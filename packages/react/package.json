@@ -1,7 +1,7 @@
 {
   "name": "w3evm-react",
-  "version": "0.0.0",
-  "description": "React Hooks for w3evm",
+  "version": "0.1.2",
+  "description": "React Hooks for W3evm",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -14,8 +14,10 @@
   "type": "module",
   "author": "glitch-txs",
   "license": "MIT",
+  "dependencies": {
+    "w3evm":"^0.0.0"
+  },
   "peerDependencies": {
-    "w3evm":"^0.0.0",
     "@types/react": ">=18.2.8",
     "react": ">=18.2.0",
     "typescript": ">=5.1.3"
