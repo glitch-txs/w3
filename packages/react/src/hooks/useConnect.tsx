@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react'
-import { web3Store, connectW3, disconnectW3 } from '@glitch-txs/w3'
+import { web3Store, connectW3, disconnectW3 } from 'w3evm'
 
 export function useConnect(){
   const wallets = useSyncExternalStore((cb)=>web3Store.subscribe((state: any)=> state.wallets,cb),()=>web3Store.getState().wallets,()=>web3Store.getState().wallets)

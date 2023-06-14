@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Chain, BaseWallet, w3init } from '@glitch-txs/w3'
+import { Chain, BaseWallet, w3init } from 'w3evm'
 
 let init = 0
 
