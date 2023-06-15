@@ -5,7 +5,17 @@ export type W3Props = {
   chains: Chain[]
   EIP6963?: boolean
   onboard?: boolean
-  cache?: boolean
+  hydration?: boolean
 }
 
-export type ReturnW3Props = { EIP6963: boolean, cache: boolean, wallets?: BaseWallet[] }
+export type ReturnW3Props = {
+  /**
+   * Allow for EIP-6963 compatible wallets
+   */
+  EIP6963: boolean,
+  /**
+   * Prevent hydration errors on SSR applications
+   */
+  hydration: boolean,
+  wallets?: BaseWallet[]
+}

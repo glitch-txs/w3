@@ -4,9 +4,9 @@ import { KEY_WALLET } from './utils/constants'
 
 let init = 0
 
-export function W3({ EIP6963, cache, wallets }:{ EIP6963: boolean, cache: boolean, wallets?: BaseWallet[] }):null{
+export function W3({ EIP6963, hydration, wallets }:{ EIP6963: boolean, hydration: boolean, wallets?: BaseWallet[] }):null{
   useEffect(()=>{
-    if(cache || !wallets) return
+    if(!hydration || !wallets) return
     if(init === 0){
       if(!window.localStorage.getItem(KEY_WALLET))
       web3Store.setState((state)=>({wait:{state: false, reason:'' }}))
