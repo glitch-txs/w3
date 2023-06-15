@@ -33,11 +33,10 @@ export abstract class BaseWallet{
   }
 
   async init(){
-    if(window.localStorage.getItem(KEY_WALLET) === this.name){
+    if(window.localStorage.getItem(KEY_WALLET) === this.id){
       // injection delay - https://groups.google.com/a/chromium.org/g/chromium-extensions/c/ib-hi7hPdW8/m/34mFf8rrGQAJ?pli=1
       await new Promise(r => setTimeout(r, 100))
       const { setState } = web3Store
-      setState((state)=> ({ wait: { state: true, reason: 'Initializing' } }))
       const provider = await this.getProvider()
       if(!provider){
         window.localStorage.removeItem(KEY_WALLET)
