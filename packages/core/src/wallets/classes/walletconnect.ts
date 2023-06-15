@@ -1,3 +1,4 @@
+// @ts-nocheck – ignore @coinbase/wallet-sdk window.ethereum.
 import { QrModalOptions } from "@walletconnect/ethereum-provider/dist/types/EthereumProvider"
 import { web3Store } from "../../store/web3store"
 import { EIP1193Provider, URL, WalletNames } from "../../types"

@@ -57,7 +57,7 @@ export abstract class BaseWallet{
     this.ready = true
   }
 
-  async connect(): Promise<any>{
+  async connect(){
     const { setState, getState } = web3Store
     setState((state)=>({ wait:{ state:true, reason: 'Connecting' } }))
     const provider = await this.getProvider()
@@ -165,7 +165,7 @@ export abstract class BaseWallet{
   protected async setChainId(provider: EIP1193Provider){
     const { setState } = web3Store
 
-    await provider.request({ method: 'eth_chainId' }).then((chainId: any)=> {
+    await provider.request({ method: 'eth_chainId' }).then((chainId: string | number)=> {
       setState((state)=>({ chainId: Number(chainId) }))
       DEBUG && console.log(`${this.name}: chain id - ${chainId}`)
     }).catch(console.error)
@@ -228,7 +228,7 @@ export abstract class BaseWallet{
     DEBUG && console.log(`${this.name}: chain id - `, chainId)
   }
 
-  protected onDisconnect = (err:any)=>{
+  protected onDisconnect = (err:Error)=>{
     web3Store.setState((state)=>({ isProvider: false }))
     DEBUG && console.error(`${this.name} provider lost the blockchain connection`)
     console.error(err)

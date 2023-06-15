@@ -1,3 +1,4 @@
+// @ts-nocheck – ignore @coinbase/wallet-sdk window.ethereum.
 import { EIP1193Provider, URL, WalletNames } from "../../types"
 import { isWindow } from "../../utils/isWindow"
 import { BaseWallet } from "./base"
@@ -14,13 +15,13 @@ export class TrustWallet extends BaseWallet {
     const getProvider = ()=>{
       if (typeof window === 'undefined') return
 
-      const isTrustWallet = (ethereum: any)=>!!ethereum?.isTrust
+      const isTrustWallet = (ethereum: EIP1193Provider)=>!!ethereum?.isTrust
 
       if (isTrustWallet(window.ethereum))
       return window.ethereum
     
-      if ((window.ethereum as any)?.providers)
-      return (window.ethereum as any).providers.find(isTrustWallet) ?? null
+      if (window.ethereum?.providers)
+      return window.ethereum.providers.find(isTrustWallet) ?? null
 
       return window["trustwallet"] ?? null
     }

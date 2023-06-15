@@ -5,7 +5,7 @@ export type InjectedOpts = {
   id?: string | number
   name?: string
   icon?: any
-  getProvider?: ()=> any
+  getProvider?: ()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
   install?: URL
   deeplink?: URL
 }
@@ -24,7 +24,7 @@ export class Injected extends BaseWallet {
     this.id = String(id) ?? window.crypto.randomUUID()
     this.name = name ?? 'Injected'
     this.icon = icon
-    this.getProvider = getProvider ?? (()=>window?.ethereum)
+    this.getProvider = getProvider ?? (()=>window?.ethereum as EIP1193Provider | undefined)
     this.install = install
     this.deeplink = deeplink
   }

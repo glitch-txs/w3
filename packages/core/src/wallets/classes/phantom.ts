@@ -12,7 +12,7 @@ export class Phantom extends BaseWallet {
 
   constructor({icon}:{icon?: any} = {}){
     const getProvider = ()=>{
-      function getReady(ethereum?: any) {
+      function getReady(ethereum?: EIP1193Provider) {
         const isPhantom = !!ethereum?.isPhantom
         if (!isPhantom) return
         return ethereum

@@ -7,7 +7,7 @@ import { TrustWallet } from "./trustwallet"
 import { WalletConnect } from "./walletconnect"
 
 const initWallets = ({ metamask, coinbase, trustwallet, walletconnect, phantom }:
-  { metamask?: any, coinbase?: any, trustwallet?: any, walletconnect?: any, phantom?: any } = { })=>[
+  { metamask?: any, coinbase?: any, trustwallet?: any, walletconnect?: any, phantom?: any } = {})=>[
   new MetaMask({ icon: metamask }), 
   new Coinbase({ icon: coinbase }), 
   new TrustWallet({ icon: trustwallet }), 
@@ -29,7 +29,9 @@ export { Injected, InjectedOpts } from './injected'
 declare global{
   interface Window {
     trustwallet?: EIP1193Provider
-    phantom?: EIP1193Provider
+    phantom?: {
+      ethereum: EIP1193Provider
+    }
     ethereum?: EIP1193Provider
   }
   interface WindowEventMap {

@@ -1,4 +1,4 @@
-import { BaseWallet } from "./actions/classes/base"
+import { BaseWallet } from "./wallets/classes/base"
 
 export type URL = `https://${string}`
 
@@ -54,6 +54,8 @@ export interface EIP1193Provider {
   off:(event: string , listener: (event: any) => void)=>void
   connect:()=> Promise<unknown> // WalletConnect
   disconnect: ()=> unknown // WalletConnect
+  providers: EIP1193Provider[]
+  [key: string]: boolean | undefined | EIP1193Provider[] | string | ((...args: any)=>any) //this type allows for extentions like isPhantom, isMetaMask, etc.
 }
 
 export type EIP6963AnnounceProviderEvent = {
