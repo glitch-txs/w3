@@ -14,7 +14,6 @@ export function W3({ EIP6963, hydration, wallets }:{ EIP6963: boolean, hydration
 
       if(EIP6963) initEIP6963()
       
-      //even if they are not connected we set this.ready to true
       for(let w of wallets) w.init()
       
       if(!selectedWallet)
