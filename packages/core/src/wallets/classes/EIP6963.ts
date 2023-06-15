@@ -17,7 +17,7 @@ export class EIP6963 extends BaseWallet {
 
     super()
     this.provider = provider
-    this.id = info.uuid
+    this.id = info.providerId ?? info.name
     this.name = info.name
     this.icon = info.icon
     this.getProvider = ()=>this.provider

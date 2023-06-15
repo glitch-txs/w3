@@ -21,7 +21,7 @@ export class Injected extends BaseWallet {
   constructor({ id, name, icon, getProvider, install, deeplink }: InjectedOpts  = {}){
 
     super()
-    this.id = String(id) ?? window.crypto.randomUUID()
+    this.id = String(id) ?? 'injected'
     this.name = name ?? 'Injected'
     this.icon = icon
     this.getProvider = getProvider ?? (()=>window?.ethereum as EIP1193Provider | undefined)
