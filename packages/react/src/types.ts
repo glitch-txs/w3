@@ -18,4 +18,4 @@ export type ReturnW3Props = {
    */
   hydration: boolean,
   wallets?: BaseWallet[]
-}
+} | undefined
