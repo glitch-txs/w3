@@ -32,7 +32,7 @@ yarn add w3-evm-react
 pnpm add w3-evm-react
 ```
 
-### Init the W3 Component
+### Init W3
 
 ```tsx
 import { W3, initWallets, mainnet, initW3 } from 'w3-evm-react'
