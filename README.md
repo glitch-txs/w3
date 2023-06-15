@@ -35,12 +35,12 @@ pnpm add w3-evm-react
 ### Init the W3 Component
 
 ```tsx
-import { W3, initWallets, mainnet, W3Props } from 'w3-evm-react'
+import { W3, initWallets, mainnet, createW3Props } from 'w3-evm-react'
 
-const w3props: W3Props = {
+const w3props = createW3Props({
   wallets: initWallets(),
   chains:[mainnet]
-}
+})
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
