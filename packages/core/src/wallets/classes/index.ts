@@ -1,3 +1,5 @@
+// @ts-nocheck – ignore @coinbase/wallet-sdk window.ethereum.
+import { EIP1193Provider } from "../../types"
 import { Coinbase } from "./coinbase"
 import { MetaMask } from "./metamask"
 import { Phantom } from "./phantom"
@@ -26,8 +28,9 @@ export { Injected, InjectedOpts } from './injected'
 
 declare global{
   interface Window {
-    trustwallet?: any
-    phantom?: any
+    trustwallet?: EIP1193Provider
+    phantom?: EIP1193Provider
+    ethereum?: EIP1193Provider
   }
   interface WindowEventMap {
     "eip6963:announceProvider": CustomEvent

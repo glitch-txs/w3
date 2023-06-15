@@ -1,7 +1,7 @@
 import { createStore } from 'zustand/vanilla'
 import { subscribeWithSelector } from 'zustand/middleware'
 import { Chain } from '../types'
-import { BaseWallet } from '../actions/classes/base'
+import { BaseWallet } from '../wallets/classes/base'
 
 interface Web3Store {
   /*We need a time for the WC init to load
