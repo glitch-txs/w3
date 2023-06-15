@@ -14,4 +14,6 @@ export function initW3({wallets, chains, onboard = true, EIP6963 = true, hydrati
   
   //even if they are not connected we set this.ready to true
   for(let w of wallets) w.init()
+  
+  return { EIP6963, hydration }
 }
