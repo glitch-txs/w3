@@ -40,7 +40,7 @@ export class WalletConnect extends BaseWallet {
     const { setState } = web3Store
 
     /**If last connection was WalletConnect let's wait to init and catch the user session */
-    if(window.localStorage.getItem(KEY_WALLET) === this.name)
+    if(window.localStorage.getItem(KEY_WALLET) === this.id)
     setState((state)=>({ wait:{state: true, reason:'Initializing'} }))
   
     const { EthereumProvider, OPTIONAL_METHODS, OPTIONAL_EVENTS } = await import("@walletconnect/ethereum-provider")
@@ -74,7 +74,7 @@ export class WalletConnect extends BaseWallet {
     });
   
     if(this.initFailed || !provider){
-      if(window?.localStorage.getItem(KEY_WALLET) === this.name) setState((state)=>({ wait: {state: false, reason: ''} }))
+      if(window?.localStorage.getItem(KEY_WALLET) === this.id) setState((state)=>({ wait: {state: false, reason: ''} }))
       return
     }
     
@@ -83,7 +83,7 @@ export class WalletConnect extends BaseWallet {
     
     provider?.on("disconnect", () => {
       DEBUG && console.log(`${this.name}: session ended`)
-      if(window?.localStorage.getItem(KEY_WALLET) === this.name) window?.localStorage.removeItem(KEY_WALLET)
+      if(window?.localStorage.getItem(KEY_WALLET) === this.id) window?.localStorage.removeItem(KEY_WALLET)
       setState((state)=>({ address: '', chainId: null, w3Provider: null }))
     });
 
@@ -94,7 +94,7 @@ export class WalletConnect extends BaseWallet {
     
     DEBUG && console.log('Walletconnect has initialized')
     
-    if(provider?.session && window?.localStorage.getItem(KEY_WALLET) === this.name){
+    if(provider?.session && window?.localStorage.getItem(KEY_WALLET) === this.id){
       //@ts-ignore EthereumProvider satisfies EIP1193
       const connected = await this.setAccountAndChainId(provider)
       if(connected) {
@@ -107,7 +107,7 @@ export class WalletConnect extends BaseWallet {
     }
 
     this.ready = true
-    if(window?.localStorage.getItem(KEY_WALLET) === this.name) setState((state)=>({ wait: {state: false, reason: ''} }))
+    if(window?.localStorage.getItem(KEY_WALLET) === this.id) setState((state)=>({ wait: {state: false, reason: ''} }))
     
     window?.dispatchEvent(new Event('WalletConnect#ready', {bubbles: true}))
   }
@@ -131,7 +131,7 @@ export class WalletConnect extends BaseWallet {
     const connected = await this.setAccountAndChainId(this.provider)
     if(connected) {
       setState((state)=>({w3Provider: this.provider}))
-      window?.localStorage.setItem(KEY_WALLET,this.name)
+      window?.localStorage.setItem(KEY_WALLET,this.id)
     }
 
     setState((state)=>({wait: {state: false, reason: ''}}))

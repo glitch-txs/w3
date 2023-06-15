@@ -80,7 +80,7 @@ export abstract class BaseWallet{
 
     await provider.request({ method: 'eth_requestAccounts' })
     .then(async(accounts: Address[])=> {
-      window?.localStorage.setItem(KEY_WALLET, this.name as string)
+      window?.localStorage.setItem(KEY_WALLET, this.id)
 
       setState((state)=>({address: accounts[0], w3Provider: provider}))
       await this.setChainId(provider)

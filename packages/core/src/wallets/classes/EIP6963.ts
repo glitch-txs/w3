@@ -25,7 +25,7 @@ export class EIP6963 extends BaseWallet {
   }
 
   async init(){
-    if(window.localStorage.getItem(KEY_WALLET) === this.name){
+    if(window.localStorage.getItem(KEY_WALLET) === this.id){
       const { setState } = web3Store
       setState((state)=> ({wait: {state: true, reason: 'Initializing'}}))
       const connected = await this.setAccountAndChainId(this.getProvider())

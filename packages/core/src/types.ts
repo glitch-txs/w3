@@ -1,15 +1,6 @@
-import { BaseWallet } from "./wallets/classes/base"
-
 export type URL = `https://${string}`
 
 export type Address = `0x${string}`
-
-export type W3Props = {
-  wallets: BaseWallet[]
-  chains: Chain[]
-  EIP6963?: boolean
-  onboard?: boolean
-}
 
 export type Chain = {
   chainId:`0x${string}`
