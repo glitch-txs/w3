@@ -17,7 +17,7 @@ export const Modal = () => {
   <div id="conenct-modal" style={open ? container : containerClosed} onClick={()=>setOpen(false)}>
     <div style={card}  onClick={(e)=>e.stopPropagation()}>
       {wallets.map((wallet, i) =>(
-        <>
+        <React.Fragment>
         <div 
         onMouseEnter={()=>setHover(i)}
         onMouseLeave={()=>setHover(null)}
@@ -29,8 +29,7 @@ export const Modal = () => {
           <span style={description} >Connect with {wallet.name}</span>
         </div>
         {wallets.length !== i+1 && <hr style={{ height:'2px', background:'rgba(0,0,0,0.1)', width:'100%', border:'none' }} />}  
-        </>
-
+        </React.Fragment>
       ))}
     </div>
   </div>

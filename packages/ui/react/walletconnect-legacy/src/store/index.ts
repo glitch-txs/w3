@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 interface ModalStore {
   open: boolean
-  setOpen: (by: boolean) => void
+  setOpen: (open: boolean) => void
 }
 
 export const useModalStore = create<ModalStore>()((set) => ({

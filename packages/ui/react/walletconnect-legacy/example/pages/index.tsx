@@ -1,11 +1,5 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import dynamic from 'next/dynamic'
-import { setOpen } from '@/modal/store'
-
-const Modal = dynamic(async()=>await import('../../src/modal'), {
-  ssr: false
-})
 
 export default function Home() {
   return (
@@ -17,8 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Modal/>
-        <button onClick={setOpen}>Open Modal</button>
+      
       </main>
     </>
   )
