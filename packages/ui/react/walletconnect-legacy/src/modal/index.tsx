@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { createPortal } from 'react-dom'
-import { useModalStore } from '../store/store'
+import { useModalStore } from '../store'
 import { getW3Address, useConnect } from 'w3-evm-react'
 export const Modal = () => {
 

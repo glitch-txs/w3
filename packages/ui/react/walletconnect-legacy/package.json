@@ -1,6 +1,6 @@
 {
   "name": "walletconnect-legacy-ui",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Wallets for React",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
