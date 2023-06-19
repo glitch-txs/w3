@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useModalStore } from '../store/store'
 import { getW3Address, useConnect } from 'w3-evm-react'
-const Modal = () => {
+export const Modal = () => {
 
   const { open, setOpen } = useModalStore()
   const { wallets, connectW3 } = useConnect()
@@ -39,8 +39,6 @@ const Modal = () => {
 
   return createPortal(Modal, document.body)
 }
-
-export default Modal
 
 /*<---STYLES--->*/
 const container:React.CSSProperties = {

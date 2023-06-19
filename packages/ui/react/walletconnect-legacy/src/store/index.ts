@@ -10,4 +10,4 @@ export const useModalStore = create<ModalStore>()((set) => ({
   setOpen: (open) => set((state) => ({ open })),
 }))
 
-export const setOpen = ()=> useModalStore.getState().setOpen(true)
+export const openModal = ()=> useModalStore.getState().setOpen(true)
