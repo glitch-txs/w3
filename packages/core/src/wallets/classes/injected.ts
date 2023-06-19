@@ -18,7 +18,7 @@ export class Injected extends BaseWallet {
   getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
   icon: any
 
-  constructor({ id, name, icon, getProvider, install, deeplink }: InjectedOpts  = {}){
+  constructor({ id, name, icon, getProvider, install, deeplink }: InjectedOpts | undefined = {}){
 
     super()
     this.id = String(id) ?? 'injected'

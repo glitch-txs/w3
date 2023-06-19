@@ -11,7 +11,7 @@ export class MetaMask extends BaseWallet {
   readonly icon?: any
   getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
 
-  constructor({icon}:{icon?: any} = {}){
+  constructor({icon}:{icon?: any} | undefined = {}){
     //@ts-ignore coinbase SDK overrides window.ethereum type to unknown
     const getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider = ()=>{
       if (typeof window === 'undefined') return

@@ -6,6 +6,9 @@ import { DEBUG, KEY_WALLET } from "../../utils/constants"
 import { isWindow } from "../../utils/isWindow"
 import { BaseWallet } from "./base"
 
+type WalletConnectOptions = {
+  showQrModal?: boolean, qrModalOptions?: QrModalOptions, projectID?: string, icon?: any
+}
 export class WalletConnect extends BaseWallet {
   readonly id: string
   readonly name: WalletNames
@@ -14,10 +17,10 @@ export class WalletConnect extends BaseWallet {
   readonly icon?: any
   private provider: EIP1193Provider | undefined
   private initFailed: boolean
-  private options: { showQrModal?: boolean, qrModalOptions?: QrModalOptions, projectID?: string, icon?: any }
+  private options: WalletConnectOptions
   getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
 
-  constructor(options?: any){
+  constructor(options?: WalletConnectOptions | undefined = {}){
     const getProvider = ()=>{
       return this.provider
     }

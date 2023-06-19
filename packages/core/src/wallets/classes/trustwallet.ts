@@ -11,7 +11,7 @@ export class TrustWallet extends BaseWallet {
   readonly icon?: any
   getProvider:()=>Promise<EIP1193Provider> | EIP1193Provider | undefined
 
-  constructor({icon}:{icon?: any} = {}){
+  constructor({icon}:{icon?: any} | undefined = {}){
     const getProvider = ()=>{
       if (typeof window === 'undefined') return
 
