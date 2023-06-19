@@ -112,7 +112,6 @@ const itemHover:React.CSSProperties = {
 }
 
 const description:React.CSSProperties = {
-  // opacity:'0.4',
   color:'rgb(169, 169, 188)',
   fontSize:'18px',
   fontWeight:'400'

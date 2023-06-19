@@ -8,4 +8,7 @@ export default defineConfig({
   clean: true,
   bundle: true,
   dts: true,
+  esbuildOptions(options){
+    options.external = ['react', 'react-dom']
+  }
 })
