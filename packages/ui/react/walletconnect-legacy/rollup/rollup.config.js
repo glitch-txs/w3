@@ -38,18 +38,10 @@ export default {
           postcssPresetEnv(),
           autoprefixer(),
         ],
-        autoModules: false,
-        onlyModules: false,
-        modules: {
-          generateScopedName: (name, filename, css) => {
-            if (filename.includes('global')) {
-              return name;
-            }
-            const hash = stringHash(css).toString(36).substring(0, 5);
-            return `test_${name}_${hash}`;
-          },
-        },
-        extract: 'css/test-library.min.css',
+        // autoModules: false,
+        // onlyModules: false,
+        modules:true,
+        extract: false,
         extensions: ['.scss'],
         use: ['sass'],
         minimize: true,
