@@ -1,0 +1,57 @@
+{
+  "name": "walletconnect-legacy-ui",
+  "version": "0.0.12",
+  "description": "Wallets for React",
+  "files": ["dist/**/*"],
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "upload": "npm run build && npm publish --public",
+    "clean": "rmdir dist",
+    "build": "npm run build:js && build:types",
+    "build:js": "rollup -c",
+    "build:types": "tsc --emitDeclarationOnly --outDir dist"
+  },
+  "type": "module",
+  "author": "glitch-txs",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "w3-evm-react": "^0.1.9"
+  },
+  "keywords": [
+    "wallet",
+    "react",
+    "next",
+    "ethereum",
+    "wallets",
+    "web3"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glitch-txs/w3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.1",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-typescript": "^8.3.4",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "autoprefixer": "^10.4.7",
+    "postcss": "^8.4.14",
+    "postcss-modules": "^4.3.1",
+    "postcss-preset-env": "^7.6.0",
+    "rollup": "^2.77.2",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "sass": "^1.51.0",
+    "string-hash": "^1.1.3",
+    "typescript": "^4.7.4",
+    "typescript-plugin-css-modules": "^3.4.0"
+  }
+}
