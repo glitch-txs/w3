@@ -3,8 +3,9 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
-import postcssPresetEnv from 'postcss-preset-env'
-import autoprefixer from 'autoprefixer'
+import postcssPresetEnv from 'postcss-preset-env';
+import autoprefixer from 'autoprefixer';
+import stringHash from 'string-hash';
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 const globals = {
