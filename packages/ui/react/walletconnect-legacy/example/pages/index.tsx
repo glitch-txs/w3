@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import { WalletConnect, openModal } from 'walletconnect-legacy-ui'
-
 export default function Home() {
   return (
     <>
@@ -13,7 +12,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <WalletConnect/>
-        <button onClick={openModal}>Open Modal</button>
+        <button onClick={openModal} className='test_container_1p508' >Open Modal</button>
       </main>
     </>
   )
