@@ -72,7 +72,7 @@ export default function Connect() {
         <button key={wallet.id} disabled={wait.state} onClick={()=>connectW3(wallet)}>
           {wallet.name}
         </button>
-      )}
+      ))}
     </>
   )
 }

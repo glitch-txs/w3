@@ -4,11 +4,10 @@ export default defineConfig({
   entry: ['src/index.ts'],
   format: ['cjs', 'esm'],
   target: 'es2021',
-  splitting: true,
+  splitting: false,
+  minify:true,
+  treeshake:true,
   clean: true,
-  bundle: true,
   dts: true,
-  esbuildOptions(options){
-    options.external = ['react', 'react-dom']
-  }
+  external:['react', 'react-dom']
 })

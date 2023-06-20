@@ -21,7 +21,7 @@ export default {
       globals,
     },
     {
-      file: './dist/index.cjs.js',
+      file: './dist/index.cjs.cjs',
       format: 'cjs',
       globals,
     },

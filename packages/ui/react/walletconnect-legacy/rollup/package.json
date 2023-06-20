@@ -8,7 +8,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "upload": "npm run build && npm publish --public",
-    "clean": "rmdir dist",
+    "clean": "del dist",
     "build": "npm run build:js && build:types",
     "build:js": "rollup -c",
     "build:types": "tsc --emitDeclarationOnly --outDir dist"
