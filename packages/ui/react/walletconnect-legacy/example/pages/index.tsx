@@ -1,7 +1,11 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import { WalletConnect, openModal } from 'walletconnect-legacy-ui'
+import { openModal } from 'walletconnect-legacy-ui'
+import { disconnectW3, getW3Address } from 'w3-evm-react'
 export default function Home() {
+
+  const address = getW3Address()
+  
   return (
     <>
       <Head>
@@ -11,8 +15,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <WalletConnect/>
-        <button onClick={openModal} className='test_container_1p508' >Open Modal</button>
+        <button onClick={openModal}>Open Modal</button>
+
+        {address &&
+          <>
+            <div> Address: {address} </div>
+            <button onClick={disconnectW3}>Disconnect</button>
+          </>
+        }
       </main>
     </>
   )
