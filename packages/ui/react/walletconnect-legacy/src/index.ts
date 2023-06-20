@@ -1,6 +1,6 @@
 import { MetaMask, WalletConnect } from 'w3-evm-react'
 
-export { Modal } from './modal'
+export { default as W3Modal } from './modal'
 export { openModal } from './store'
 
 export const initModalWallets = ()=>[new MetaMask({

@@ -1,19 +1,31 @@
 {
   "compilerOptions": {
-    "target": "ES2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-    // "lib": [],                                        /* Specify a set of bundled library declaration files that describe the target runtime environment. */
-    "jsx": "react",
-    "module": "esnext",                                /* Specify what module code is generated. */
-    // "rootDir": "./src",                                  /* Specify the root folder within your source files. */
+    "plugins": [{"name": "typescript-plugin-css-modules"}],
     "moduleResolution": "node",
-    "declaration": true,                          /* Disable emitting comments. */
-    "noEmit": true,
-    "esModuleInterop": true,                      /* Disable resolving symlinks to their realpath. This correlates to the same flag in node. */
-    "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
-
-    /* Type Checking */
-    "strict": true,              /* Enable error reporting for fallthrough cases in switch statements. */
-    "noUncheckedIndexedAccess": true,               /* Skip type checking .d.ts files that are included with TypeScript. */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
-  }
+    "target": "ESnext",
+    "module": "ESNext",
+    "allowJs": true,
+    "checkJs": true,
+    "jsx": "react",
+    "lib": ["DOM", "ESNext"],
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "baseUrl": "src",
+    "outDir": "dist",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+  ],
 }
