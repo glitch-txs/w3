@@ -10,7 +10,7 @@ const Modal = () => {
 
   const address = getW3Address()
   //close modal when connected
-  if(address) setOpen(false)
+  if(address) return null
 
   const Modal = open && 
   <div id="conenct-modal" className={[s.container, open ? '' : s.containerClosed].join(' ')} onClick={()=>setOpen(false)}>

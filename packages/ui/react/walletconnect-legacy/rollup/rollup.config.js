@@ -5,7 +5,6 @@ import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
 import postcssPresetEnv from 'postcss-preset-env';
 import autoprefixer from 'autoprefixer';
-import stringHash from 'string-hash';
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 const globals = {
@@ -38,8 +37,6 @@ export default {
           postcssPresetEnv(),
           autoprefixer(),
         ],
-        // autoModules: false,
-        // onlyModules: false,
         modules:true,
         extract: false,
         extensions: ['.scss'],
