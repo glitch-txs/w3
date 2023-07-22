@@ -1,5 +1,5 @@
 // @ts-nocheck – ignore @coinbase/wallet-sdk window.ethereum.
-import { web3Store } from "../../store/web3store";
+import { web3Store } from "../../store/w3store";
 import { EIP1193Provider, EIP6963ProviderDetail, URL } from "../../types";
 import { KEY_WALLET } from "../../utils/constants";
 import { BaseWallet } from "./base";

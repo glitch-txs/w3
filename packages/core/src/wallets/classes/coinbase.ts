@@ -1,4 +1,4 @@
-import { web3Store } from "../../store/web3store"
+import { web3Store } from "../../store/w3store"
 import { EIP1193Provider, URL, WalletNames } from "../../types"
 import { KEY_WALLET } from "../../utils/constants"
 import { isWindow } from "../../utils/isWindow"

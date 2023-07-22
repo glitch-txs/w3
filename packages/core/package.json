@@ -10,16 +10,15 @@
   "scripts": {
     "watch": "tsc -w",
     "build": "tsup",
-    "upload":"npm run build && npm publish --public"
+    "upload": "npm run build && npm publish --public"
   },
   "type": "module",
   "author": "Glitch-txs",
   "license": "MIT",
   "dependencies": {
-    "@coinbase/wallet-sdk": "^3.6.6",
     "@walletconnect/ethereum-provider": "^2.8.0",
     "@walletconnect/modal": "^2.4.5",
-    "zustand": "^4.3.8"
+    "vanilla-cafe": "^0.1.0"
   },
   "peerDependencies": {
     "typescript": ">=5.1.3"

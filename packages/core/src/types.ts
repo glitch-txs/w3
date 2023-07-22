@@ -15,8 +15,6 @@ export type Chain = {
   iconUrls?:string[]
 }
 
-export type WalletNames = 'Coinbase' | 'MetaMask' | 'Phantom' | 'Trust Wallet' | 'WalletConnect' | 'Injected'
-
 /*<--------EIP-6963-------->*/
 
 export interface EIP6963ProviderDetail {
@@ -30,7 +28,7 @@ interface EIP6963ProviderInfo {
   icon: string;
 }
 
-/* Type EIP1193Provider is documented at EIP-1193 */
+/* Type EIP1193Provider is documented on EIP-1193 */
 export interface EIP1193Provider {
   isStatus?: boolean;
   host?: string;

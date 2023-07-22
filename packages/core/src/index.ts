@@ -1,4 +1,4 @@
-export { web3Store } from './store/web3store'
+export { web3Store } from './store/w3store'
 export * from './wallets/classes'
 export { connectW3, disconnectW3, initEIP6963 } from './wallets'
 export { BaseWallet } from './wallets/classes/base'
