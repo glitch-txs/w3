@@ -11,13 +11,9 @@ It sets up for you a wallet connection infrastructure with a built-in store and 
 
 **Compatible with <a href="https://docs.ethers.org/v6/" target="_blank">ethers.js</a>, <a href="https://viem.sh/" target="_blank">viem</a> and <a href="https://docs.web3js.org/" target="_blank">Web3.js</a>**
 
-### Current supported wallets
-- MetaMask
-- Coinbase
+### Current supported protocols & wallets
+- Browser Wallets
 - WalletConnect
-- Trust Wallet
-- Phantom (EVM)
-- Injected - Custom Wallet
 - EIP-6963 compatible wallets
 
 ### Install
@@ -35,11 +31,22 @@ pnpm add w3-evm-react
 ### Init W3
 
 ```tsx
-import { W3, initWallets, mainnet, initW3 } from 'w3-evm-react'
+import { W3, initW3, WindowEthereum, WalletConnect, subW3 } from 'w3-evm-react'
+import { mainnet } from 'w3-evm'
+
+/* Icons */
+import walletconnect from 'public/walletconnect.svg'
+import wallet from 'public/wallet.png'
+
+const projectId = 'WalletConnect Project Id'
 
 const w3props = initW3({
-  wallets: initWallets(),
-  chains:[mainnet]
+  connectors: [
+    new WindowEthereum({ icon: wallet }), 
+    new WalletConnect({ projectId, icon: walletconnect, showQrModal: true })
+  ],
+  chains:[mainnet],
+  SSR: true, // For SSR Frameworks like Next.js
 })
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -52,8 +59,6 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-> With this type of config you need to set an enviroment variable for WalletConnect's project ID: `NEXT_PUBLIC_WALLETCONNECT_ID="yourProjectID"`. For others ways of configuration see [Initialize the W3 Component](https://w3evm.dev/docs/w3-react/init)
-
 Create your WalletConnect Project ID at <a href='https://cloud.walletconnect.com/sign-in' target='_blank' >WalletConnect Cloud</a>
 
 ### Connect to a Wallet
@@ -64,26 +69,27 @@ import { useConnect } from 'w3-evm-react'
 
 export default function Connect() {
 
-  const { wallets, connectW3, disconnectW3, wait } = useConnect()
+  const { connectors, connectW3, disconnectW3, wait } = useConnect()
   
   return (
     <>
-      {wallets.map((wallet) =>(
+      {connectors.map((wallet) =>(
         <button key={wallet.id} disabled={wait.state} onClick={()=>connectW3(wallet)}>
           {wallet.name}
         </button>
-      ))}
+        ))
+      }
     </>
   )
 }
 ```
 
-### Reactive Getters
+### Custom Hooks
 
 ```tsx
 import { getW3Chain, getW3Address } from 'w3-evm-react'
 
-export default function UserInfo() {
+export default function UserInfo(){
   
   const address = getW3Address()
   const chain = getW3Chain()
