@@ -1,16 +1,16 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import { getW3Address, getW3Chain, useConnect } from 'w3-evm-react'
+import { getW3Address, getW3Chain, useConnect, getW3Error } from 'w3-evm-react'
 import Image from 'next/image'
 
 
 export default function Home() {
   
-  const { wallets, wait, connectW3, disconnectW3 } = useConnect()
+  const { connectors, wait, connectW3, disconnectW3 } = useConnect()
 
   const address = getW3Address()
-
   const chain = getW3Chain()
+  const error = getW3Error()
   
   return (
     <>
@@ -24,11 +24,11 @@ export default function Home() {
         <div>
           { address ? 
           <button className={styles.button} onClick={disconnectW3} >Disconnect</button> :
-          wallets.map((wallet) =>
+          connectors.map((wallet) =>
           <button
           key={wallet.id} 
-          disabled={wait.state} 
-          className={[styles.wallet, wait.state && styles.loading].join(' ')} 
+          disabled={Boolean(wait)} 
+          className={[styles.wallet, wait && styles.loading].join(' ')} 
           onClick={()=>connectW3(wallet)}>
             <span>
               <Image width={44} height={44} src={wallet.icon} alt='' />
@@ -38,13 +38,16 @@ export default function Home() {
           )}
         </div>
 
-        { wait.state ? `${wait.reason}...` : (address ? "Connected" : "Connect Your Wallet") }
+        { wait ? `${wait}...` : (address ? "Connected" : "Connect Your Wallet") }
         <br/>
         <br/>
         User: { address }
         <br/>
         <br/>
         Chain: {chain}
+        <br/>
+        <br/>
+        Error: {error?.message}
       </main>
     </>
   )
