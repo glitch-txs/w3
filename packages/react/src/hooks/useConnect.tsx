@@ -1,8 +1,8 @@
 import { useSyncExternalStore } from 'react'
-import { web3Store, connectW3, disconnectW3 } from 'w3-evm'
+import { subW3, getW3, connectW3, disconnectW3 } from 'w3-evm'
 
 export function useConnect(){
-  const wallets = useSyncExternalStore((cb)=>web3Store.subscribe((state: any)=> state.wallets,cb),()=>web3Store.getState().wallets,()=>web3Store.getState().wallets)
-  const wait = useSyncExternalStore((cb)=>web3Store.subscribe((state: any)=> state.wait,cb),()=>web3Store.getState().wait,()=>web3Store.getState().wait)
-  return { wallets, connectW3, disconnectW3, wait }
+  const connectors = useSyncExternalStore(subW3.connectors, getW3.connectors, getW3.connectors)
+  const wait = useSyncExternalStore(subW3.wait, getW3.wait, getW3.wait)
+  return { connectors, connectW3, disconnectW3, wait }
 }

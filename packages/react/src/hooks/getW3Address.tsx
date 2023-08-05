@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react'
-import { web3Store } from 'w3-evm'
+import { subW3, getW3 } from 'w3-evm'
 
 export function getW3Address () {
-  return useSyncExternalStore((cb)=>web3Store.subscribe((state: any)=> state.address,cb),()=>web3Store.getState().address,()=>web3Store.getState().address)
+  return useSyncExternalStore(subW3.address,getW3.address,getW3.address)
 }
