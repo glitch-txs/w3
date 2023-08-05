@@ -18,7 +18,7 @@
   "dependencies": {
     "@walletconnect/ethereum-provider": "^2.8.0",
     "@walletconnect/modal": "^2.4.5",
-    "vanilla-cafe": "^0.1.0"
+    "vanilla-cafe": "^0.1.1"
   },
   "peerDependencies": {
     "typescript": ">=5.1.3"
