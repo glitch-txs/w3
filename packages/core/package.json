@@ -1,6 +1,6 @@
 {
   "name": "w3-evm",
-  "version": "0.1.5",
+  "version": "1.0.0",
   "description": "EVM Wallets Library For Decentralized Applications",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,12 +16,12 @@
   "author": "Glitch-txs",
   "license": "MIT",
   "dependencies": {
-    "@walletconnect/ethereum-provider": "^2.8.0",
-    "@walletconnect/modal": "^2.4.5",
-    "vanilla-cafe": "^0.1.1"
+    "@walletconnect/ethereum-provider": "^2.9.2",
+    "@walletconnect/modal": "^2.6.1",
+    "vanilla-cafe": "^0.1.3"
   },
   "peerDependencies": {
-    "typescript": ">=5.1.3"
+    "typescript": ">=5"
   },
   "peerDependenciesMeta": {
     "typescript": {

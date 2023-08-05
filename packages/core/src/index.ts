@@ -1,6 +1,18 @@
-export { web3Store } from './store/w3store'
-export * from './wallets/classes'
-export { connectW3, disconnectW3, initEIP6963 } from './wallets'
-export { BaseWallet } from './wallets/classes/base'
+export { getW3, setW3, subW3 } from './store/w3store'
+
+export {
+  Custom,
+  WindowEthereum,
+  WalletConnect,
+  EIP6963Connector
+} from './connectors'
+
+export {
+  connectW3,
+  disconnectW3,
+  initEIP6963,
+  initW3
+} from './functions'
+
 export * from './types'
 export * from './chains'

@@ -1,1 +1,0 @@
-export { connectW3, disconnectW3, initEIP6963 } from "./connection"
