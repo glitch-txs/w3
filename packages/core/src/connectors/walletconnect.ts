@@ -1,13 +1,13 @@
 import { QrModalOptions } from "@walletconnect/ethereum-provider/dist/types/EthereumProvider"
 import { Provider } from "../types"
 import {  KEY_WALLET } from "../constants"
-import { WindowEthereum } from "./windowEthereum"
+import { Injected } from "./injected"
 import { getW3, setW3 } from "../store/w3store"
 
 type WalletConnectOptions = {
   showQrModal?: boolean, qrModalOptions?: QrModalOptions, projectId: string, icon?: any
 }
-export class WalletConnect extends WindowEthereum {
+export class WalletConnect extends Injected {
   readonly id: string
   readonly name: string
   readonly icon?: any
@@ -78,13 +78,14 @@ export class WalletConnect extends WindowEthereum {
     
     setW3.wait('Connecting')
     
-    await provider.connect?.().catch(setW3.error)
+    await provider.connect?.().then(async()=>{
+      const connected = await this.setAccountAndChainId(this.provider)
+      if(connected) {
+        setW3.walletProvider(provider as Provider)
+        localStorage.setItem(KEY_WALLET,this.id)
+      }
+    }).catch(setW3.error)
 
-    const connected = await this.setAccountAndChainId(this.provider)
-    if(connected) {
-      setW3.walletProvider(provider as Provider)
-      localStorage.setItem(KEY_WALLET,this.id)
-    }
     setW3.wait(undefined)
   }
 

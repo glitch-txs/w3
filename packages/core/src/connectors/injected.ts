@@ -2,23 +2,40 @@ import { setW3, getW3 } from "../store/w3store"
 import { Provider } from "../types"
 import { KEY_WALLET } from "../constants"
 
-export class WindowEthereum {
+type InjectedOpts = {
+    /** Wallet uuid */
+    uuid?: string
+    /** Wallet id */
+    id?: string
+    /** Wallet name */
+    name?:  string
+    /**Wallet icon */
+    icon?: any
+    /**function that returns the injected wallet provider or undefined */
+    getProvider?: ()=>Promise<Provider> | Provider | undefined
+}
+
+export class Injected {
   /** Wallet uuid */
   readonly uuid: string = ''
   /** Wallet id */
-  readonly id: string = 'browserWallet'
+  readonly id: string
   /** Wallet name */
-  readonly name:  string = 'Browser Wallet'
+  readonly name:  string
   /**Wallet icon */
   readonly icon?: any
   
-  getProvider():Promise<Provider> | Provider | undefined{
-    if(typeof window === 'undefined') return
-    return window.ethereum
-  }
+  getProvider:()=>Promise<Provider> | Provider | undefined
 
-  constructor({ icon }:{ icon?: any } = {}){
+  constructor({ icon, name, id, uuid, getProvider }:InjectedOpts = {}){
+    this.uuid = uuid ?? ''
+    this.id = id ?? 'browserWallet'
+    this.name = name ?? 'Browser Wallet'
     this.icon = icon
+    this.getProvider = getProvider ?? (()=>{
+      if(typeof window === 'undefined') return
+      return window.ethereum
+    })
   }
 
   async init(){

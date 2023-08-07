@@ -1,4 +1,4 @@
-import { Custom, WalletConnect, WindowEthereum } from "./connectors";
+import {  WalletConnect, Injected } from "./connectors";
 import { EIP6963Connector } from "./connectors/EIP6963";
 
 /* EIP-3085 */
@@ -69,4 +69,4 @@ export interface Provider extends EIP1193Provider {
 }
 
 /* W3 */
-export type Connector = WindowEthereum | WalletConnect | Custom | EIP6963Connector
+export type Connector = Injected | WalletConnect | EIP6963Connector

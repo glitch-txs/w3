@@ -1,9 +1,9 @@
 import { setW3 } from "../store/w3store";
 import { EIP6963ProviderDetail } from "../types";
 import { KEY_WALLET } from "../constants";
-import { WindowEthereum } from "./windowEthereum";
+import { Injected } from "./injected";
 
-export class EIP6963Connector extends WindowEthereum {
+export class EIP6963Connector extends Injected {
   readonly uuid: string
   readonly id: string
   readonly name: string
