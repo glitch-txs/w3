@@ -23,7 +23,7 @@ export default function Home() {
       <main className={styles.main}>
         <div>
           { address ? 
-          <button className={styles.button} onClick={disconnectW3} >Disconnect</button> :
+          <button className={styles.button} onClick={()=>disconnectW3()} >Disconnect</button> :
           connectors.map((wallet) =>
           <button
           key={wallet.id} 
