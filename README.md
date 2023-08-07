@@ -31,7 +31,7 @@ pnpm add w3-evm-react
 ### Init W3
 
 ```tsx
-import { W3, initW3, WindowEthereum, WalletConnect, subW3 } from 'w3-evm-react'
+import { W3, initW3, Injected, WalletConnect } from 'w3-evm-react'
 import { mainnet } from 'w3-evm'
 
 /* Icons */
@@ -42,7 +42,7 @@ const projectId = 'WalletConnect Project Id'
 
 const w3props = initW3({
   connectors: [
-    new WindowEthereum({ icon: wallet }), 
+    new Injected({ icon: wallet }), 
     new WalletConnect({ projectId, icon: walletconnect, showQrModal: true })
   ],
   chains:[mainnet],
@@ -74,7 +74,7 @@ export default function Connect() {
   return (
     <>
       {connectors.map((wallet) =>(
-        <button key={wallet.id} disabled={wait.state} onClick={()=>connectW3(wallet)}>
+        <button key={wallet.id} disabled={wait} onClick={()=>connectW3(wallet)}>
           {wallet.name}
         </button>
         ))
@@ -109,16 +109,18 @@ export default function UserInfo(){
 import { BrowserProvider } from 'ethers'
 import { getW3Provider } from 'w3-evm-react'
 
-export default function useEthersProvider() {
+export default function useEthersProvider(){
 
   const w3Provider = getW3Provider()
 
-  const provider = useMemo(()=>{
-    if(w3Provider)
-    return new BrowserProvider(w3Provider)
-  },[w3Provider])
-  
-  return { provider }
+  function callContract(){
+    if(!w3Provider) throw new Error('User not connected')
+
+    const provider = new BrowserProvider(w3Provider)
+    //...
+  }
+
+  //...
 }
 ```
 
@@ -131,12 +133,14 @@ export default function useWeb3Provider() {
 
   const w3Provider = getW3Provider()
 
-  const provider = useMemo(()=>{
-    if(w3Provider)
-    return new Web3(w3Provider)
-  },[w3Provider])
-  
-  return { provider }
+  function callContract(){
+    if(!w3Provider) throw new Error('User not connected')
+
+    const provider = new Web3(w3Provider)
+    //...
+  }
+
+  //...
 }
 ```
 
@@ -150,14 +154,16 @@ export default function useWalletClient() {
 
   const w3Provider = getW3Provider()
 
-  const client = useMemo(()=>{
-    if(w3Provider)
-    return createWalletClient({
-  chain: mainnet,
-  transport: custom(w3Provider)
-})
-  },[w3Provider])
-  
-  return { client }
+  function callContract(){
+    if(!w3Provider) throw new Error('User not connected')
+
+    const provider = createWalletClient({
+      chain: mainnet,
+      transport: custom(w3Provider)
+    })
+    //...
+  }
+
+  //...
 }
 ```
