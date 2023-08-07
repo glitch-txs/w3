@@ -48,6 +48,7 @@ export class WalletConnect extends Injected {
       if(window?.localStorage.getItem(KEY_WALLET) === this.id) setW3.wait(undefined)
       return
     }
+    this.provider = provider as Provider
     
     provider.on("disconnect", () => {
       if(localStorage.getItem(KEY_WALLET) === this.id) localStorage.removeItem(KEY_WALLET)
@@ -64,7 +65,6 @@ export class WalletConnect extends Injected {
       return
       }
     }
-    this.provider = provider as Provider
     window?.dispatchEvent(new Event('WalletConnect#ready', {bubbles: true}))
   }
 
