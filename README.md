@@ -63,7 +63,7 @@ Create your WalletConnect Project ID at <a href='https://cloud.walletconnect.com
 
 ### Connect to a Wallet
 
-Import the `useConnect` hook and map through the `wallets` array:
+Import the `useConnect` hook and map through the `connectors` array:
 ```tsx
 import { useConnect } from 'w3-evm-react'
 
