@@ -9,9 +9,8 @@ export {
   getW3,
   setW3,
   subW3,
-  WindowEthereum,
+  Injected,
   WalletConnect,
-  Custom,
   initEIP6963,
   initW3
 } from 'w3-evm'
