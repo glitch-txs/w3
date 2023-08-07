@@ -74,7 +74,7 @@ export default function Connect() {
   return (
     <>
       {connectors.map((wallet) =>(
-        <button key={wallet.id} disabled={wait} onClick={()=>connectW3(wallet)}>
+        <button key={wallet.id} disabled={Boolean(wait)} onClick={()=>connectW3(wallet)}>
           {wallet.name}
         </button>
         ))
