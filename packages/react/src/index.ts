@@ -15,5 +15,6 @@ export {
   initW3,
   Chain,
   Provider,
-  EIP1193Provider
+  EIP1193Provider,
+  ProviderRpcError
 } from 'w3-evm'
