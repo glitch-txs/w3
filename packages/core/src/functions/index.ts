@@ -30,7 +30,7 @@ export function initEIP6963(){
 }
 
 /* Init Function */
-export function initW3({ connectors, chains, SSR }: {connectors: Connector[], chains: Chain[], SSR?: Boolean}){
+export function initW3({ connectors, chains, SSR }: {connectors: Connector[], chains: Chain[] | number[], SSR?: Boolean}){
   setW3.chains(chains), setW3.connectors(connectors)
   
   if(typeof window === 'undefined') return
