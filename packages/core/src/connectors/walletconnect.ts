@@ -6,7 +6,7 @@ import { getW3, setW3 } from "../store/w3store"
 import { catchError } from "../utils"
 
 type WalletConnectOptions = {
-  showQrModal?: boolean, qrModalOptions?: QrModalOptions, icon?: any
+  showQrModal?: boolean, qrModalOptions?: QrModalOptions, icon?: any, projectId: string
 }
 export class WalletConnect extends Injected {
   readonly id: string
@@ -16,7 +16,7 @@ export class WalletConnect extends Injected {
   private options: WalletConnectOptions
   getProvider:()=>Promise<Provider> | Provider | undefined
 
-  constructor(options?: WalletConnectOptions){
+  constructor(options: WalletConnectOptions){
     const getProvider = ()=>{
       return this.provider
     }
@@ -26,17 +26,16 @@ export class WalletConnect extends Injected {
     this.id = "walletConnect"
     this.name = 'WalletConnect'
     this.icon = options?.icon
-    this.options = options  ?? {}
+    this.options = options
     this.getProvider = getProvider
   }
 
   async init(){
     const { EthereumProvider } = await import("@walletconnect/ethereum-provider")
 
-    const { showQrModal, qrModalOptions } = this.options
+    const { showQrModal, qrModalOptions, projectId } = this.options
   
-    const projectId = getW3.projectId()
-    if(!projectId || projectId === 'YOUR_PROJECT_ID') throw new Error('Invalid Project Id')
+    if(projectId === 'YOUR_PROJECT_ID') throw new Error('Invalid Project Id')
 
     const chains = getW3.chains().map(chain => {
       if(typeof chain === 'number') return chain 

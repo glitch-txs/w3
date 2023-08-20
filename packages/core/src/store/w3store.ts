@@ -3,10 +3,6 @@ import { Chain, Connector, Provider, ProviderRpcError } from '../types'
 
 interface W3Store {
   /**
-  * WalletConnect Project Id
-  */
-  projectId?: string
-  /**
    * WalletConnect URI
    */
   uri: string
@@ -45,7 +41,6 @@ interface W3Store {
 }
 
 export const { set: setW3, sub: subW3, get: getW3 } = createStore<W3Store>({
-  projectId: undefined,
   uri: '',
   wait:'Initializing',
   address: undefined,
