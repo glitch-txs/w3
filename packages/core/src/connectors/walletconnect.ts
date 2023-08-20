@@ -1,5 +1,5 @@
-import { QrModalOptions } from "@walletconnect/ethereum-provider/dist/types/EthereumProvider"
-import { Provider } from "../types"
+import EthereumProvider, { QrModalOptions } from "@walletconnect/ethereum-provider/dist/types/EthereumProvider"
+import { Chain, Provider } from "../types"
 import {  KEY_WALLET } from "../constants"
 import { Injected } from "./injected"
 import { getW3, setW3 } from "../store/w3store"
@@ -74,16 +74,41 @@ export class WalletConnect extends Injected {
     window?.dispatchEvent(new Event('WalletConnect#ready', {bubbles: true}))
   }
 
-  async connect(){
+  async connect({ chain: _chain }:{chain?: Chain | number} = {}){
+    
     const provider = await this.getProvider()
+
     if(!provider){
-      window.addEventListener('WalletConnect#ready', this.connect, { once: true })
+      function c(this: InstanceType<typeof WalletConnect>){
+        this.connect({chain: _chain})
+      }
+      window.addEventListener('WalletConnect#ready',c.bind(this) , { once: true })
       return
     }
     
     setW3.wait('Connecting')
-    
-    await provider.connect?.()
+    let chain: number | undefined;
+    let chains: number[] | undefined;
+
+    if(_chain){
+      chains = getW3.chains().map(chain => {
+        if(typeof chain === 'number') return chain 
+        return Number(chain.chainId)
+      })
+  
+      chain = chains.find(c => {
+        if(typeof _chain === 'number'){
+          return c === _chain
+        }else{
+          return c === Number(_chain?.chainId)
+        }
+      })
+    }
+
+    await (provider as EthereumProvider).connect?.({
+      chains: chain ? [chain] : undefined,
+      optionalChains: chains,
+    })
     .catch(catchError)
     
     const connected = await this.setAccountAndChainId(this.provider)

@@ -1,7 +1,8 @@
 import { setW3, getW3 } from "../store/w3store"
-import { Provider } from "../types"
+import { Chain, Provider } from "../types"
 import { KEY_WALLET } from "../constants"
 import { catchError } from "../utils"
+import { switchChain } from "../functions/switchChain"
 
 type InjectedOpts = {
     /** Wallet uuid */
@@ -60,7 +61,7 @@ export class Injected {
     }
   }
 
-  async connect(){
+  async connect({ chain: _chain }:{chain?: Chain | number} = {}){
     setW3.wait('Connecting')
     const provider = await this.getProvider()
     
@@ -78,29 +79,11 @@ export class Injected {
       /* Save address, chain and provider - initialize event listeners */
       setW3.address(accounts[0]), setW3.walletProvider(provider)
       await this.setChainId(provider), this.addEvents(provider)
-  
-      /** If the dapp supports more than one chain we won't ask the user to switch to a default one */
       const chains = getW3.chains()
-      if(chains.length > 1 || typeof chains[0] === 'number'){
-        setW3.wait(undefined)
-        return
-      }
-  
+      let chain = _chain ?? (chains.length === 1 ? chains[0] : null)
+
       /* Request to switch to a default chain */
-      if(getW3.chainId() !== Number(chains[0]?.chainId)){
-        await provider.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: chains[0]?.chainId }],
-        }).catch(async (er: any)=>{
-          if(er.code === 4902 || er?.data?.originalError?.code == 4902){
-              await provider.request({
-                method: 'wallet_addEthereumChain',
-                params: [chains[0]],
-              })
-              .catch(catchError)
-          }
-        })
-      } 
+      if(chain) switchChain({ chain })
     })
     .catch(catchError)
 
