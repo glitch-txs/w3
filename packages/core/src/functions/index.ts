@@ -10,7 +10,7 @@ export async function connectW3(connector: Connector): Promise<void>{
 
 export async function disconnectW3(){
   const connectors = getW3.connectors()
-  const [connector] = connectors.filter(c => c.id === localStorage.getItem(KEY_WALLET))
+  const [connector] = connectors.filter(c => c.id === window?.localStorage.getItem(KEY_WALLET))
   
   if(connector) await connector.disconnect()
   else
@@ -37,7 +37,7 @@ export function initW3({ connectors, chains, SSR }: {connectors: Connector[], ch
   if(SSR) return { connectors }
   
   initEIP6963()
-  for(let w of connectors) w.init()
+  for(let c of connectors) c.init()
   
   if(!localStorage.getItem(KEY_WALLET)){
     setW3.wait(undefined)
@@ -48,7 +48,7 @@ export function initW3({ connectors, chains, SSR }: {connectors: Connector[], ch
 
 export const storedWalletExists = ()=>{
   const selectedWallet = window.localStorage.getItem(KEY_WALLET)
-  if(selectedWallet && !getW3.connectors().some(w=>w.id === selectedWallet)){
+  if(selectedWallet && !getW3.connectors().some(c=>c.id === selectedWallet)){
     window.localStorage.removeItem(KEY_WALLET), setW3.wait(undefined)
 
     throw Error(`${selectedWallet} session was saved on storage but the wallet was NOT found`)

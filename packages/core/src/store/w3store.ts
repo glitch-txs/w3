@@ -1,11 +1,15 @@
-import { Chain, Connector, Provider, ProviderRpcError } from '../types'
 import { createStore } from 'vanilla-cafe'
+import { Chain, Connector, Provider, ProviderRpcError } from '../types'
 
 interface W3Store {
   /**
+  * WalletConnect Project Id
+  */
+  projectId?: string
+  /**
    * WalletConnect URI
    */
-  uri?: string
+  uri: string
   /**
    * Current connection state. Shows if there's an ongoing process.
    */
@@ -21,7 +25,7 @@ interface W3Store {
   /**
    * Array of supported chains.
    */
-  chains: Chain[]
+  chains: Chain[] | number[]
   /**
    * ProviderRpcError: object with an error message and its code.
    */
@@ -41,7 +45,8 @@ interface W3Store {
 }
 
 export const { set: setW3, sub: subW3, get: getW3 } = createStore<W3Store>({
-  uri: undefined,
+  projectId: undefined,
+  uri: '',
   wait:'Initializing',
   address: undefined,
   chainId: undefined,

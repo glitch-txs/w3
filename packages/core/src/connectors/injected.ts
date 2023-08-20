@@ -1,6 +1,7 @@
 import { setW3, getW3 } from "../store/w3store"
 import { Provider } from "../types"
 import { KEY_WALLET } from "../constants"
+import { catchError } from "../utils"
 
 type InjectedOpts = {
     /** Wallet uuid */
@@ -64,7 +65,7 @@ export class Injected {
     const provider = await this.getProvider()
     
     if(!provider){
-      setW3.wait(undefined), setW3.error(new Error('Provider not found'))
+      setW3.wait(undefined), catchError(new Error('Provider not found'))
       return
     }  
     await provider.request<string[]>({ method: 'eth_requestAccounts' })
@@ -80,7 +81,7 @@ export class Injected {
   
       /** If the dapp supports more than one chain we won't ask the user to switch to a default one */
       const chains = getW3.chains()
-      if(chains.length > 1){
+      if(chains.length > 1 || typeof chains[0] === 'number'){
         setW3.wait(undefined)
         return
       }
@@ -96,12 +97,12 @@ export class Injected {
                 method: 'wallet_addEthereumChain',
                 params: [chains[0]],
               })
-              .catch(setW3.error)
+              .catch(catchError)
           }
         })
       } 
     })
-    .catch(setW3.error)
+    .catch(catchError)
 
     setW3.wait(undefined)
   }
@@ -126,7 +127,7 @@ export class Injected {
         await provider.request<string | number>({ method: 'eth_chainId' }).then((chainId)=> {
           setW3.chainId(Number(chainId))
 
-        }).catch(setW3.error)
+        }).catch(catchError)
     
         connected = true
   
@@ -134,7 +135,7 @@ export class Injected {
         setW3.address(undefined)
       }
   
-    }).catch(setW3.error)
+    }).catch(catchError)
   
     return connected
   }
@@ -175,7 +176,7 @@ export class Injected {
   }
 
   protected onDisconnect = (error: Error)=>{
-    setW3.error(error)
+    catchError(error)
   }
 
   protected onConnect = async()=>{
