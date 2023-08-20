@@ -10,7 +10,8 @@ export {
   connectW3,
   disconnectW3,
   initEIP6963,
-  initW3
+  initW3,
+  _storedWalletExists
 } from './functions'
 
 export * from './types'

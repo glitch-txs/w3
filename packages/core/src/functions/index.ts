@@ -42,11 +42,11 @@ export function initW3({ connectors, chains, SSR }: {connectors: Connector[], ch
   if(!localStorage.getItem(KEY_WALLET)){
     setW3.wait(undefined)
   }else{
-    setTimeout(storedWalletExists, 1000)  
+    setTimeout(_storedWalletExists, 1000)  
   }
 }
 
-export const storedWalletExists = ()=>{
+export const _storedWalletExists = ()=>{
   const selectedWallet = window.localStorage.getItem(KEY_WALLET)
   if(selectedWallet && !getW3.connectors().some(c=>c.id === selectedWallet)){
     window.localStorage.removeItem(KEY_WALLET), setW3.wait(undefined)
