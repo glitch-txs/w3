@@ -14,4 +14,10 @@ export {
   _storedWalletExists
 } from './functions'
 
-export * from './types'
+export {
+  Chain,
+  Provider,
+  EIP1193Provider,
+  ProviderRpcError,
+  Connector
+} from './types'

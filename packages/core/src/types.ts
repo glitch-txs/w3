@@ -70,8 +70,3 @@ export interface Provider extends EIP1193Provider {
 
 /* W3 */
 export type Connector = Injected | WalletConnect | EIP6963Connector
-
-/* WalletConnect */
-export type ArrayOneOrMore<T> = {
-  0: T;
-} & Array<T>;
