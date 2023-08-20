@@ -13,6 +13,9 @@ export {
   WalletConnect,
   initEIP6963,
   initW3,
+} from 'w3-evm'
+
+export type {
   Chain,
   Provider,
   EIP1193Provider,
