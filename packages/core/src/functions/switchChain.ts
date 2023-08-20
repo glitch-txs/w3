@@ -1,4 +1,4 @@
-import { getW3 } from "../../dist";
+import { getW3 } from "../store/w3store";
 import { Chain } from "../types";
 import { catchError } from "../utils";
 
