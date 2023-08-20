@@ -12,5 +12,8 @@ export {
   Injected,
   WalletConnect,
   initEIP6963,
-  initW3
+  initW3,
+  Chain,
+  Provider,
+  EIP1193Provider
 } from 'w3-evm'
