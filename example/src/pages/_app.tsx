@@ -1,7 +1,6 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { W3, initW3, Injected, WalletConnect, subW3 } from 'w3-evm-react'
-import { mainnet } from 'w3-evm'
+import { W3, initW3, Injected, WalletConnect } from 'w3-evm-react'
 import walletconnect from 'public/walletconnect.svg'
 import wallet from 'public/wallet.png'
 
@@ -12,11 +11,9 @@ const w3props = initW3({
     new Injected({ icon: wallet }), 
     new WalletConnect({ projectId, icon: walletconnect, showQrModal: true })
   ],
-  chains:[mainnet],
+  chains:[1, 137],
   SSR: true,
 })
-
-// subW3.error(console.error)
 
 export default function App({ Component, pageProps }: AppProps) {
   return <>
