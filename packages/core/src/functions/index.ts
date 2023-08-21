@@ -4,8 +4,8 @@ import { Chain, Connector, EIP6963AnnounceProviderEvent } from "../types"
 import { KEY_WALLET } from "../constants"
 
 /* Connect & Disconnect Functions */
-export async function connectW3(connector: Connector): Promise<void>{
-  await connector.connect()
+export async function connectW3({ connector, chain }:{connector: Connector, chain?: Chain | number}): Promise<void>{
+  await connector.connect({ chain })
 }
 
 export async function disconnectW3(){
