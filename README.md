@@ -12,9 +12,8 @@ It sets up for you a wallet connection infrastructure with a built-in store and 
 **Compatible with <a href="https://docs.ethers.org/v6/" target="_blank">ethers.js</a>, <a href="https://viem.sh/" target="_blank">viem</a> and <a href="https://docs.web3js.org/" target="_blank">Web3.js</a>**
 
 ### Current supported protocols & wallets
-- Browser Wallets
-- WalletConnect
-- EIP-6963 compatible wallets
+- Extension Wallets (Injected + EIP-6963)
+- WalletConnect v2 Protocol
 
 ### Install
 
@@ -35,23 +34,24 @@ import { W3, initW3, Injected, WalletConnect } from 'w3-evm-react'
 
 /* Icons */
 import walletconnect from 'public/walletconnect.svg'
-import wallet from 'public/wallet.png'
+import wallet from 'public/extension-wallet.png'
 
-const projectId = 'WalletConnect Project Id'
+/* WalletConnect Project Id */
+const projectId = 'YOUR_PROJECT_ID'
 
 const w3props = initW3({
   connectors: [
     new Injected({ icon: wallet }), 
     new WalletConnect({ projectId, icon: walletconnect, showQrModal: true })
   ],
-  chains:[1, 56],
+  chains:[1, 137],
   SSR: true, // For SSR Frameworks like Next.js
 })
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <W3 {...w3props} />
+      <W3 {...w3props} /> { /* Required when SSR: true */ }
       <Component {...pageProps} />
     </>
   )
@@ -72,12 +72,12 @@ export default function Connect() {
   
   return (
     <>
-      {connectors.map((wallet) =>(
-        <button key={wallet.id} disabled={Boolean(wait)} onClick={()=>connectW3(wallet)}>
-          {wallet.name}
-        </button>
-        ))
-      }
+      {connectors.map((connector) =>(
+      <button key={connector.id} disabled={Boolean(wait)} onClick={()=>connectW3({ connector })}>
+        <img src={connector.icon} alt={connector.name} />
+        {connector.name}
+      </button>
+      ))}
     </>
   )
 }
@@ -92,12 +92,15 @@ export default function UserInfo(){
   
   const address = getW3Address()
   const chain = getW3Chain()
+  const error = getW3Error()
   
   return (
     <div>
       address: {address}
       <br/>
       Chain ID: {chain}
+      <br/>
+      Error: {error}
     </div>
   )
 }
