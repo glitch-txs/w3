@@ -24,16 +24,16 @@ export default function Home() {
         <div>
           { address ? 
           <button className={styles.button} onClick={disconnectW3} >Disconnect</button> :
-          connectors.map((wallet) =>
+          connectors.map((connector) =>
           <button
-          key={wallet.id} 
+          key={connector.id} 
           disabled={Boolean(wait)} 
-          className={[styles.wallet, wait && styles.loading].join(' ')} 
-          onClick={()=>connectW3(wallet)}>
+          className={[styles.connector, wait && styles.loading].join(' ')} 
+          onClick={()=>connectW3({ connector })}>
             <span>
-              <Image width={44} height={44} src={wallet.icon} alt='' />
+              <Image width={44} height={44} src={connector.icon} alt='' />
             </span>
-            {wallet.name}
+            {connector.name}
           </button>
           )}
         </div>
