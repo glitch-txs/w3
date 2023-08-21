@@ -32,7 +32,6 @@ pnpm add w3-evm-react
 
 ```tsx
 import { W3, initW3, Injected, WalletConnect } from 'w3-evm-react'
-import { mainnet } from 'w3-evm'
 
 /* Icons */
 import walletconnect from 'public/walletconnect.svg'
@@ -45,7 +44,7 @@ const w3props = initW3({
     new Injected({ icon: wallet }), 
     new WalletConnect({ projectId, icon: walletconnect, showQrModal: true })
   ],
-  chains:[mainnet],
+  chains:[1, 56],
   SSR: true, // For SSR Frameworks like Next.js
 })
 
