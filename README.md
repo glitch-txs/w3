@@ -86,7 +86,7 @@ export default function Connect() {
 ### Custom Hooks
 
 ```tsx
-import { getW3Chain, getW3Address } from 'w3-evm-react'
+import { getW3Chain, getW3Address, getW3Error } from 'w3-evm-react'
 
 export default function UserInfo(){
   
@@ -159,7 +159,7 @@ export default function useWalletClient() {
   function callContract(){
     if(!w3Provider) throw new Error('User not connected')
 
-    const provider = createWalletClient({
+    const client = createWalletClient({
       chain: mainnet,
       transport: custom(w3Provider)
     })
