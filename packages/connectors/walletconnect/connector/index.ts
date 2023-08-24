@@ -1,14 +1,6 @@
 import EthereumProvider, { QrModalOptions } from "@walletconnect/ethereum-provider/dist/types/EthereumProvider"
-import { Chain, Injected, Provider, ProviderRpcError, getW3, setW3 } from 'w3-evm'
+import { Chain, Injected, Provider, getW3, setW3, _KEY_WALLET as KEY_WALLET, _catchError as catchError } from 'w3-evm'
 import { setWC } from "../store"
-
-const KEY_WALLET="w3:connected_wallet"
-
-export function catchError(e: Error | ProviderRpcError){
-  setW3.error(e) 
-  setW3.wait(undefined)
-  throw e
-}
 
 type WalletConnectOptions = {
   showQrModal?: boolean, qrModalOptions?: QrModalOptions, icon?: any, projectId: string

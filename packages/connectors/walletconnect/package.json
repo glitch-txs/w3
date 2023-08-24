@@ -10,7 +10,9 @@
   "license": "MIT",
   "dependencies": {
     "@walletconnect/ethereum-provider": "^2.10.0",
-    "@walletconnect/modal": "^2.6.1",
-    "w3-evm": "^1.1.8"
+    "@walletconnect/modal": "^2.6.1"
+  },
+  "peerDependencies": {
+    "w3-evm": "^1.2.0"
   }
 }
