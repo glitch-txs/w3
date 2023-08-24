@@ -1,0 +1,16 @@
+{
+  "name": "w3-walletconnect-connector",
+  "version": "0.0.0",
+  "description": "WalletConnect connector for W3 EVM library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@walletconnect/ethereum-provider": "^2.10.0",
+    "@walletconnect/modal": "^2.6.1",
+    "w3-evm": "^1.1.8"
+  }
+}
