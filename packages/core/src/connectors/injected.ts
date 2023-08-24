@@ -5,15 +5,10 @@ import { catchError } from "../utils"
 import { switchChain } from "../functions/switchChain"
 
 type InjectedOpts = {
-    /** Wallet uuid */
     uuid?: string
-    /** Wallet id */
     id?: string
-    /** Wallet name */
     name?:  string
-    /**Wallet icon */
     icon?: any
-    /**function that returns the injected wallet provider or undefined */
     getProvider?: ()=>Promise<Provider> | Provider | undefined
 }
 
