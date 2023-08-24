@@ -18,13 +18,9 @@ type InjectedOpts = {
 }
 
 export class Injected {
-  /** Wallet uuid */
   readonly uuid: string = ''
-  /** Wallet id */
   readonly id: string
-  /** Wallet name */
   readonly name:  string
-  /**Wallet icon */
   readonly icon?: any
   
   getProvider:()=>Promise<Provider> | Provider | undefined
