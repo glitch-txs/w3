@@ -1,5 +1,4 @@
-import {  WalletConnect, Injected } from "./connectors";
-import { EIP6963Connector } from "./connectors/EIP6963";
+import { Injected } from "./connectors";
 
 /* EIP-3085 */
 export interface Chain {
@@ -69,4 +68,4 @@ export interface Provider extends EIP1193Provider {
 }
 
 /* W3 */
-export type Connector = Injected | WalletConnect | EIP6963Connector
+export type Connector = Injected

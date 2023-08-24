@@ -31,7 +31,7 @@ export class Injected {
 
   constructor({ icon, name, id, uuid, getProvider }:InjectedOpts = {}){
     this.uuid = uuid ?? ''
-    this.id = id ?? 'browserWallet'
+    this.id = id ?? 'injected'
     this.name = name ?? 'Browser Wallet'
     this.icon = icon
     this.getProvider = getProvider ?? (()=>{

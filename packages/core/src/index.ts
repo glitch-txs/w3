@@ -2,7 +2,6 @@ export { getW3, setW3, subW3 } from './store/w3store'
 
 export {
   Injected,
-  WalletConnect,
   EIP6963Connector
 } from './connectors'
 
@@ -21,3 +20,11 @@ export {
   ProviderRpcError,
   Connector
 } from './types'
+
+export {
+  catchError as _catchError
+} from './utils'
+
+export {
+  KEY_WALLET as _KEY_WALLET
+} from './constants'
