@@ -15,9 +15,9 @@ interface W3Store {
    */
   chainId?: number
   /**
-   * Array of supported chains.
+   * Default chain to switch to when connecting.
    */
-  chains: Chain[] | number[]
+  defaultChain?: Chain | number
   /**
    * ProviderRpcError: object with an error message and its code.
    */
@@ -36,7 +36,7 @@ export const { set: setW3, sub: subW3, get: getW3 } = createStore<W3Store>({
   wait:'Initializing',
   address: undefined,
   chainId: undefined,
-  chains: [],
+  defaultChain: undefined,
   error: undefined,
   connectors: [],
   walletProvider: undefined,

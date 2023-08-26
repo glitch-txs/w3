@@ -20,17 +20,18 @@ It sets up for you a wallet connection infrastructure with a built-in store and 
 ```bash
 npm i w3-evm-react
 ```
+
+### Install WalletConnect Connector
+
 ```bash
-yarn add w3-evm-react
-```
-```bash
-pnpm add w3-evm-react
+npm i w3-evm-walletconnect
 ```
 
 ### Init W3
 
 ```tsx
-import { W3, initW3, Injected, WalletConnect } from 'w3-evm-react'
+import { W3, initW3, Injected } from 'w3-evm-react'
+import { WalletConnect } from 'w3-evm-walletconnect'
 
 /* Icons */
 import walletconnect from 'public/walletconnect.svg'

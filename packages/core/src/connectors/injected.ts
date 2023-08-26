@@ -70,8 +70,9 @@ export class Injected {
       /* Save address, chain and provider - initialize event listeners */
       setW3.address(accounts[0]), setW3.walletProvider(provider)
       await this.setChainId(provider), this.addEvents(provider)
-      const chains = getW3.chains()
-      let chain = _chain ?? (chains.length === 1 ? chains[0] : null)
+      
+      const defaultChain = getW3.defaultChain()
+      let chain = _chain ?? defaultChain
 
       /* Request to switch to a default chain */
       if(chain) switchChain({ chain })

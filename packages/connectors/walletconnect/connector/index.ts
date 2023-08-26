@@ -3,7 +3,12 @@ import { Chain, Injected, Provider, getW3, setW3, _KEY_WALLET as KEY_WALLET, _ca
 import { setWC } from "../store"
 
 type WalletConnectOptions = {
-  showQrModal?: boolean, qrModalOptions?: QrModalOptions, icon?: any, projectId: string
+  showQrModal?: boolean,
+  qrModalOptions?: QrModalOptions,
+  icon?: any,
+  projectId: string,
+  chains?: number[],
+  optionalChains?: number[]
 }
 
 export class WalletConnect extends Injected {
@@ -31,20 +36,17 @@ export class WalletConnect extends Injected {
   async init(){
     const { EthereumProvider } = await import("@walletconnect/ethereum-provider")
 
-    const { showQrModal, qrModalOptions, projectId } = this.options
+    const { showQrModal, qrModalOptions, projectId, chains, optionalChains } = this.options
   
     if(projectId === 'YOUR_PROJECT_ID') throw new Error('Invalid Project Id')
 
-    const chains = getW3.chains().map(chain => {
-      if(typeof chain === 'number') return chain 
-      return Number(chain.chainId)
-    })
-
+    if(chains?.length === 0 && optionalChains?.length === 0) catchError(new Error('WalletConnect chains must not be empty'))
+    
     //@ts-ignore - strict type on chains vs optionalChains
     const provider = await EthereumProvider.init({
       projectId,
-      chains: chains.length === 1 ? chains : undefined,
-      optionalChains: chains,
+      chains,
+      optionalChains,
       showQrModal:showQrModal ?? false,
       qrModalOptions,
     }).catch(catchError)
