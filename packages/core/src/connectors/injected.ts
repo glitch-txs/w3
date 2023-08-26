@@ -1,7 +1,7 @@
 import { setW3, getW3 } from "../store/w3store"
 import { Chain, Provider } from "../types"
 import { KEY_WALLET } from "../constants"
-import { catchError } from "../utils"
+import { catchError, clearW3 } from "../utils"
 import { switchChain } from "../functions"
 
 type InjectedOpts = {
@@ -86,8 +86,7 @@ export class Injected {
     const walletProvider = getW3.walletProvider()
     if(!walletProvider) return
     this.removeEvents(walletProvider)
-    window?.localStorage.removeItem(KEY_WALLET)
-    setW3.address(undefined), setW3.chainId(undefined), setW3.walletProvider(undefined)
+    clearW3()
   }
 
   protected async setAccountAndChainId(provider: Provider | undefined){

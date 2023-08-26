@@ -22,7 +22,8 @@ export {
 } from './types'
 
 export {
-  catchError as _catchError
+  catchError as _catchError,
+  clearW3 as _clearW3
 } from './utils'
 
 export {

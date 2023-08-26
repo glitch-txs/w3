@@ -1,5 +1,5 @@
 import EthereumProvider, { QrModalOptions } from "@walletconnect/ethereum-provider/dist/types/EthereumProvider"
-import { Chain, Injected, Provider, getW3, setW3, _KEY_WALLET as KEY_WALLET, _catchError as catchError } from 'w3-evm'
+import { Chain, Injected, Provider, _clearW3 as clearW3, setW3, _KEY_WALLET as KEY_WALLET, _catchError as catchError } from 'w3-evm'
 import { setWC } from "../store"
 
 type WalletConnectOptions = {
@@ -37,10 +37,6 @@ export class WalletConnect extends Injected {
     const { EthereumProvider } = await import("@walletconnect/ethereum-provider")
 
     const { showQrModal, qrModalOptions, projectId, chains, optionalChains } = this.options
-  
-    if(projectId === 'YOUR_PROJECT_ID') throw new Error('Invalid Project Id')
-
-    if(chains?.length === 0 && optionalChains?.length === 0) catchError(new Error('WalletConnect chains must not be empty'))
     
     //@ts-ignore - strict type on chains vs optionalChains
     const provider = await EthereumProvider.init({
@@ -55,9 +51,8 @@ export class WalletConnect extends Injected {
 
     this.provider = provider as Provider
     
-    provider.on("disconnect", () => {
-      if(localStorage.getItem(KEY_WALLET) === this.id) localStorage.removeItem(KEY_WALLET)
-      setW3.address(undefined), setW3.chainId(undefined), setW3.walletProvider(undefined)
+    provider.on("disconnect", () => { 
+      clearW3(this.id)
     });
 
     provider.on('display_uri', setWC.uri)
@@ -65,7 +60,6 @@ export class WalletConnect extends Injected {
     if(provider.session){    
       const connected = await this.setAccountAndChainId(provider as Provider)
       if(connected) {
-        console.log("hello", connected)
         if(localStorage.getItem(KEY_WALLET) !== this.id) localStorage.setItem(KEY_WALLET, this.id)
         setW3.walletProvider(provider as Provider), setW3.wait(undefined)
       return
@@ -87,27 +81,22 @@ export class WalletConnect extends Injected {
     }
     
     setW3.wait('Connecting')
+
+    const { chains: _chains, optionalChains: _opChains } = this.options
     let chain: number | undefined;
-    let chains: number[] | undefined;
+    let chains = _chains ?? []
+    let optionalChains = _opChains ?? []
 
     if(_chain){
-      chains = getW3.chains().map(chain => {
-        if(typeof chain === 'number') return chain 
-        return Number(chain.chainId)
-      })
-  
-      chain = chains.find(c => {
-        if(typeof _chain === 'number'){
-          return c === _chain
-        }else{
-          return c === Number(_chain?.chainId)
-        }
-      })
+      optionalChains = [ ...chains, ...optionalChains ]
+      
+      if(typeof _chain === 'number') chain = _chain
+      else chain = Number(_chain?.chainId)
     }
 
     await (provider as EthereumProvider).connect?.({
-      chains: chain ? [chain] : undefined,
-      optionalChains: chains,
+      chains: chain ? [chain] : _chains,
+      optionalChains: chain ? optionalChains : _opChains,
     })
     .catch(catchError)
     
@@ -125,8 +114,6 @@ export class WalletConnect extends Injected {
     const provider = await this.getProvider()
     console.log(provider)
     await provider?.disconnect?.()
-    localStorage.removeItem(KEY_WALLET)
-    setW3.address(undefined), setW3.chainId(undefined)
-    setW3.walletProvider(undefined), setW3.wait(undefined)
+    clearW3()
   }
 }
