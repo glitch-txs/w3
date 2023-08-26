@@ -2,7 +2,7 @@ import { setW3, getW3 } from "../store/w3store"
 import { Chain, Provider } from "../types"
 import { KEY_WALLET } from "../constants"
 import { catchError } from "../utils"
-import { switchChain } from "../functions/switchChain"
+import { switchChain } from "../functions"
 
 type InjectedOpts = {
     uuid?: string
