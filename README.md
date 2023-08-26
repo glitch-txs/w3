@@ -43,9 +43,8 @@ const projectId = 'YOUR_PROJECT_ID'
 const w3props = initW3({
   connectors: [
     new Injected({ icon: wallet }), 
-    new WalletConnect({ projectId, icon: walletconnect, showQrModal: true })
+    new WalletConnect({ projectId, icon: walletconnect, showQrModal: true, chains:[1, 137] })
   ],
-  chains:[1, 137],
   SSR: true, // For SSR Frameworks like Next.js
 })
 
