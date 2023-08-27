@@ -84,8 +84,7 @@ export class Injected {
 
   async disconnect(){
     const walletProvider = getW3.walletProvider()
-    if(!walletProvider) return
-    this.removeEvents(walletProvider)
+    if(walletProvider) this.removeEvents(walletProvider)
     clearW3()
   }
 
@@ -95,12 +94,11 @@ export class Injected {
   
     await provider.request<string[]>({ method: 'eth_accounts' })
     .then(async (accounts)=>{
-      if(accounts?.length > 0){
+      if(accounts?.length){
         setW3.address(accounts[0])
 
         await provider.request<string | number>({ method: 'eth_chainId' }).then((chainId)=> {
           setW3.chainId(Number(chainId))
-
         }).catch(catchError)
     
         connected = true
@@ -138,10 +136,9 @@ export class Injected {
     if(typeof accounts[0] !== 'undefined'){
       setW3.address(accounts[0])
     }else{
-      window?.localStorage.removeItem(KEY_WALLET)
       const walletProvider = getW3.walletProvider()
       if(walletProvider) this.removeEvents(walletProvider)
-      setW3.address(undefined), setW3.chainId(undefined), setW3.walletProvider(undefined)
+      clearW3()
     }
   }
 

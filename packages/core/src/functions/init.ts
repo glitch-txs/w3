@@ -6,8 +6,8 @@ import { KEY_WALLET } from "../constants"
 /* EIP-6963 subscriber */
 export function initEIP6963(){
   function onAnnouncement(event: EIP6963AnnounceProviderEvent){
-    if(getW3.connectors().map(({ uuid }) => uuid).includes(event.detail.info.uuid)) return
-    setW3.connectors([ new EIP6963Connector(event.detail), ...getW3.connectors() ])
+    if(getW3.connectors().find(({ uuid }) => uuid === event.detail.info.uuid)) return
+    setW3.connectors(connectors => [ new EIP6963Connector(event.detail), ...connectors ])
   }
   window.addEventListener("eip6963:announceProvider", onAnnouncement);
   window.dispatchEvent(new Event("eip6963:requestProvider"));

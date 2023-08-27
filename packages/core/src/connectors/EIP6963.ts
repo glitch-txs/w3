@@ -23,7 +23,7 @@ export class EIP6963Connector extends Injected {
   async init(){
     if(window.localStorage.getItem(KEY_WALLET) === this.id){
       const provider = await this.getProvider()
-      if(!provider) throw new Error('EIP 6963 Provider is undefined')
+      if(!provider) throw new Error('EIP-6963 Provider is undefined')
 
       const connected = await this.setAccountAndChainId(provider)
       if(connected){
