@@ -10,7 +10,6 @@ export {
   setW3,
   subW3,
   Injected,
-  WalletConnect,
   initEIP6963,
   initW3,
 } from 'w3-evm'
