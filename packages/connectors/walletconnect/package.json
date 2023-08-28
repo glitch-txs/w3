@@ -20,8 +20,8 @@
     "@walletconnect/modal": "^2.6.1"
   },
   "peerDependencies": {
-    "w3-evm": "^1.2.0",
-    "typescript": ">=5"
+    "typescript": "^5.2.2",
+    "w3-evm": "^1.2"
   },
   "peerDependenciesMeta": {
     "typescript": {
