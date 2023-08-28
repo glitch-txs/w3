@@ -10,6 +10,7 @@ export {
   disconnectW3,
   initEIP6963,
   initW3,
+  switchChain,
   _storedWalletExists
 } from './functions'
 
